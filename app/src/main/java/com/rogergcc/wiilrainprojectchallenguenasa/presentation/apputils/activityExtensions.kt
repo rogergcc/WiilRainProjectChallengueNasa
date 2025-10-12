@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.view.View
+import java.text.SimpleDateFormat
 import java.util.concurrent.atomic.AtomicBoolean
 
 
@@ -65,3 +66,10 @@ class OnSingleClickListener(
         }
     }
 }
+
+//fun String.formatStrDateTo(inputFormat: String, outputFormat: String): String {
+//    val sdf = SimpleDateFormat(inputFormat, locale)
+//    val date = sdf.parse(this)
+//    val newSdf = SimpleDateFormat(outputFormat, locale)
+//    return newSdf.format(date!!)
+//}

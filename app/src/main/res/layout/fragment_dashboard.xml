@@ -11,7 +11,7 @@
     tools:context=".presentation.ui.dashboard.DashboardFragment">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/cityCountry"
         style="@style/viewParent.title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

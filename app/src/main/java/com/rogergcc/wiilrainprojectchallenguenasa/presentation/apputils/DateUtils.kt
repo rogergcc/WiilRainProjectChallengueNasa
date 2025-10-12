@@ -1,0 +1,84 @@
+package com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils
+
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
+
+
+/**
+ * Created on octubre.
+ * year 2025 .
+ */
+
+object DateUtils {
+
+//    private val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+
+    //region Resumen
+    /*
+    *   | Característica                            | `ofInstant()`         | `atZone(...).toLocalDateTime()` |
+        | ----------------------------------------- | --------------------- | ------------------------------- |
+        | Simplicidad                               | ✅ Más corta y directa | 🔸 Un paso más                  |
+        | Flexibilidad (zonas horarias)             | 🔸 Limitada           | ✅ Más control                   |
+        | Resultado (hora local)                    | Igual                 | Igual                           |
+        | Recomendado para formato UI local         | ✅ Sí                  | ✅ Sí                            |
+        | Recomendado para manejar time zones o UTC | 🔸 No                 | ✅ Sí                            |
+        | Compatibilidad con versiones anteriores   | 🔸 No (Java 8+)       | 🔸 No (Java 8+)                 |
+    *
+    *
+    * 🔹 Usa .atZone(...).toLocalDateTime() cuando:
+
+        Estás trabajando con zonas horarias explícitamente (ZonedDateTime).
+
+        Planeas mostrar o comparar fechas en distintas zonas (UTC, America/Lima, etc.).
+
+        Quieres dejar claro que estás “atando” el Instant a una zona antes de quitarla.
+    * */
+    //endregion
+
+    private val defaultFormatter: DateTimeFormatter by lazy {
+        DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
+    }
+
+    fun format(date: Date): String {
+        val localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+        return localDateTime.format(defaultFormatter)
+    }
+
+    fun formatDateModern(date: Date?, pattern: String): String {
+        if (date == null) return ""
+//        val formatter = DateTimeFormatter.ofPattern(pattern, Locale.getDefault())
+        val localDateTime = date.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDateTime()
+
+        return localDateTime.format(defaultFormatter)
+    }
+
+    //region Usando SimpleDateFormat para compatibilidad con versiones anteriores
+    fun formatDate(date: Date?, pattern: String): String {
+        if (date == null) return ""
+
+        return try {
+            val formatter = SimpleDateFormat(pattern, Locale.getDefault())
+            formatter.format(date)
+        } catch (e: Exception) {
+            "" // Evita que la app crashee si el formato es inválido
+        }
+    }
+    fun formateDateEnglish(date: Date?, format: String): String {
+        val dateFormat = SimpleDateFormat(format, Locale.ENGLISH)
+        return dateFormat.format(date)
+    }
+
+    fun formateDateContry(date: Date?, format: String, locale: Locale): String {
+        val dateFormat = SimpleDateFormat(format, locale)
+        return dateFormat.format(date)
+    }
+    //endregion
+}

@@ -106,7 +106,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         set(Calendar.DAY_OF_MONTH, day+1)
                     }.time
                     locationSearch = LocationSearch(
-                        city = "Lima, PE",
+                        city = "Lima, Peru",
                         selectedDate = Date(selectedDate.time) // Crear nueva instancia de Date
                     )
 
