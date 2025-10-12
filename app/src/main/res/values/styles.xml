@@ -58,4 +58,34 @@
     </style>
 
 
+    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
+
+        <!--<item name="android:foreground">@drawable/ripple_custom</item>-->
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="cardCornerRadius">@dimen/dim_16dp</item>
+        <item name="cardPreventCornerOverlap">true</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardElevation">0.1dp</item>
+    </style>
+
+    <style name="CardViewStyleDate" parent="Base.CardView">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <!--<item name="android:foreground">@drawable/ripple_custom</item>-->
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="cardBackgroundColor">@color/gray_050</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">0.1dp</item>
+        <item name="cardPreventCornerOverlap">true</item>
+        <!--<item name="cardUseCompatPadding">true</item>-->
+
+
+    </style>
+
 </resources>

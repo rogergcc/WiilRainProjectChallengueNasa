@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="?attr/backgroundColorTheme"
     android:orientation="vertical"
     android:padding="@dimen/dim_16dp"
@@ -27,15 +26,13 @@
         android:text="11 de Octubre 2025" />
 
 
+    <!--        android:background="?attr/selectableItemBackground"-->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardTemperatureDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dim_26dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="@dimen/dim_20dp"
         app:contentPadding="@dimen/dim_16dp"
         app:strokeColor="#5C6BC0"
         app:strokeWidth="@dimen/dim_2dp">
@@ -51,7 +48,7 @@
                 android:fontFamily="@font/futura_medium"
                 android:paddingVertical="@dimen/dim_8dp"
                 android:text="Probabilidad de Lluvia"
-                android:textSize="@dimen/dim_22dp"
+                android:textSize="@dimen/size_22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -74,9 +71,9 @@
                 android:id="@+id/temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dim_8dp"
                 android:fontFamily="@font/futura_medium"
                 android:gravity="center"
-                android:layout_marginStart="@dimen/dim_8dp"
 
                 android:text="40 %"
                 android:textSize="@dimen/size_48sp"
@@ -88,9 +85,9 @@
                 android:id="@+id/temperatureDetails"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dim_8dp"
                 android:layout_marginTop="@dimen/dim_8dp"
                 android:fontFamily="@font/futura_medium"
-                android:layout_marginStart="@dimen/dim_8dp"
                 android:text="En este lugar llueve cada 10 dia en promedio en Octubre"
                 android:textSize="@dimen/size_16sp"
                 app:layout_constraintEnd_toEndOf="parent"
