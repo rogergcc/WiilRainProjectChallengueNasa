@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="?attr/backgroundColorTheme"
+    android:orientation="vertical"
+    android:padding="@dimen/dim_16dp"
+    tools:context=".presentation.ui.dashboard.DashboardFragment">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/viewParent.title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_20dp"
+        android:text="Tacna Peru" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/dateSearch"
+        style="@style/viewParent.subTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_8dp"
+        android:text="11 de Octubre 2025" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardTemperatureDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_26dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="20dp"
+        app:contentPadding="@dimen/dim_16dp"
+        app:strokeColor="#5C6BC0"
+        app:strokeWidth="@dimen/dim_2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/temperatureTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futura_medium"
+                android:paddingVertical="@dimen/dim_8dp"
+                android:text="Probabilidad de Lluvia"
+                android:textSize="@dimen/dim_22dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingHorizontal="@dimen/dim_8dp"
+                android:paddingVertical="@dimen/dim_20dp"
+                android:scaleType="centerCrop"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureTitle"
+                app:srcCompat="@drawable/temperature_gota" />
+
+
+            <TextView
+                android:id="@+id/temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futura_medium"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/dim_8dp"
+
+                android:text="40 %"
+                android:textSize="@dimen/size_48sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureTitle" />
+
+            <TextView
+                android:id="@+id/temperatureDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_8dp"
+                android:fontFamily="@font/futura_medium"
+                android:layout_marginStart="@dimen/dim_8dp"
+                android:text="En este lugar llueve cada 10 dia en promedio en Octubre"
+                android:textSize="@dimen/size_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/temperature"
+                app:layout_constraintTop_toBottomOf="@+id/temperature" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

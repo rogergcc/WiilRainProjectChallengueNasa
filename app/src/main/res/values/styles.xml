@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/ico_launch_layer</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="SplashThemeCorrect" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="p">shortEdges</item>
+        <item name="android:windowFullscreen">true</item>
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+    </style>
+
+    <style name="AppTheme.Fullscreen" parent="Theme.WiilRainProjectChallengueNasa">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="p">shortEdges</item>
+    </style>
+
+
+    <style name="viewParent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="parent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="viewParent.title">
+        <item name="android:textStyle">bold</item>
+        <!--    <style name="headerText.More" parent="viewParent">-->
+        <!--        <item name="android:layout_marginStart">21dp</item>-->
+        <!--        <item name="android:layout_marginEnd">21dp</item>-->
+        <!--        <item name="android:layout_marginTop">25dp</item>-->
+        <item name="android:fontFamily">@font/futura_medium</item>
+        <item name="android:textSize">@dimen/dim_32dp</item>
+    </style>
+
+
+    <style name="viewParent.subTitle" >
+        <!--    <style name="headerText.More" parent="viewParent">-->
+        <!--        <item name="android:layout_marginStart">21dp</item>-->
+        <!--        <item name="android:layout_marginEnd">21dp</item>-->
+        <!--        <item name="android:layout_marginTop">25dp</item>-->
+        <item name="android:fontFamily">@font/futura_medium</item>
+        <item name="android:textSize">@dimen/dim_20dp</item>
+<!--        <item name="android:textColor">?attr/shadeGrey</item>-->
+    </style>
+
+
+</resources>

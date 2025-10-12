@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:opacity="opaque"
+    >
+    <!--    android:drawable="@drawable/background_gradient"-->
+<!--    <item android:drawable="@color/black" />-->
+    <item
+
+        android:drawable="@drawable/background_nasa" />
+<!--    <item-->
+<!--        android:bottom="20dp"-->
+<!--        -->
+<!--        android:gravity="center|bottom"-->
+<!--        android:drawable="@drawable/nasa"-->
+<!--        />-->
+    <item>
+        <shape android:shape="rectangle" >
+            <gradient
+                android:endColor="#03192B"
+                android:gradientRadius="1000"
+                android:startColor="#3205233C"
+                android:type="radial" >
+            </gradient>
+        </shape>
+    </item>
+
+</layer-list>

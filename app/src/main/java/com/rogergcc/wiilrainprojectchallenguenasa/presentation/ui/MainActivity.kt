@@ -1,4 +1,4 @@
-package com.rogergcc.wiilrainprojectchallenguenasa.presentation
+package com.rogergcc.wiilrainprojectchallenguenasa.presentation.ui
 
 import android.os.Bundle
 //import androidx.activity.enableEdgeToEdge
@@ -16,4 +16,5 @@ class MainActivity : AppCompatActivity() {
 //            insets
 //        }
     }
+
 }

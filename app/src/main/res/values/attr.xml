@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by Rohan Maity on 11/1/21 3:19 PM
+  ~  Copyright (c) 2021 . All rights reserved.
+  ~  Last modified 11/1/21 3:12 PM
+  -->
+
+<resources>
+    <attr name="baseThemeComplimentColor" format="color" />
+    <attr name="baseThemeColor" format="color" />
+    <attr name="shimmerColor" format="color" />
+    <attr name="shadeGrey" format="color" />
+    <attr name="contentColor" format="color" />
+    <attr name="backgroundColorTheme" format="color" />
+</resources>

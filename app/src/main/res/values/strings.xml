@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">WiilRainProjectChallengueNasa</string>
+    <string name="name_app">Will Rain?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="message_search">Escribe la ciudado coloca un pin en el mapa</string>
 </resources>
