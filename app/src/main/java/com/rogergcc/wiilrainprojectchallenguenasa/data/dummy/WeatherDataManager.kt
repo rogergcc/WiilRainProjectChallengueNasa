@@ -3,7 +3,9 @@ package com.rogergcc.wiilrainprojectchallenguenasa.data.dummy
 import android.content.Context
 import android.util.Log
 import com.rogergcc.wiilrainprojectchallenguenasa.R
+import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.ForecastData
 import org.json.JSONArray
+import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
 
@@ -41,15 +43,8 @@ class WeatherDataManager(private val context: Context) {
             }
         }
     }
-
-
-    enum class PokemonType {
-        NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING,
-        PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL, FAIRY
-    }
-
     private fun parseWeatherJsonStringtoObject(jsonText: String): ForecastResponse {
-        val jsonObject = JSONArray(jsonText).getJSONObject(0)
+        val jsonObject = JSONObject(jsonText)
 
         val location = jsonObject.getJSONObject("location")
         val locationObj = Location(
@@ -87,6 +82,79 @@ class WeatherDataManager(private val context: Context) {
             forecast = forecastObj,
             hourly_breakdown = hourlyBreakdownList
         )
+    }
+
+    fun parseWeatherData(): ForecastData {
+//        val jsonText = context.resources.openRawResource(resourceId).bufferedReader().use { it.readText() }
+        val jsonText = context.resources.openRawResource(R.raw.weather_arequipa_2025_10_22).bufferedReader().use { it.readText() }
+
+        val jsonObject = JSONObject(jsonText)
+
+        val locationObject = jsonObject.getJSONObject("location")
+        val location = ForecastData.Location(
+            city = locationObject.getString("city"),
+            country = locationObject.getString("country"),
+            coordinates = ForecastData.Location.Coordinates(
+                lat = locationObject.getJSONObject("coordinates").getDouble("lat"),
+                lon = locationObject.getJSONObject("coordinates").getDouble("lon")
+            )
+        )
+
+        val summaryObject = jsonObject.getJSONObject("summary")
+        val summary = ForecastData.Summary(
+            description = summaryObject.getString("description"),
+            recommendation = summaryObject.getString("recommendation")
+        )
+
+        val variablesArray = jsonObject.getJSONArray("variables")
+        val variables = mutableListOf<ForecastData.Variable>()
+        for (i in 0 until variablesArray.length()) {
+            val variableObject = variablesArray.getJSONObject(i)
+            val historicalAverageObject = variableObject.getJSONObject("historical_average")
+            val historicalAverage = ForecastData.Variable.HistoricalAverage(
+                period = historicalAverageObject.getString("period"),
+                averageRainfallMm = historicalAverageObject.optInt("average_rainfall_mm", 0),
+                interpretation = historicalAverageObject.getString("interpretation"),
+                averageTemperature = historicalAverageObject.optDouble("average_temperature", 0.0),
+                averageWindSpeed = historicalAverageObject.optDouble("average_wind_speed", 0.0)
+            )
+
+            val chartDataArray = variableObject.getJSONArray("chart_data")
+            val chartData = mutableListOf<ForecastData.Variable.ChartData>()
+            for (j in 0 until chartDataArray.length()) {
+                val chartDataObject = chartDataArray.getJSONObject(j)
+                chartData.add(
+                    ForecastData.Variable.ChartData(
+                        month = chartDataObject.getString("month"),
+                        value = chartDataObject.getInt("value")
+                    )
+                )
+            }
+
+            variables.add(
+                ForecastData.Variable(
+                    id = variableObject.getString("id"),
+                    name = variableObject.getString("name"),
+                    unit = variableObject.getString("unit"),
+                    value = variableObject.optInt("value", 0),
+                    description = variableObject.getString("description"),
+                    historicalAverage = historicalAverage,
+                    chartData = chartData
+                )
+            )
+        }
+
+        return ForecastData(
+            location = location,
+            date = jsonObject.getString("date"),
+            summary = summary,
+            variables = variables
+        )
+    }
+
+    enum class PokemonType {
+        NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING,
+        PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL, FAIRY
     }
 
 //    private fun parseJsonToPokemonList(jsonText: String): List<Pokemon> {

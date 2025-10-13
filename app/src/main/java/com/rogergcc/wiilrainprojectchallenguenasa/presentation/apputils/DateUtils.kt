@@ -44,10 +44,17 @@ object DateUtils {
     private val defaultFormatter: DateTimeFormatter by lazy {
         DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
     }
+    private val dateFormatYMD1: DateTimeFormatter by lazy {
+        DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+    }
 
     fun format(date: Date): String {
         val localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
         return localDateTime.format(defaultFormatter)
+    }
+    fun formatYMD(date: Date): String {
+        val localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+        return localDateTime.format(dateFormatYMD1)
     }
 
     fun formatDateModern(date: Date?, pattern: String): String {

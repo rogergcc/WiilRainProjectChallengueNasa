@@ -1,0 +1,124 @@
+{
+  "legend": {
+    "rain_probability": {
+      "title": "Probabilidad de lluvia",
+      "unit": "%",
+      "ranges": [
+        {
+          "min": 0,
+          "max": 10,
+          "label": "Muy baja",
+          "icon": "☀️",
+          "description": "Casi seguro que no llueve. Cielo despejado o con pocas nubes."
+        },
+        {
+          "min": 11,
+          "max": 30,
+          "label": "Baja",
+          "icon": "🌤️",
+          "description": "Poca probabilidad de lluvias ligeras o pasajeras."
+        },
+        {
+          "min": 31,
+          "max": 60,
+          "label": "Moderada",
+          "icon": "🌧️",
+          "description": "Posibilidad real de lluvia, especialmente en la tarde o noche."
+        },
+        {
+          "min": 61,
+          "max": 80,
+          "label": "Alta",
+          "icon": "🌦️",
+          "description": "Lluvias probables durante el día, llevar paraguas."
+        },
+        {
+          "min": 81,
+          "max": 100,
+          "label": "Muy alta",
+          "icon": "⛈️",
+          "description": "Alta certeza de lluvia o tormentas."
+        }
+      ]
+    },
+    "temperature": {
+      "title": "Temperatura promedio diaria",
+      "unit": "°C",
+      "ranges": [
+        {
+          "max": 0,
+          "label": "Muy frío",
+          "icon": "🧊",
+          "description": "Riesgo de heladas o escarcha."
+        },
+        {
+          "min": 0,
+          "max": 10,
+          "label": "Frío",
+          "icon": "❄️",
+          "description": "Temperatura baja, abrigo necesario."
+        },
+        {
+          "min": 11,
+          "max": 20,
+          "label": "Templado",
+          "icon": "🌤️",
+          "description": "Clima agradable, ideal para actividades al aire libre."
+        },
+        {
+          "min": 21,
+          "max": 30,
+          "label": "Cálido",
+          "icon": "☀️",
+          "description": "Día caluroso, usar bloqueador solar."
+        },
+        {
+          "min": 31,
+          "label": "Muy caluroso",
+          "icon": "🔥",
+          "description": "Riesgo de calor extremo o deshidratación."
+        }
+      ]
+    },
+    "wind_speed": {
+      "title": "Velocidad del viento",
+      "unit": "km/h",
+      "ranges": [
+        {
+          "min": 0,
+          "max": 5,
+          "label": "Calma",
+          "icon": "🌿",
+          "description": "Aire muy tranquilo, casi sin viento."
+        },
+        {
+          "min": 6,
+          "max": 15,
+          "label": "Suave",
+          "icon": "🍃",
+          "description": "Brisa ligera, apenas mueve hojas."
+        },
+        {
+          "min": 16,
+          "max": 30,
+          "label": "Moderado",
+          "icon": "🌬️",
+          "description": "Se sienten ráfagas, pero sin peligro."
+        },
+        {
+          "min": 31,
+          "max": 50,
+          "label": "Fuerte",
+          "icon": "💨",
+          "description": "Viento notorio, puede incomodar o levantar polvo."
+        },
+        {
+          "min": 51,
+          "label": "Muy fuerte",
+          "icon": "🌪️",
+          "description": "Riesgo de ráfagas intensas o tormentas de viento."
+        }
+      ]
+    }
+  }
+}
