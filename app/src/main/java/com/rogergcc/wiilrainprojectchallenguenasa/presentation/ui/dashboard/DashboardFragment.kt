@@ -9,16 +9,20 @@ import androidx.core.os.BundleCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rogergcc.wiilrainprojectchallenguenasa.R
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRange
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRisk
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureRange
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.WeatherDataManager
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDashboardBinding
-import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
-import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.toast
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
-import java.util.Date
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private var _binding: FragmentDashboardBinding? = null
+    private var sendLocation: LocationSearch? = null
 
     private val binding get() = _binding!!
     override fun onDestroyView() {
@@ -47,36 +51,118 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             val dataManager = WeatherDataManager(requireContext())
             val forecastResponse = dataManager.getWeatherData()
 
+            val datasetDummy = dataManager.parseWeatherDataset()
+
+
+            // Extract metadata and summary statistics
+            val period = datasetDummy.metadata.historical_context.period
+            val rainStats = datasetDummy.summary_statistics.precipitation
+            val tempStats = datasetDummy.summary_statistics.temperature
+            val windStats = datasetDummy.summary_statistics.wind
+
+            val probabilities = dataManager.calculateProbabilities(datasetDummy.yearly_data)
+            Log.d("TEST_LOGGER", "Probabilities: $probabilities")
             val dataAqpSearchDummy = dataManager.parseWeatherData()
 
-//        val forecastResponse = Gson().fromJson(dummyJsonString, ForecastResponse::class.java)
+            val analysis = dataManager.analyzeClimateFromDataset(datasetDummy.yearly_data)
 
-            // Display the result
-            if (forecastResponse.forecast.will_rain) {
-//            tvResult.text = "¡SÍ, LLEVA PARAGUAS! 🌧️"
-//            Toast.makeText(requireContext(), "Si lleva paragyar \uFE0F", Toast.LENGTH_SHORT).show()
-                requireContext().toast("¡SÍ, LLEVA PARAGUAS! 🌧️")
-            } else {
-                requireContext().toast("No lleva paraguas ☀ \uFE0F")
-
+            // Format date
+            val inputDateFormat = SimpleDateFormat("dd-MM", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("dd 'de' MMMM", Locale("es"))
+            val metadataDate = outputFormat.format(inputDateFormat.parse(
+                datasetDummy.metadata.date.target
+            )!!).also {
+                sendLocation = LocationSearch(
+                    selectedDateString = it,
+                    city = datasetDummy.metadata.location.name,
+                    country = datasetDummy.metadata.location.country
+                )
             }
-            val rainDataVariable = dataAqpSearchDummy.variables?.get(0)
-            binding.rainProbabilityTitle.text = rainDataVariable?.name ?: "Rain Probability"
-            binding.rainProbabilityPercentage.text = "${rainDataVariable?.value ?: 0} ${rainDataVariable?.unit ?: "%"}"
-            binding.rainProbabilityDescription.text = rainDataVariable?.description
-            binding.cardRainProbability.tag = rainDataVariable?.id
 
-            val tempDataVariable = dataAqpSearchDummy.variables?.get(1)
-            binding.temperatureProbabilityTitle.text = tempDataVariable?.name ?: "Temperature"
-            binding.temperatureProbabilityPercentage.text = "${tempDataVariable?.value ?: 0} ${tempDataVariable?.unit ?: "°C"}"
-            binding.temperatureProbabilityDescription.text = tempDataVariable?.description
-            binding.cardTtemperatureProbability.tag = tempDataVariable?.id
 
-            val windDataVariable = dataAqpSearchDummy.variables?.get(2)
-            binding.windSpeedTitle.text = windDataVariable?.name ?: "Wind Speed"
-            binding.windSpeedPercentage.text = "${windDataVariable?.value ?: 0} ${windDataVariable?.unit ?: "km/h"}"
-            binding.windSpeedDescription.text = windDataVariable?.description
-            binding.cardWindSpeedProbability.tag = windDataVariable?.id
+
+            Log.d("TEST_LOGGER", "Formatted Date metadataDate: $metadataDate")
+            // Mostrar dashboard
+            val firstYear = datasetDummy.yearly_data.minByOrNull { it.year }?.year
+            val lastYear = datasetDummy.yearly_data.maxByOrNull { it.year }?.year
+
+
+            val dateSearch = arguments?.getString("selectedDate") ?: "Select Date"
+//        val selectedLocation = arguments?.getParcelable<LocationSearch>("selectedLocationSearch")
+
+            val selectedLocation = arguments?.let {
+
+                BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
+            }
+
+
+//        binding.dateSearch.text = DateUtils.format(seletectDate) //dateSearch
+//            binding.cityCountry.text = selectedLocation?.city
+            binding.dateSearch.text = "\uD83D\uDCCA ${sendLocation?.selectedDateString }"
+            sendLocation?.historicEvaluation = "Datos $firstYear-$lastYear (${analysis.rain.totalYears} observaciones)"
+            binding.cityCountry.text = "📍 ${datasetDummy.metadata.location.name}"
+
+            println("📍 ${datasetDummy.metadata.location} · $metadataDate") //📍 Central Park, NYC · 15 de junio
+            println("📊 Datos $firstYear-$lastYear (${analysis.rain.totalYears} observaciones)")
+            println()
+
+            println("☔ LLOVIA: ${"%.1f".format(analysis.rain.probability)}%")
+            println(analysis.rain.visualBar)
+            println("\"${analysis.rain.interpretation}\"")
+            println()
+
+            println("🌡 TEMPERATURA: ${"%.1f".format(analysis.temperature.averageTemperature)}°C · ${"%.1f".format(analysis.temperature.heatProbability)}%")
+            println(analysis.temperature.visualScale)
+            println("\"${analysis.temperature.interpretation}\"")
+            println()
+
+            println("💨 VIENTO: ${"%.1f".format(analysis.wind.averageWind)} km/h · ${"%.1f".format(analysis.wind.strongWindProbability)}%")
+            println(analysis.wind.visualScale)
+            println("\"${analysis.wind.interpretation}\"")
+
+            // Metadata adicional
+            println("\n--- METADATA ---")
+
+            println("Período analizado: ${analysis.metadata["historical_period"]}")
+            println("Umbral lluvia: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["rain"]} mm")
+            println("Umbral calor: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["extreme_heat"]} °C")
+            println("Umbral viento: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["strong_wind"]} km/h")
+            println("\n--- METADATA 2 ---")
+            println("Metada 2--- ${analysis.metadata}")
+
+            Log.e("DashboardFragment", "---------------------------")
+            // Update UI dynamically
+//            optionTestOption1Ranges()
+
+            updateWeatherUI(analysis.rain.probability.toFloat(),
+                analysis.temperature.averageTemperature.toFloat(),
+                analysis.wind.averageWind.toFloat())
+
+//            binding.dateSearch.text = period  // Example: "1985-2024"
+//            binding.cityCountry.text = datasetDummy.metadata.location.name // Example: "New York Central Park"
+
+            // Rain CardView
+            binding.rainProbabilityTitle.text = "Lluvia"
+            binding.rainProbabilityPercentage.text = "${"%.1f".format(analysis.rain.probability)}%"
+            binding.rainProbabilityDescription.text = "${analysis.rain.interpretation} "
+            binding.rainVisualRepresentation.text = "${analysis.rain.visualBar}"
+            binding.cardRainProbability.tag = "rain"
+
+            // Temperature CardView
+            binding.temperatureProbabilityTitle.text = "Temperatura"
+            binding.temperatureProbabilityPercentage.text = "${"%.1f".format(analysis.temperature.averageTemperature)}°C"
+//            binding.temperatureProbabilityPercentage.text = "${analysis.temperature.minTemperature}°C-${analysis.temperature.maxTemperature}°C"
+            binding.temperatureProbabilityDescription.text = "${analysis.temperature.interpretation}"
+            binding.temperatureVisualRepresentation.text = "${analysis.temperature.interpretation}"
+            binding.cardTtemperatureProbability.tag = "temperature"
+
+            // Wind CardView
+            binding.windSpeedTitle.text = "Viento"
+            binding.windSpeedPercentage.text = "${"%.1f".format(analysis.wind.averageWind)} km/h"
+            binding.windSpeedDescription.text = "${analysis.wind.interpretation}"
+            binding.windVisualRepresentation.text = "${analysis.wind.visualScale}"
+            binding.cardWindSpeedProbability.tag = "wind"
+
 
 
         } catch (e: Exception) {
@@ -85,22 +171,71 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
 
 
-        val dateSearch = arguments?.getString("selectedDate") ?: "Select Date"
-//        val selectedLocation = arguments?.getParcelable<LocationSearch>("selectedLocationSearch")
+        listenerEvents()
 
-        val selectedLocation = arguments?.let {
-            BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
+    }
+
+    fun updateWeatherUI(rainPercentage: Float, temperature: Float, windSpeed: Float) {
+
+        // Determine the rain range
+        val rainRange = RainRange.fromValue(rainPercentage)
+        println("Rain: ${rainRange.description}, Color: ${rainRange.color}")
+        binding.cardRainProbability.setCardBackgroundColor(resources.getColor(rainRange.color, null))
+//        binding.cardRainProbability.strokeColor = resources.getColor(R.color.gray_500, null)
+
+        // Determine the temperature range
+        val temperatureRange = TemperatureRange.fromValue(temperature)
+        println("Temperature: ${temperatureRange.description}, Color: ${temperatureRange.color}")
+        binding.cardTtemperatureProbability.setCardBackgroundColor(resources.getColor(temperatureRange.color, null))
+//        binding.cardTtemperatureProbability.strokeColor = resources.getColor(temperatureRange.color, null)
+
+        // Determine the wind range
+        val windRange = WindRange.fromRange(windSpeed)
+        println("Wind: ${windRange.description}, Color: ${windRange.color}")
+        binding.cardWindSpeedProbability.setCardBackgroundColor(resources.getColor(windRange.color, null))
+//        binding.cardWindSpeedProbability.strokeColor = resources.getColor(windRange.color, null)
+
+    }
+
+    fun optionTestOption1Ranges() {
+        binding.cardRainProbability.setCardBackgroundColor(RainRange.HIGH.color)
+        binding.cardTtemperatureProbability.setCardBackgroundColor(TemperatureRange.COMFORT.color)
+        binding.cardWindSpeedProbability.setCardBackgroundColor(WindRange.MODERATE.color)
+    }
+
+    fun optionTestOption2Ranges() {
+        binding.cardRainProbability.setCardBackgroundColor(RainRange.LOW.color)
+        binding.cardTtemperatureProbability.setCardBackgroundColor(TemperatureRange.COMFORT.color)
+        binding.cardWindSpeedProbability.setCardBackgroundColor(RainRisk.MODERATE.color)
+    }
+
+
+    private fun listenerEvents() {
+        binding.cardRainProbability.setOnSingleClickListener() {
+
+            navigateDetails(it.tag as String)
         }
 
-        val currentDate = selectedLocation?.selectedDate ?: Date()
-        val formattedDate = DateUtils.format(currentDate)
+        binding.cardTtemperatureProbability.setOnSingleClickListener() {
 
-        binding.dateSearch.text = formattedDate
-        binding.cityCountry.text = selectedLocation?.city
+            navigateDetails(it.tag as String)
+        }
+        binding.cardWindSpeedProbability.setOnSingleClickListener() {
+            navigateDetails(it.tag as String)
+        }
+    }
 
-//        binding.cardRainProbability.setOnSingleClickListener() {
-//            findNavController().navigate(R.id.gotoDetailsView)
-//        }
+    private fun navigateDetails(tag: String) {
+//        findNavController().navigate(R.id.gotoDetailsView, Bundle().also {
+//            it.putString("selectedValue", tag)
+//
+//        })
+        sendLocation?.type = tag
+
+        findNavController().navigate(R.id.gotoDetailsView, Bundle().also {
+            it.putParcelable("selectedLocationSearch", sendLocation)
+
+        })
 
     }
 

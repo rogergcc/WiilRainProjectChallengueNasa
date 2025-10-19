@@ -10,7 +10,7 @@
         <item name="baseThemeColor">@color/gray_050</item>
         <item name="shadeGrey">@color/gray_600</item>
         <item name="contentColor">@color/gray_050</item>
-        <item name="backgroundColorTheme">@color/gray_100</item>
+        <item name="backgroundColorTheme">@color/gray_010</item>
 
     </style>
 
