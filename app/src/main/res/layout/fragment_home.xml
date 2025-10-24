@@ -25,9 +25,9 @@
 
     <LinearLayout
         android:id="@+id/searchLayout"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="@dimen/dim_16dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dim_16dp"
         android:layout_marginBottom="@dimen/dim_16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/searchButton"
@@ -86,10 +86,8 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/searchButton"
         style="@style/Widget.MaterialButton.Custom"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:paddingVertical="@dimen/dim_16dp"
         android:text="Probabilidades Clima"
         android:textSize="@dimen/size_14sp"

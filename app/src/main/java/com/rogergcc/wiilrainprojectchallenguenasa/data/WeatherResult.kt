@@ -1,6 +1,7 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.data
 
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.Thresholds
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherStrategyFactory
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatOneDecimal
@@ -18,6 +19,7 @@ data class WeatherResult(
     val minValue: Double,
     val maxValue: Double,
     val interpretation: String,
+    val weatherType: WeatherType
 )
 data class ClimateAnalysisResult(
     val rain: WeatherResult,
@@ -26,16 +28,18 @@ data class ClimateAnalysisResult(
 )
 fun calculateWeatherAnalysis(
     yearlyData: List<YearlyData>,
-    thresholds: Thresholds
 ): ClimateAnalysisResult {
-    val rainResult = WeatherStrategyFactory.getStrategy(thresholds.rain)
-        .calculate(yearlyData, thresholds.rain)
+    val mTresholds = Thresholds(
+    )
 
-    val temperatureResult = WeatherStrategyFactory.getStrategy(thresholds.temperature)
-        .calculate(yearlyData, thresholds.temperature)
+    val rainResult = WeatherStrategyFactory.getStrategy(mTresholds.rain)
+        .calculate(yearlyData, mTresholds.rain)
 
-    val windResult = WeatherStrategyFactory.getStrategy(thresholds.wind)
-        .calculate(yearlyData, thresholds.wind)
+    val temperatureResult = WeatherStrategyFactory.getStrategy(mTresholds.temperature)
+        .calculate(yearlyData, mTresholds.temperature)
+
+    val windResult = WeatherStrategyFactory.getStrategy(mTresholds.wind)
+        .calculate(yearlyData, mTresholds.wind)
 
     return ClimateAnalysisResult(
         rain = rainResult,
@@ -48,6 +52,7 @@ fun calculateWeatherResult(
     yearlyData: List<Double>,
     threshold: Double,
     unit: String,
+    weatherType: WeatherType,
 ): WeatherResult {
     val totalYears = yearlyData.size
     val eventYears = yearlyData.count { it > threshold }
@@ -71,7 +76,8 @@ fun calculateWeatherResult(
         totalYears = totalYears,
         minValue = minValue,
         maxValue = maxValue,
-        interpretation = interpretation
+        interpretation = interpretation,
+        weatherType = weatherType
     )
 }
 
