@@ -7,13 +7,9 @@ import com.rogergcc.wiilrainprojectchallenguenasa.R
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
 import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.ForecastData
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 /**
@@ -57,18 +53,8 @@ class WeatherDataManager(private val context: Context) {
         val firstYear = yearlyData.minByOrNull { it.year }?.year ?: 1985
         val lastYear = yearlyData.maxByOrNull { it.year }?.year ?: 2024
 
-        val metadata = mapOf(
-            "total_years_analyzed" to rainResult.totalYears,
-            "historical_period" to "$firstYear-$lastYear",
-            "thresholds_used" to mapOf(
-                "rain" to 1.0,
-                "extreme_heat" to 32.0,
-                "strong_wind" to 20.0
-            ),
-            "data_years_range" to "${yearlyData.minByOrNull { it.year }?.year}-${yearlyData.maxByOrNull { it.year }?.year}"
-        )
 
-        return ClimateAnalysis(rainResult, tempResult, windResult, metadata)
+        return ClimateAnalysis(rainResult, tempResult, windResult)
     }
 
     fun calculateProbabilities(yearlyData: List<YearlyData>): Map<String, Double> {

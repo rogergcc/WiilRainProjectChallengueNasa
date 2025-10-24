@@ -105,49 +105,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 }
             }
             val dataManager = WeatherDataManager(requireContext())
-
             val datasetDummy = dataManager.parseWeatherDataset()
 
-            // Extract metadata and summary statistics
-            val period = datasetDummy.metadata.historical_context.period
-            val rainStats = datasetDummy.summary_statistics.precipitation
 
             val probabilities = dataManager.calculateProbabilities(datasetDummy.yearly_data)
             Log.d("TEST_LOGGER", "Probabilities: $probabilities")
 
             val analysis = dataManager.analyzeClimateFromDataset(datasetDummy.yearly_data)
 
-//            // Format date
-//            val inputDateFormat = SimpleDateFormat("dd-MM", Locale.getDefault())
-//            val outputFormat = SimpleDateFormat("dd 'de' MMMM", Locale("es"))
-//            val metadataDate = outputFormat.format(inputDateFormat.parse(
-//                datasetDummy.metadata.date.target
-//            )!!).also {
-//                sendLocation = LocationSearch(
-//                    selectedDateString = it,
-//                    city = datasetDummy.metadata.location.name,
-//                    country = datasetDummy.metadata.location.country
-//                )
-//            }
 
-
-
-//            // Mostrar dashboard
 //            val firstYear = datasetDummy.yearly_data.minByOrNull { it.year }?.year
 //            val lastYear = datasetDummy.yearly_data.maxByOrNull { it.year }?.year
-//
-//
-//            val dateSearch = arguments?.getString("selectedDate") ?: "Select Date"
-////          val selectedLocation = arguments?.getParcelable<LocationSearch>("selectedLocationSearch")
 //
 //            val selectedLocation = arguments?.let {
 //                BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
 //            }
-//
-//
-//            binding.dateSearch.text = "\uD83D\uDCCA ${sendLocation?.selectedDateString }"
-//            sendLocation?.historicEvaluation = "Datos $firstYear-$lastYear (${analysis.rain.totalYears} observaciones)"
-//            binding.cityCountry.text = "📍 ${datasetDummy.metadata.location.name}"
 
 //            metadataPrint(datasetDummy, metadataDate, firstYear, lastYear, analysis)
 
@@ -165,7 +137,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             binding.rainProbabilityTitle.text = "Lluvia"
             binding.rainProbabilityPercentage.text = "${"%.1f".format(analysis.rain.probability)}%"
             binding.rainProbabilityDescription.text = "${analysis.rain.interpretation} "
-            binding.rainVisualRepresentation.text = "${analysis.rain.visualBar}"
+//            binding.rainVisualRepresentation.text = "${analysis.rain.visualBar}"
             binding.cardRainProbability.tag = "rain"
 
             // Temperature CardView
@@ -207,7 +179,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         println()
 
         println("☔ LLOVIA: ${"%.1f".format(analysis.rain.probability)}%")
-        println(analysis.rain.visualBar)
+//        println(analysis.rain.visualBar)
         println("\"${analysis.rain.interpretation}\"")
         println()
 
@@ -233,12 +205,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         // Metadata adicional
         println("\n--- METADATA ---")
 
-        println("Período analizado: ${analysis.metadata["historical_period"]}")
-        println("Umbral lluvia: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["rain"]} mm")
-        println("Umbral calor: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["extreme_heat"]} °C")
-        println("Umbral viento: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["strong_wind"]} km/h")
-        println("\n--- METADATA 2 ---")
-        println("Metada 2--- ${analysis.metadata}")
+//        println("Período analizado: ${analysis.metadata["historical_period"]}")
+//        println("Umbral lluvia: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["rain"]} mm")
+//        println("Umbral calor: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["extreme_heat"]} °C")
+//        println("Umbral viento: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["strong_wind"]} km/h")
+//        println("\n--- METADATA 2 ---")
+//        println("Metada 2--- ${analysis.metadata}")
 
         Log.e("DashboardFragment", "---------------------------")
     }
@@ -280,12 +252,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private fun listenerEvents() {
         binding.cardRainProbability.setOnSingleClickListener() {
-
             navigateDetails(it.tag as String)
         }
-
         binding.cardTtemperatureProbability.setOnSingleClickListener() {
-
             navigateDetails(it.tag as String)
         }
         binding.cardWindSpeedProbability.setOnSingleClickListener() {

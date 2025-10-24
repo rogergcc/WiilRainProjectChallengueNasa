@@ -1,5 +1,6 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.data.dummy
 
+import com.rogergcc.wiilrainprojectchallenguenasa.data.WeatherResult
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.Thresholds
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRange
@@ -19,15 +20,7 @@ data class WeatherYearRecord(
     val wind_kmh: Double,
     val cloud_fraction: Double,
     val thresholds: Thresholds
-) {
-//    fun isEventExceeded(eventType: WeatherType): Boolean {
-//        return when (eventType) {
-//            WeatherType.RAIN -> thresholds.rain.exceeds(precip_mm)
-//            WeatherType.TEMP -> thresholds.temperature.exceeds(temp_c)
-//            WeatherType.WIND -> thresholds.wind.exceeds(wind_kmh)
-//        }
-//    }
-}
+)
 
 
 
@@ -69,7 +62,6 @@ data class ClimateAnalysis(
     val rain: RainResult,
     val temperature: TemperatureResult,
     val wind: WindResult,
-    val metadata: Map<String, Any>,
 )
 
 private fun calculateProbability(
@@ -82,15 +74,25 @@ private fun calculateProbability(
     return Pair(probability, eventYears)
 }
 
+
+private fun List<Double>.calculateMinOrZero() = this.minOrNull() ?: 0.0
+private fun List<Double>.calculateMaxOrZero() = this.maxOrNull() ?: 0.0
+private fun List<Double>.calculateAverageOrZero() = if (this.isNotEmpty()) this.average() else 0.0
+private fun List<Double>.calculatePercentile(percentile: Double): Double {
+    val sorted = this.sorted()
+    val index = (percentile * (sorted.size - 1)).toInt()
+    return sorted[index]
+}
+
 fun calculateRainProbabilityFromDataset(
     yearlyData: List<YearlyData>,
     weatherType: WeatherType = Thresholds().rain
 ): RainResult {
     val precipitations = yearlyData.map { it.precip_mm }
     val (probability, rainYears) = calculateProbability(precipitations, weatherType.extremeValue)
-    val averageRain = precipitations.average()
-    val maxRain = precipitations.maxOrNull() ?: 0.0
-    val minRain = precipitations.minOrNull() ?: 0.0
+    val minRain = precipitations.calculateMinOrZero()
+    val maxRain = precipitations.calculateMaxOrZero()
+    val averageRain = precipitations.calculateAverageOrZero()
 
     val rainRange = RainRange.fromValue(probability.toFloat())
 
@@ -122,18 +124,19 @@ fun calculateTemperatureProbabilityFromDataset(
 ): TemperatureResult {
 
     val temperatures = yearlyData.map { it.temp_c }
-    val averageTemp = temperatures.average()
     val heatYears = yearlyData.count { it.temp_c > weatherType.extremeValue }
     val totalYears = yearlyData.size
     val heatProbability = (heatYears.toDouble() / totalYears) * 100.0
 
-    val minTemp = temperatures.minOrNull() ?: 0.0
-    val maxTemp = temperatures.maxOrNull() ?: 0.0
+    val minTemp = temperatures.calculateMinOrZero()
+    val maxTemp = temperatures.calculateMaxOrZero()
+    val averageTemp = temperatures.calculateAverageOrZero()
 
     val sortedTemps = temperatures.sorted()
 
-    val percentile25 = sortedTemps[sortedTemps.size / 4]
-    val percentile75 = sortedTemps[3 * sortedTemps.size / 4]
+    val percentile25 = sortedTemps.calculatePercentile(0.25)
+    val percentile75 = sortedTemps.calculatePercentile(0.75)
+
 
     val scaleMin = percentile25  // Usar percentil 25 como mínimo de escala
     val scaleMax = percentile75  // Usar percentil 75 como máximo de escala
@@ -164,13 +167,13 @@ fun calculateWindProbabilityFromDataset(
 ): WindResult {
 
     val windSpeeds = yearlyData.map { it.wind_kmh }
-    val averageWind = windSpeeds.average()
     val strongWindYears = yearlyData.count { it.wind_kmh > weatherType.extremeValue }
     val totalYears = yearlyData.size
     val strongWindProbability = (strongWindYears.toDouble() / totalYears) * 100.0
 
-    val minWind = windSpeeds.minOrNull() ?: 0.0
-    val maxWind = windSpeeds.maxOrNull() ?: 0.0
+    val minWind = windSpeeds.calculateMinOrZero()
+    val maxWind = windSpeeds.calculateMaxOrZero()
+    val averageWind = windSpeeds.calculateAverageOrZero()
 
     val interpretation = buildInterpretation(
         threshold = weatherType.extremeValue,
