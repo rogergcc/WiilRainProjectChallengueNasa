@@ -7,16 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.rogergcc.wiilrainprojectchallenguenasa.R
+import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.ClimateAnalysis
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRisk
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.WeatherDataManager
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
+import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryImpl
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDashboardBinding
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.ui.details.WeatherDetailViewModel
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.ui.details.WeatherDetailViewModelFactory
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -36,6 +46,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
     }
 
+    private val viewModel by viewModels<DashboarResultViewModel> {
+        DashboarResultViewModelFactory(
+            WeatherRepositoryImpl(requireContext())
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -48,89 +64,93 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         try {
+
+            viewModel.calculateProbabilities()
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.uiWeatherResult.collect { uiState ->
+                    when (uiState) {
+                        is DashboarResultViewModel.DetailUiState.Loading -> {
+                            // Show loading state if needed
+                        }
+                        is DashboarResultViewModel.DetailUiState.Success -> {
+                            Log.d("TEST_LOGGER", "Weather dataset processed successfully.")
+
+//                            val inputDateFormat = SimpleDateFormat("dd-MM", Locale.getDefault())
+//                            val outputFormat = SimpleDateFormat("dd 'de' MMMM", Locale("es"))
+
+                            uiState.weatherDataset?.let {
+                                val dateString = DateUtils.formatDayMonth(it.metadata.date.target)
+                                sendLocation = LocationSearch(
+
+                                    selectedDateString = dateString,
+                                    city = it.metadata.location.name,
+                                    country = it.metadata.location.country,
+                                    historicEvaluation = getString(
+                                        R.string.datos_observaciones,
+                                        it.metadata.historical_context.period,
+                                        it.yearly_data.count().toString()
+                                    )
+                                )
+                                Log.d("TEST_LOGGER", "Dataset Metadata Location: ${it.metadata.location.name}, Country: ${it.metadata.location.country}")
+
+                                binding.dateSearch.text = "\uD83D\uDCCA ${sendLocation?.selectedDateString }"
+                                binding.cityCountry.text = "📍 ${it.metadata.location.name}"
+
+                            }
+                        }
+                        is DashboarResultViewModel.DetailUiState.Failure -> {
+                            Log.e(TEST_LOG_TAG, "Error: ${uiState.errorMessage}")
+                        }
+                    }
+                }
+            }
             val dataManager = WeatherDataManager(requireContext())
-            val forecastResponse = dataManager.getWeatherData()
 
             val datasetDummy = dataManager.parseWeatherDataset()
-
 
             // Extract metadata and summary statistics
             val period = datasetDummy.metadata.historical_context.period
             val rainStats = datasetDummy.summary_statistics.precipitation
-            val tempStats = datasetDummy.summary_statistics.temperature
-            val windStats = datasetDummy.summary_statistics.wind
 
             val probabilities = dataManager.calculateProbabilities(datasetDummy.yearly_data)
             Log.d("TEST_LOGGER", "Probabilities: $probabilities")
-            val dataAqpSearchDummy = dataManager.parseWeatherData()
 
             val analysis = dataManager.analyzeClimateFromDataset(datasetDummy.yearly_data)
 
-            // Format date
-            val inputDateFormat = SimpleDateFormat("dd-MM", Locale.getDefault())
-            val outputFormat = SimpleDateFormat("dd 'de' MMMM", Locale("es"))
-            val metadataDate = outputFormat.format(inputDateFormat.parse(
-                datasetDummy.metadata.date.target
-            )!!).also {
-                sendLocation = LocationSearch(
-                    selectedDateString = it,
-                    city = datasetDummy.metadata.location.name,
-                    country = datasetDummy.metadata.location.country
-                )
-            }
+//            // Format date
+//            val inputDateFormat = SimpleDateFormat("dd-MM", Locale.getDefault())
+//            val outputFormat = SimpleDateFormat("dd 'de' MMMM", Locale("es"))
+//            val metadataDate = outputFormat.format(inputDateFormat.parse(
+//                datasetDummy.metadata.date.target
+//            )!!).also {
+//                sendLocation = LocationSearch(
+//                    selectedDateString = it,
+//                    city = datasetDummy.metadata.location.name,
+//                    country = datasetDummy.metadata.location.country
+//                )
+//            }
 
 
 
-            Log.d("TEST_LOGGER", "Formatted Date metadataDate: $metadataDate")
-            // Mostrar dashboard
-            val firstYear = datasetDummy.yearly_data.minByOrNull { it.year }?.year
-            val lastYear = datasetDummy.yearly_data.maxByOrNull { it.year }?.year
+//            // Mostrar dashboard
+//            val firstYear = datasetDummy.yearly_data.minByOrNull { it.year }?.year
+//            val lastYear = datasetDummy.yearly_data.maxByOrNull { it.year }?.year
+//
+//
+//            val dateSearch = arguments?.getString("selectedDate") ?: "Select Date"
+////          val selectedLocation = arguments?.getParcelable<LocationSearch>("selectedLocationSearch")
+//
+//            val selectedLocation = arguments?.let {
+//                BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
+//            }
+//
+//
+//            binding.dateSearch.text = "\uD83D\uDCCA ${sendLocation?.selectedDateString }"
+//            sendLocation?.historicEvaluation = "Datos $firstYear-$lastYear (${analysis.rain.totalYears} observaciones)"
+//            binding.cityCountry.text = "📍 ${datasetDummy.metadata.location.name}"
 
+//            metadataPrint(datasetDummy, metadataDate, firstYear, lastYear, analysis)
 
-            val dateSearch = arguments?.getString("selectedDate") ?: "Select Date"
-//        val selectedLocation = arguments?.getParcelable<LocationSearch>("selectedLocationSearch")
-
-            val selectedLocation = arguments?.let {
-
-                BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
-            }
-
-
-//        binding.dateSearch.text = DateUtils.format(seletectDate) //dateSearch
-//            binding.cityCountry.text = selectedLocation?.city
-            binding.dateSearch.text = "\uD83D\uDCCA ${sendLocation?.selectedDateString }"
-            sendLocation?.historicEvaluation = "Datos $firstYear-$lastYear (${analysis.rain.totalYears} observaciones)"
-            binding.cityCountry.text = "📍 ${datasetDummy.metadata.location.name}"
-
-            println("📍 ${datasetDummy.metadata.location} · $metadataDate") //📍 Central Park, NYC · 15 de junio
-            println("📊 Datos $firstYear-$lastYear (${analysis.rain.totalYears} observaciones)")
-            println()
-
-            println("☔ LLOVIA: ${"%.1f".format(analysis.rain.probability)}%")
-            println(analysis.rain.visualBar)
-            println("\"${analysis.rain.interpretation}\"")
-            println()
-
-            println("🌡 TEMPERATURA: ${"%.1f".format(analysis.temperature.averageTemperature)}°C · ${"%.1f".format(analysis.temperature.heatProbability)}%")
-            println(analysis.temperature.visualScale)
-            println("\"${analysis.temperature.interpretation}\"")
-            println()
-
-            println("💨 VIENTO: ${"%.1f".format(analysis.wind.averageWind)} km/h · ${"%.1f".format(analysis.wind.strongWindProbability)}%")
-            println(analysis.wind.visualScale)
-            println("\"${analysis.wind.interpretation}\"")
-
-            // Metadata adicional
-            println("\n--- METADATA ---")
-
-            println("Período analizado: ${analysis.metadata["historical_period"]}")
-            println("Umbral lluvia: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["rain"]} mm")
-            println("Umbral calor: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["extreme_heat"]} °C")
-            println("Umbral viento: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["strong_wind"]} km/h")
-            println("\n--- METADATA 2 ---")
-            println("Metada 2--- ${analysis.metadata}")
-
-            Log.e("DashboardFragment", "---------------------------")
             // Update UI dynamically
 //            optionTestOption1Ranges()
 
@@ -173,6 +193,56 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         listenerEvents()
 
+    }
+
+    private fun metadataPrint(
+        datasetDummy: WeatherDataset,
+        metadataDate: String?,
+        firstYear: Int?,
+        lastYear: Int?,
+        analysis: ClimateAnalysis,
+    ) {
+        println("📍 ${datasetDummy.metadata.location} · $metadataDate") //📍 Central Park, NYC · 15 de junio
+        println("📊 Datos $firstYear-$lastYear (${analysis.rain.totalYears} observaciones)")
+        println()
+
+        println("☔ LLOVIA: ${"%.1f".format(analysis.rain.probability)}%")
+        println(analysis.rain.visualBar)
+        println("\"${analysis.rain.interpretation}\"")
+        println()
+
+        println(
+            "🌡 TEMPERATURA: ${"%.1f".format(analysis.temperature.averageTemperature)}°C · ${
+                "%.1f".format(
+                    analysis.temperature.heatProbability
+                )
+            }%"
+        )
+        println(analysis.temperature.visualScale)
+        println("\"${analysis.temperature.interpretation}\"")
+        println()
+
+        println(
+            "💨 VIENTO: ${"%.1f".format(analysis.wind.averageWind)} km/h · ${
+                "%.1f".format(
+                    analysis.wind.strongWindProbability
+                )
+            }%"
+        )
+        println(analysis.wind.visualScale)
+        println("\"${analysis.wind.interpretation}\"")
+
+        // Metadata adicional
+        println("\n--- METADATA ---")
+
+        println("Período analizado: ${analysis.metadata["historical_period"]}")
+        println("Umbral lluvia: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["rain"]} mm")
+        println("Umbral calor: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["extreme_heat"]} °C")
+        println("Umbral viento: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["strong_wind"]} km/h")
+        println("\n--- METADATA 2 ---")
+        println("Metada 2--- ${analysis.metadata}")
+
+        Log.e("DashboardFragment", "---------------------------")
     }
 
     fun updateWeatherUI(rainPercentage: Float, temperature: Float, windSpeed: Float) {

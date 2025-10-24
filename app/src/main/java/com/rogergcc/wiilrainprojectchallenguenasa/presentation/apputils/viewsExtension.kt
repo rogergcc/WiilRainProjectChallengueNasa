@@ -31,3 +31,10 @@ fun Toast.makeTextShort(message: String, activity: Activity) {
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
+
+fun Double.formatTwoDecimals():String{
+    return DECIMAL_FORMAT_TWO.format(this)
+}
+fun Double.formatOneDecimal():String{
+    return DECIMAL_FORMAT_ONE.format(this)
+}

@@ -6,10 +6,23 @@ package com.rogergcc.wiilrainprojectchallenguenasa.data.model
  * year 2025 .
  */
 data class Thresholds(
-    val rainLight: Double = 1.0,
-    val hotExtreme: Double = 32.0,
-    val windStrong: Double = 20.0,
-    val unitPrecip: String = "mm",
-    val unitTemp: String = "°C",
-    val unitWind: String = "km/h",
+    val rain: WeatherType = WeatherType.RAIN,
+    val temperature: WeatherType = WeatherType.TEMP,
+    val wind: WeatherType = WeatherType.WIND
 )
+
+
+enum class WeatherType(
+    val description: String,
+    val extremeValue: Double,
+    val unit: String
+) {
+    RAIN("rain", 1.0, "mm"),
+    TEMP("temperature", 32.0, "°C"),
+    WIND("wind", 20.0, "km/h");
+    companion object {
+        fun fromDescription(desc: String): WeatherType {
+            return entries.first { it.description == desc }
+        }
+    }
+}

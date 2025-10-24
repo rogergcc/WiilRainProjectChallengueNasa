@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.viewModels
-import com.google.android.material.snackbar.Snackbar
 import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.WeatherDataManager
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDetailsBinding
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.providers.AndroidResourceProvider
 
 class DetailsFragment : Fragment() {
 
@@ -19,10 +20,15 @@ class DetailsFragment : Fragment() {
     private val binding get() = _binding!!
 //    private val viewModel: WeatherDetailViewModel by viewModels()
 
-
+    private val weatherFormatter by lazy {
+        WeatherFormatter(
+            AndroidResourceProvider(requireContext())
+        )
+    }
     private val viewModel by viewModels<WeatherDetailViewModel> {
         WeatherDetailViewModelFactory(
-            WeatherDataManager(requireContext()).parseWeatherDataset()
+            WeatherDataManager(requireContext()).parseWeatherDataset(),
+            weatherFormatter
         )
     }
 
@@ -58,7 +64,8 @@ class DetailsFragment : Fragment() {
 
         binding.title.text = selectedLocation?.selectedDateString + " - " + selectedLocation?.city + ", " + selectedLocation?.country
         binding.dateHistoric.text = selectedLocation?.historicEvaluation
-        binding.weatherTextView.text = viewModel.getWeatherText(weatherType)
+//        binding.weatherTextView.text = viewModel.getWeatherText(weatherType)
+        binding.weatherTextView.text = viewModel.getFormattedWeather(weatherType)
 //        val datasetDummy = dataManager.parseWeatherDataset()
 //        val yearlyDataBase= datasetDummy.yearly_data
 

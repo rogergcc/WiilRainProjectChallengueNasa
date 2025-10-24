@@ -35,10 +35,19 @@ enum class RainRange(
 enum class RainRecommendation(
     val emoji: String,
     val message: String,
-    val condition: (Float) -> Boolean
+    val range: ClosedRange<Float>
 ) {
-    NO_RAIN("☁️","No rain expected ", { rainProb -> rainProb < 20f }),
-    LIGHT_RAIN("🌦️","Light rain possible ", { rainProb -> rainProb in 20f..40f }),
-    MODERATE_RAIN("🌧️","Moderate rain likely ", { rainProb -> rainProb in 40.1f..60f }),
-    HEAVY_RAIN("⛈️","Heavy rain expected ", { rainProb -> rainProb > 60.1f });
+    NO_RAIN("☁️", "No rain expected", 0f..19.99f),
+    LIGHT_RAIN("🌦️", "Light rain possible", 20f..40f),
+    MODERATE_RAIN("🌧️", "Moderate rain likely", 40.1f..60f),
+    HEAVY_RAIN("⛈️", "Heavy rain expected", 60.1f..Float.MAX_VALUE);
+
+    fun matches(rainProb: Float): Boolean = rainProb in range
+
+    companion object {
+        fun getRecommendation(rainProb: Float): RainRecommendation {
+            return entries.first { it.matches(rainProb) }
+        }
+    }
+
 }
