@@ -3,7 +3,6 @@ package com.rogergcc.wiilrainprojectchallenguenasa.data.dummy
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.Thresholds
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRange
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatOneDecimal
 
@@ -53,7 +52,6 @@ data class TemperatureResult(
     val totalYears: Int,
     val minTemperature: Double,
     val maxTemperature: Double,
-    val visualScale: String,
     val interpretation: String,
 )
 
@@ -64,7 +62,6 @@ data class WindResult(
     val totalYears: Int,
     val minWind: Double,
     val maxWind: Double,
-    val visualScale: String,
     val interpretation: String,
 )
 
@@ -75,21 +72,6 @@ data class ClimateAnalysis(
     val metadata: Map<String, Any>,
 )
 
-//private fun buildVisualBar(
-//    barLength: Int,
-//    probability: Double,
-//    range: Range, // Generalized to accept any range type
-//    useColoredBars: Boolean
-//): String {
-//    val filledBlocks = (probability / 100.0 * barLength).toInt()
-//    val barContent = "█".repeat(filledBlocks) + "░".repeat(barLength - filledBlocks)
-//
-//    return if (useColoredBars) {
-//        "${range.emoji}$barContent"
-//    } else {
-//        barContent
-//    }
-//}
 private fun calculateProbability(
     yearlyData: List<Double>,
     threshold: Double
@@ -102,25 +84,23 @@ private fun calculateProbability(
 
 fun calculateRainProbabilityFromDataset(
     yearlyData: List<YearlyData>,
-    rainThreshold: Double = Thresholds().rain.extremeValue,
-    useColoredBars: Boolean = true
+    weatherType: WeatherType = Thresholds().rain
 ): RainResult {
     val precipitations = yearlyData.map { it.precip_mm }
-    val (probability, rainYears) = calculateProbability(precipitations, rainThreshold)
+    val (probability, rainYears) = calculateProbability(precipitations, weatherType.extremeValue)
     val averageRain = precipitations.average()
     val maxRain = precipitations.maxOrNull() ?: 0.0
     val minRain = precipitations.minOrNull() ?: 0.0
 
     val rainRange = RainRange.fromValue(probability.toFloat())
-//    val visualBar = buildVisualBar(20, probability, rainRange, useColoredBars)
 
 
     val interpretation = buildInterpretation(
-        threshold = rainThreshold,
+        threshold = weatherType.extremeValue,
         probability = probability,
         minValue = minRain,
         maxValue = maxRain,
-        unit = "mm"
+        unit = weatherType.unit
     )
     return RainResult(
         interpretation = interpretation,
@@ -128,28 +108,22 @@ fun calculateRainProbabilityFromDataset(
         rainYears = rainYears,
         totalYears = yearlyData.size,
         averageRain = averageRain,
-        averageRainIntensity = precipitations.filter { it > rainThreshold }.average(),
+        averageRainIntensity = precipitations.filter { it > weatherType.extremeValue }.average(),
         maxRain = maxRain,
         heavyRainProbability = calculateProbability(precipitations, 5.0).first,
         extremeRainProbability = calculateProbability(precipitations, 20.0).first,
-//        visualBar = visualBar,
         rainRange = rainRange
     )
 }
 
 fun calculateTemperatureProbabilityFromDataset(
     yearlyData: List<YearlyData>,
-    heatThreshold: Double = Thresholds().temperature.extremeValue,
+    weatherType: WeatherType = Thresholds().temperature,
 ): TemperatureResult {
-
-    val SCALE_LENGTH = 20        // Número de posiciones en la escala visual
-    val DEFAULT_NORMALIZED_POSITION = 0.5  // Posición central cuando no hay rango
-    val SCALE_MULTIPLIER = 19     // Para convertir 0-1 a 0-9 (SCALE_LENGTH - 1)
-
 
     val temperatures = yearlyData.map { it.temp_c }
     val averageTemp = temperatures.average()
-    val heatYears = yearlyData.count { it.temp_c > heatThreshold }
+    val heatYears = yearlyData.count { it.temp_c > weatherType.extremeValue }
     val totalYears = yearlyData.size
     val heatProbability = (heatYears.toDouble() / totalYears) * 100.0
 
@@ -164,35 +138,14 @@ fun calculateTemperatureProbabilityFromDataset(
     val scaleMin = percentile25  // Usar percentil 25 como mínimo de escala
     val scaleMax = percentile75  // Usar percentil 75 como máximo de escala
 
-    val effectiveRange = scaleMax - scaleMin
-    val normalizedPosition = if (effectiveRange == 0.0) {
-        DEFAULT_NORMALIZED_POSITION
-    } else {
-        // Sure position between 0 and 1
-        ((averageTemp - scaleMin) / effectiveRange).coerceIn(0.0, 1.0)
-    }
-
-    val position = (normalizedPosition * SCALE_MULTIPLIER).toInt()
-
-    // Visual demo scale
-    val scale = MutableList(SCALE_LENGTH) { "─" }
-    scale[position] = "┼"
-    val visualScale = "🥶${scale.joinToString("")}🥵"
-
-//    val interpretation = "Probabilidad >${heatThreshold}°C: ${"%.1f".format(heatProbability)}%"
-//    val interpretation = buildString {
-//        append("•🌡️ Temperatura promedio histórica: ${"%.1f".format(averageTemp)}°C \n")
-//        append("•📊 Rango histórico completo: ${"%.1f".format(minTemp)}°C - ${"%.1f".format(maxTemp)}°C \n")
-//        append("•⚠️ Probabilidad de calor extremo (>$heatThreshold°C): ${"%.1f".format(heatProbability)}% (BAJO)")
-//    }
 
 
     val interpretation = buildInterpretation(
-        threshold = heatThreshold,
+        threshold = weatherType.extremeValue,
         probability = heatProbability,
         minValue = minTemp,
         maxValue = maxTemp,
-        unit = "°C"
+        unit = weatherType.unit
     )
     return TemperatureResult(
         averageTemperature = averageTemp,
@@ -201,65 +154,30 @@ fun calculateTemperatureProbabilityFromDataset(
         totalYears = totalYears,
         minTemperature = minTemp,
         maxTemperature = maxTemp,
-        visualScale = visualScale,
         interpretation = interpretation,
     )
 }
 
 fun calculateWindProbabilityFromDataset(
     yearlyData: List<YearlyData>,
-    strongWindThreshold: Double = Thresholds().wind.extremeValue,
+    weatherType: WeatherType = Thresholds().wind,
 ): WindResult {
-    val SCALE_LENGTH = 20
-    val SCALE_MULTIPLIER = 19
-
-    val LIGHT_WIND_THRESHOLD = 10.0
-    val MODERATE_WIND_THRESHOLD = 15.0
-    val STRONG_WIND_THRESHOLD = 30.0
-    val VERY_STRONG_WIND_THRESHOLD = 50.0
-
-    val MAX_SCALE_ADJUSTMENT = SCALE_MULTIPLIER - 1
 
     val windSpeeds = yearlyData.map { it.wind_kmh }
     val averageWind = windSpeeds.average()
-    val strongWindYears = yearlyData.count { it.wind_kmh > strongWindThreshold }
+    val strongWindYears = yearlyData.count { it.wind_kmh > weatherType.extremeValue }
     val totalYears = yearlyData.size
     val strongWindProbability = (strongWindYears.toDouble() / totalYears) * 100.0
 
     val minWind = windSpeeds.minOrNull() ?: 0.0
     val maxWind = windSpeeds.maxOrNull() ?: 0.0
 
-    // optimal scale for extreme values
-    val sortedWinds = windSpeeds.sorted()
-    val percentile90 = sortedWinds[9 * sortedWinds.size / 10]
-
-    // Use the maximum between the 90th percentile and a reasonable minimum
-    val scaleMax = maxOf(strongWindThreshold * 2, percentile90, 30.0)
-
-    val normalizedPosition = (averageWind / scaleMax).coerceIn(0.0, 1.0)
-    val position = (normalizedPosition * SCALE_MULTIPLIER).toInt()
-
-
-    val windRange = WindRange.fromRange(averageWind.toFloat())
-
-    val scale = MutableList(SCALE_LENGTH) { "─" }
-    scale[minOf(position, MAX_SCALE_ADJUSTMENT)] = windRange.emoji
-    val visualScale = "${WindRange.CALM.emoji} ${scale.joinToString("")} ${WindRange.EXTREME.emoji}"
-
-//    val interpretation = buildString {
-//        append("Velocidad promedio: ${"%.1f".format(averageWind)} km/h")
-//        append(" | $intensityDescription")
-//        append(" | Prob. >${strongWindThreshold}km/h: ${"%.1f".format(strongWindProbability)}%")
-//        append(" | Máximo: ${"%.1f".format(maxWind)} km/h")
-//    }
-
-
     val interpretation = buildInterpretation(
-        threshold = strongWindThreshold,
+        threshold = weatherType.extremeValue,
         probability = strongWindProbability,
         minValue = minWind,
         maxValue = maxWind,
-        unit = "km/h"
+        unit = weatherType.unit
     )
 
     return WindResult(
@@ -269,7 +187,6 @@ fun calculateWindProbabilityFromDataset(
         totalYears = totalYears,
         minWind = minWind,
         maxWind = maxWind,
-        visualScale = visualScale,
         interpretation = interpretation
     )
 }

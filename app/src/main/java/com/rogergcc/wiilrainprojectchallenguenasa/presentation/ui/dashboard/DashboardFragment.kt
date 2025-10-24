@@ -180,7 +180,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             binding.windSpeedTitle.text = "Viento"
             binding.windSpeedPercentage.text = "${"%.1f".format(analysis.wind.averageWind)} km/h"
             binding.windSpeedDescription.text = "${analysis.wind.interpretation}"
-            binding.windVisualRepresentation.text = "${analysis.wind.visualScale}"
+//            binding.windVisualRepresentation.text = "${analysis.wind.visualScale}"
             binding.cardWindSpeedProbability.tag = "wind"
 
 
@@ -218,7 +218,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 )
             }%"
         )
-        println(analysis.temperature.visualScale)
         println("\"${analysis.temperature.interpretation}\"")
         println()
 
@@ -229,7 +228,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 )
             }%"
         )
-        println(analysis.wind.visualScale)
         println("\"${analysis.wind.interpretation}\"")
 
         // Metadata adicional
