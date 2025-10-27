@@ -1,5 +1,8 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.data.model
 
+import android.content.Context
+import com.rogergcc.wiilrainprojectchallenguenasa.R
+
 
 /**
  * Created on octubre.
@@ -13,16 +16,16 @@ data class Thresholds(
 
 
 enum class WeatherType(
-    val description: String,
+    val description: Int ,
     val extremeValue: Double,
     val unit: String
 ) {
-    RAIN("rain", 1.0, "mm"),
-    TEMP("temperature", 32.0, "°C"),
-    WIND("wind", 20.0, "km/h");
+    RAIN(R.string.description_rain, 1.0, "mm"),
+    TEMP(R.string.description_temperature, 32.0, "°C"),
+    WIND(R.string.description_wind, 20.0, "km/h");
     companion object {
-        fun fromDescription(desc: String): WeatherType {
-            return entries.first { it.description == desc }
+        fun fromDescription(desc: String, context: Context): WeatherType {
+            return entries.first { context.getString(it.description) == desc }
         }
     }
 }

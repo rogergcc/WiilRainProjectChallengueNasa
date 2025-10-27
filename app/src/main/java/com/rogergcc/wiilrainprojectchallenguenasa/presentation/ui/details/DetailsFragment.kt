@@ -60,7 +60,7 @@ class DetailsFragment : Fragment() {
             BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
         }
 
-        val weatherType = WeatherType.fromDescription(selectedLocation?.type ?: "-")
+        val weatherType = WeatherType.fromDescription(selectedLocation?.type ?: "-", requireContext())
 
         binding.title.text = selectedLocation?.selectedDateString + " - " + selectedLocation?.city + ", " + selectedLocation?.country
         binding.dateHistoric.text = selectedLocation?.historicEvaluation

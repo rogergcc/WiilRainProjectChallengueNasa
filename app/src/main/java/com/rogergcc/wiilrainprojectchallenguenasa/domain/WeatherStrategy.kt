@@ -17,7 +17,9 @@ interface WeatherStrategy {
 class RainStrategy : WeatherStrategy {
     override fun calculate(yearlyData: List<YearlyData>, weatherType: WeatherType): WeatherResult {
         val precipitations = yearlyData.map { it.precip_mm }
-        return calculateWeatherResult(precipitations, weatherType.extremeValue, weatherType.unit,weatherType)
+        return calculateWeatherResult(
+            precipitations,
+            weatherType)
     }
 }
 
@@ -26,8 +28,6 @@ class TemperatureStrategy : WeatherStrategy {
         val temperatures = yearlyData.map { it.temp_c }
         return calculateWeatherResult(
             temperatures,
-            weatherType.extremeValue,
-            weatherType.unit,
             weatherType
         )
     }
@@ -38,8 +38,6 @@ class WindStrategy : WeatherStrategy {
         val windSpeeds = yearlyData.map { it.wind_kmh }
         return calculateWeatherResult(
             windSpeeds,
-            weatherType.extremeValue,
-            weatherType.unit,
             weatherType
         )
     }

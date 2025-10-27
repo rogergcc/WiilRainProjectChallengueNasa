@@ -5,9 +5,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="message_search">Escribe la ciudado coloca un pin en el mapa</string>
 
-        <string name="rain_historical">🌧️ Precipitación Histórica</string>
-        <string name="temperature_historical">🌡️ Temperatura Histórica</string>
-        <string name="wind_historical">🌬️ Viento Histórico</string>
+    <string name="rain_historical">🌧️ Precipitación Histórica</string>
+    <string name="temperature_historical">🌡️ Temperatura Histórica</string>
+    <string name="wind_historical">🌬️ Viento Histórico</string>
+
     <string name="error_message">¡Lo siento! Algo salió mal. error: %1$s</string>
     <string name="datos_observaciones">Datos %1$s (%2$s observaciones)</string>
+    <string name="description_rain">rain</string>
+    <string name="description_temperature">temperature</string>
+    <string name="description_wind">wind</string>
 </resources>

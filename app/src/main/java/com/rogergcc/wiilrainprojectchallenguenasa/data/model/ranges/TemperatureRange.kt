@@ -34,7 +34,7 @@ enum class TemperatureRecommendation(
     val condition: (Float, ) -> Boolean,
 ) {
     HEAT_ALERT("🔥","High", { temp -> temp > 32 }),
-    WARM_WEATHER("🌤","Warm ", { temp -> temp in 28.1f..32.0f }),
-    COMFORTABLE("🧊","Comfortable ", { temp -> temp in 15.1f..28.0f }),
-    COLD_WEATHER("🧊","Cold ", { temp -> temp <= 15.0f });
+    WARM_WEATHER( "🌡️","Warm", { temp -> temp in 28.1f..32.0f }),
+    COMFORTABLE("🌤","Comfortable", { temp -> temp in 15.1f..28.0f }),
+    COLD_WEATHER("🧊","Cold", { temp -> temp <= 15.0f });
 }

@@ -135,14 +135,15 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 //            binding.cityCountry.text = datasetDummy.metadata.location.name // Example: "New York Central Park"
 
             // Rain CardView
-            binding.rainProbabilityTitle.text = analysis2.rain.weatherType.description
+//            binding.rainProbabilityTitle.text = analysis2.rain.weatherType.description
+            binding.rainProbabilityTitle.text = resources.getString(analysis2.rain.weatherType.description)
             binding.rainProbabilityPercentage.text = "${"%.1f".format(analysis2.rain.probability)}%"
             binding.rainProbabilityDescription.text = "${analysis2.rain.interpretation} "
 //            binding.rainVisualRepresentation.text = "${analysis.rain.visualBar}"
             binding.cardRainProbability.tag = "rain"
 
             // Temperature CardView
-            binding.temperatureProbabilityTitle.text = analysis2.temperature.weatherType.description
+            binding.temperatureProbabilityTitle.text = resources.getString(analysis2.temperature.weatherType.description)
             binding.temperatureProbabilityPercentage.text =
                 "${"%.1f".format(analysis2.temperature.average)}°C"
 //            binding.temperatureProbabilityPercentage.text = "${analysis.temperature.minTemperature}°C-${analysis.temperature.maxTemperature}°C"
@@ -152,7 +153,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             binding.cardTtemperatureProbability.tag = "temperature"
 
             // Wind CardView
-            binding.windSpeedTitle.text = analysis2.wind.weatherType.description
+            binding.windSpeedTitle.text = resources.getString(analysis2.wind.weatherType.description)
             binding.windSpeedPercentage.text = "${"%.1f".format(analysis2.wind.average)} km/h"
             binding.windSpeedDescription.text = "${analysis2.wind.interpretation}"
 //            binding.windVisualRepresentation.text = "${analysis.wind.visualScale}"
