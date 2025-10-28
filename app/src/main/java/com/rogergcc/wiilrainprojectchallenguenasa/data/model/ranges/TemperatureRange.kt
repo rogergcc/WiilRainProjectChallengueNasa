@@ -1,5 +1,6 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges
 
+import androidx.annotation.StringRes
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 
 
@@ -29,12 +30,17 @@ enum class TemperatureRange(
 //│ 🔥 Caluroso: 7 (18%)
 
 enum class TemperatureRecommendation(
-    val emoji: String,
-    val message: String,
-    val condition: (Float, ) -> Boolean,
-) {
-    HEAT_ALERT("🔥","High", { temp -> temp > 32 }),
-    WARM_WEATHER( "🌡️","Warm", { temp -> temp in 28.1f..32.0f }),
-    COMFORTABLE("🌤","Comfortable", { temp -> temp in 15.1f..28.0f }),
-    COLD_WEATHER("🧊","Cold", { temp -> temp <= 15.0f });
+    override val emoji: String,
+    @StringRes override val textRes: Int,
+    private val conditionRange: ClosedRange<Float>
+) : Recommendation {
+
+
+    COLD_WEATHER("🧊", R.string.temp_cold,  Float.NEGATIVE_INFINITY..15.0f),
+    COMFORTABLE("🌤", R.string.temp_comfortable, 15.1f..28.0f),
+    WARM_WEATHER("🌡️", R.string.temp_mild, 28.1f..32.0f),
+//    HEAT_ALERT("🔥", "High temperatures recorded. Stay hydrated.", 32.1f..Float.MAX_VALUE);
+    HEAT_ALERT("🔥", R.string.temp_hot, 32.1f..Float.MAX_VALUE);
+
+    override fun matches(value: Float): Boolean = value in conditionRange
 }

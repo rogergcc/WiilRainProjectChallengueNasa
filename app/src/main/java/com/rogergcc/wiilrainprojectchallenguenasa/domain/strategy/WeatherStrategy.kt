@@ -1,4 +1,4 @@
-package com.rogergcc.wiilrainprojectchallenguenasa.domain
+package com.rogergcc.wiilrainprojectchallenguenasa.domain.strategy
 
 import com.rogergcc.wiilrainprojectchallenguenasa.data.WeatherResult
 import com.rogergcc.wiilrainprojectchallenguenasa.data.calculateWeatherResult

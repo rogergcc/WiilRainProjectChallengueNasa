@@ -6,7 +6,11 @@ import android.content.Context
 import android.os.Build
 import android.view.View
 import android.widget.Toast
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.concurrent.atomic.AtomicBoolean
 
 
@@ -35,6 +39,16 @@ fun Context.toast(message: String) {
 fun Double.formatTwoDecimals():String{
     return DECIMAL_FORMAT_TWO.format(this)
 }
+
+fun Double.formatTwoDecimalsUsa(): String =
+    DecimalFormat("#0.00", DecimalFormatSymbols(Locale.US)).format(this)
+
+fun Double.formatDecimalLocale():String{
+    val locale = Locale.getDefault()
+    val formatter = NumberFormat.getNumberInstance(locale).apply { maximumFractionDigits = 2 }
+    return formatter.format(this)
+}
+
 fun Double.formatOneDecimal():String{
     return DECIMAL_FORMAT_ONE.format(this)
 }

@@ -1,11 +1,18 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.presentation.ui.details
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.WeatherYearRecord
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.Thresholds
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
+import androidx.lifecycle.viewModelScope
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.GetFormattedWeatherUseCase
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 
 /**
@@ -13,50 +20,51 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
  * year 2025 .
  */
 class WeatherDetailViewModel(
- private val weatherDataset: WeatherDataset,
-    private val weatherFormatter: WeatherFormatter
+    private val historicalDataUseCase: GetFormattedWeatherUseCase
 ) : ViewModel() {
 
-    private val thresholds = Thresholds()
+    sealed class UiState<out T> {
+        object Loading : UiState<Nothing>()
+        data class Success<T>(val data: T) : UiState<T>()
+        data class Error(val message: String) : UiState<Nothing>()
+    }
+    private val _weatherState = MutableStateFlow<UiState<String>>(UiState.Loading)
+    val weatherState: StateFlow<UiState<String>> = _weatherState
 
-    private fun weatherYearRecordFormated(): List<WeatherYearRecord> {
-        return weatherDataset.yearly_data.map { yearRecord ->
-            WeatherYearRecord(
-                year = yearRecord.year,
-                precip_mm = yearRecord.precip_mm,
-                temp_c = yearRecord.temp_c,
-                wind_kmh = yearRecord.wind_kmh,
-                cloud_fraction = yearRecord.cloud_fraction,
-                thresholds = thresholds
-            )
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        throwable.printStackTrace()
+        showErrorState()
+    }
+    private fun showErrorState() {
+        _weatherState.value = UiState.Error(
+            "An error occurred while loading data."
+        )
+    }
+    fun loadWeatherReport(weatherType: WeatherType) {
+        _weatherState.value = UiState.Loading
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+            delay(500) // Simulate loading delay
+            try {
+                _weatherState.value = UiState.Success(
+                    historicalDataUseCase(weatherType)
+                )
+            } catch (e: Exception) {
+                Log.e(TEST_LOG_TAG, "markFavoriteJobPosition: ${e.message}")
+                showErrorState()
+            }
         }
+
     }
 
-//    fun getWeatherText(weatherType: WeatherType): String {
-//        return when (weatherType) {
-//            WeatherType.RAIN -> WeatherFormatter.formatRain(weatherYearRecordFormated(),WeatherType.RAIN.description, thresholds)
-//            WeatherType.TEMP -> WeatherFormatter.formatTemp(weatherYearRecordFormated(),WeatherType.TEMP.description, thresholds)
-//            WeatherType.WIND -> WeatherFormatter.formatWind(weatherYearRecordFormated(),WeatherType.WIND.description, thresholds)
-//        }
-//    }
-    fun getFormattedWeather(weatherType: WeatherType): String {
-        val formattedData = weatherYearRecordFormated() // Calcula la lista una sola vez
-        return weatherFormatter.formatWeather(weatherType, formattedData, thresholds)
-    }
-
-//    fun getRainText() = WeatherFormatter.formatRain(weatherYearRecordFormated(), thresholds)
-//    fun getTempText() = WeatherFormatter.formatTemp(weatherYearRecordFormated(), thresholds)
-//    fun getWindText() = WeatherFormatter.formatWind(weatherYearRecordFormated(), thresholds)
 }
 
 class WeatherDetailViewModelFactory(
-    private val weatherDataset: WeatherDataset,
-    private val weatherFormatter: WeatherFormatter
+    private val historicalDataUseCase: GetFormattedWeatherUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(WeatherDetailViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return WeatherDetailViewModel(weatherDataset,weatherFormatter) as T
+            return WeatherDetailViewModel(historicalDataUseCase) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

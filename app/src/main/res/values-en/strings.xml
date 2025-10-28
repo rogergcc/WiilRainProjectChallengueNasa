@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WiilRainProjectChallengueNasa</string>
+
+
+    <string name="message_search">Type the city or place a pin on the map</string>
+
+    <string name="rain_historical">🌧️ Historical Precipitation</string>
+    <string name="temperature_historical">🌡️ Historical Temperature</string>
+    <string name="wind_historical">🌬️ Historical Wind</string>
+    <string name="error_message">Sorry! Something went wrong. error: %1$s</string>
+    <string name="observation_data">Data %1$s (%2$s observations)</string>
+    <string name="description_rain">Rain</string>
+    <string name="description_temperature">Temperature</string>
+    <string name="description_wind">Wind</string>
+
+
+    <string name="label_statistics">📈 STATISTICS:</string>
+    <string name="label_threshold">• Threshold %1$s%2$s (⚠️)</string>
+    <string name="label_average">• Average: %1$s %2$s</string>
+    <string name="label_maximum">• Historical Maximum: %1$s %2$s</string>
+    <string name="label_minimum">• Historical Minimum: %1$s %2$s</string>
+    <string name="label_above_threshold">• %1$d years above threshold</string>
+
+    <string name="label_classification">+ CLASSIFICATION:</string>
+    <string name="label_recommendation">💡 RECOMMENDATION:</string>
+
+    <!-- Temperature -->
+    <string name="temp_cold">Cold: perfect time to layer up.</string>
+    <string name="temp_comfortable">Warm weather</string>
+    <string name="temp_mild">Mild: great weather for outdoor activities.</string>
+    <string name="temp_hot">Hot: stay hydrated and avoid long sun exposure.</string>
+
+    <!-- Rain -->
+    <string name="rain_no_expected">No rain expected: enjoy a sunny day.</string>
+    <string name="rain_light">Light rain: possible drizzles, plan accordingly.</string>
+    <string name="rain_moderate">Moderate rain: bring an umbrella or raincoat.</string>
+    <string name="rain_heavy">Heavy rain: outdoor activities not recommended.</string>
+
+    <!-- Wind -->
+    <string name="wind_light">🍃 Light breeze: calm and pleasant conditions.</string>
+    <string name="wind_moderate">🎐 Moderate breeze: could affect light objects.</string>
+    <string name="wind_strong">🌪️ Strong winds: take extra precautions outdoors.</string>
+
+    <string name="label_trend">Trend: %1$s %2$s%3$s%4$s (%5$d-%6$d)</string>
+
+    <string name="label_no_data">No data available for %1$s.</string>
+    <string name="label_no_recommendation">No recommendation available.</string>
+</resources>

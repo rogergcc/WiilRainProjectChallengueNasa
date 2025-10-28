@@ -21,7 +21,7 @@ import java.io.InputStreamReader
  * Created on octubre.
  * year 2025 .
  */
-class WeatherRepositoryImpl(private val context: Context) : WeatherRepository {
+class WeatherRepositoryAssets(private val context: Context) : WeatherRepository {
 
     override fun getWeatherData(): ForecastResponse {
         val jsonFile: InputStream = context.resources.openRawResource(R.raw.nasa_dummy_data)

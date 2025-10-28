@@ -18,7 +18,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRisk
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRange
-import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryImpl
+import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryAssets
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDashboardBinding
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
@@ -42,9 +42,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
     }
 
-    private val viewModel by viewModels<DashboarResultViewModel> {
-        DashboarResultViewModelFactory(
-            WeatherRepositoryImpl(requireContext())
+    private val viewModel by viewModels<DashboardResultViewModel> {
+        DashboardResultViewModelFactory(
+            WeatherRepositoryAssets(requireContext())
         )
     }
 
@@ -63,14 +63,16 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
             viewModel.calculateProbabilities()
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.uiWeatherResult.collect { uiState ->
+                viewModel.uiWeatherResult
+//                    .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
+                    .collect { uiState ->
                     when (uiState) {
-                        is DashboarResultViewModel.DetailUiState.Loading -> {
+                        is DashboardResultViewModel.UiState.Loading -> {
                             // Show loading state if needed
 
                         }
 
-                        is DashboarResultViewModel.DetailUiState.Success -> {
+                        is DashboardResultViewModel.UiState.Success -> {
                             Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
 
 //                            val inputDateFormat = SimpleDateFormat("dd-MM", Locale.getDefault())
@@ -84,7 +86,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                     city = it.metadata.location.name,
                                     country = it.metadata.location.country,
                                     historicEvaluation = getString(
-                                        R.string.datos_observaciones,
+                                        R.string.observation_data,
                                         it.metadata.historical_context.period,
                                         it.yearly_data.count().toString()
                                     )
@@ -97,7 +99,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                             }
                         }
 
-                        is DashboarResultViewModel.DetailUiState.Failure -> {
+                        is DashboardResultViewModel.UiState.Failure -> {
                             Log.e(TEST_LOG_TAG, "Error: ${uiState.errorMessage}")
                         }
                     }
@@ -140,7 +142,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             binding.rainProbabilityPercentage.text = "${"%.1f".format(analysis2.rain.probability)}%"
             binding.rainProbabilityDescription.text = "${analysis2.rain.interpretation} "
 //            binding.rainVisualRepresentation.text = "${analysis.rain.visualBar}"
-            binding.cardRainProbability.tag = "rain"
+            binding.cardRainProbability.tag = resources.getString(R.string.description_rain)
 
             // Temperature CardView
             binding.temperatureProbabilityTitle.text = resources.getString(analysis2.temperature.weatherType.description)
@@ -150,14 +152,14 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             binding.temperatureProbabilityDescription.text =
                 "${analysis2.temperature.interpretation}"
             binding.temperatureVisualRepresentation.text = "${analysis2.temperature.interpretation}"
-            binding.cardTtemperatureProbability.tag = "temperature"
+            binding.cardTtemperatureProbability.tag = resources.getString(R.string.description_temperature)
 
             // Wind CardView
             binding.windSpeedTitle.text = resources.getString(analysis2.wind.weatherType.description)
             binding.windSpeedPercentage.text = "${"%.1f".format(analysis2.wind.average)} km/h"
             binding.windSpeedDescription.text = "${analysis2.wind.interpretation}"
 //            binding.windVisualRepresentation.text = "${analysis.wind.visualScale}"
-            binding.cardWindSpeedProbability.tag = "wind"
+            binding.cardWindSpeedProbability.tag = resources.getString(R.string.description_wind)
 
 
         } catch (e: Exception) {

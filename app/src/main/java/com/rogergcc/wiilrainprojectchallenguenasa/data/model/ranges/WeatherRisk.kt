@@ -8,6 +8,11 @@ import com.rogergcc.wiilrainprojectchallenguenasa.R
  * year 2025 .
  */
 
+interface Recommendation {
+    val emoji: String
+    val textRes: Int
+    fun matches(value: Float): Boolean
+}
 
 
 // Enum para los rangos de lluvia

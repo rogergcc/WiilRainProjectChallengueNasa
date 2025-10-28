@@ -19,7 +19,6 @@ data class WeatherYearRecord(
     val temp_c: Double,
     val wind_kmh: Double,
     val cloud_fraction: Double,
-    val thresholds: Thresholds
 )
 
 

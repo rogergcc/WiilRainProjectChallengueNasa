@@ -1,5 +1,6 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges
 
+import androidx.annotation.StringRes
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 
 
@@ -28,11 +29,14 @@ enum class WindRange(
 }
 
 enum class WindRecommendation(
-    val emoji: String,
-    val message: String,
-    val condition: (Float) -> Boolean
-) {
-    LIGHT_BREEZE("🍃","Light breeze", { wind -> wind < 10 }),
-    MODERATE_BREEZE("🎐","Moderate breeze", { wind -> wind in 10f..20f }),
-    STRONG_WINDS("🌪","Strong winds", { wind -> wind > 20 })
+    override val emoji: String,
+    @StringRes override val textRes: Int,
+    private val condition: (Float) -> Boolean
+) : Recommendation {
+
+    LIGHT_BREEZE("🍃", R.string.wind_light, { wind -> wind < 10 }),
+    MODERATE_BREEZE("🎐", R.string.wind_moderate, { wind -> wind in 10f..20f }),
+    STRONG_WINDS("🌪", R.string.wind_strong, { wind -> wind > 20 });
+
+    override fun matches(value: Float): Boolean = condition(value)
 }

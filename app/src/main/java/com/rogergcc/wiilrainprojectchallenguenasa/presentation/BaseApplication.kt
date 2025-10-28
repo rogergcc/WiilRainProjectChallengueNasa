@@ -1,7 +1,6 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.presentation;
 
 import android.app.Application;
-import com.rogergcc.wiilrainprojectchallenguenasa.presentation.providers.ContextProvider
 
 /**
  * Created on octubre.
@@ -10,6 +9,5 @@ import com.rogergcc.wiilrainprojectchallenguenasa.presentation.providers.Context
 class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-//        ContextProvider.initialize(this)
     }
 }

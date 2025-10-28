@@ -1,5 +1,6 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges
 
+import androidx.annotation.StringRes
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 
 
@@ -33,21 +34,20 @@ enum class RainRange(
 }
 
 enum class RainRecommendation(
-    val emoji: String,
-    val message: String,
-    val range: ClosedRange<Float>
-) {
-    NO_RAIN("☁️", "No rain expected", 0f..19.99f),
-    LIGHT_RAIN("🌦️", "Light rain possible", 20f..40f),
-    MODERATE_RAIN("🌧️", "Moderate rain likely", 40.1f..60f),
-    HEAVY_RAIN("⛈️", "Heavy rain expected", 60.1f..Float.MAX_VALUE);
+    override val emoji: String,
+    @StringRes override val textRes: Int,
+    private val conditionRange: ClosedRange<Float>
+) : Recommendation {
 
-    fun matches(rainProb: Float): Boolean = rainProb in range
+    NO_RAIN("☁️", R.string.rain_no_expected, 0f..19.99f),
+    LIGHT_RAIN("🌦️", R.string.rain_light, 20f..40f),
+    MODERATE_RAIN("🌧️", R.string.rain_moderate, 40.1f..60f),
+    HEAVY_RAIN("⛈️", R.string.rain_heavy, 60.1f..Float.MAX_VALUE);
+
+    override fun matches(value: Float): Boolean = value in conditionRange
 
     companion object {
-        fun getRecommendation(rainProb: Float): RainRecommendation {
-            return entries.first { it.matches(rainProb) }
-        }
+        fun getRecommendation(rainProb: Float): RainRecommendation =
+            entries.first { it.matches(rainProb) }
     }
-
 }

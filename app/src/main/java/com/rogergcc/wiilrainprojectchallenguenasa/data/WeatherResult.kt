@@ -6,7 +6,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.calculateAverageOrZero
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.calculateMaxOrZero
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.calculateMinOrZero
-import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherStrategyFactory
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.strategy.WeatherStrategyFactory
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatOneDecimal
 
 
