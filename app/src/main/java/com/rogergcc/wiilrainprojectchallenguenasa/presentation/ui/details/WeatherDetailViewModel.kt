@@ -42,18 +42,17 @@ class WeatherDetailViewModel(
     }
     fun loadWeatherReport(weatherType: WeatherType) {
         _weatherState.value = UiState.Loading
-        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            delay(500) // Simulate loading delay
-            try {
-                _weatherState.value = UiState.Success(
-                    historicalDataUseCase(weatherType)
-                )
-            } catch (e: Exception) {
-                Log.e(TEST_LOG_TAG, "markFavoriteJobPosition: ${e.message}")
+        viewModelScope.launch(Dispatchers.Default + coroutineExceptionHandler) {
+            delay(500)
+            runCatching {
+                historicalDataUseCase(weatherType)
+            }.onSuccess { formatted ->
+                _weatherState.value = UiState.Success(formatted)
+            }.onFailure { e ->
+                Log.e(TEST_LOG_TAG, "Error loading report: ${e.message}", e)
                 showErrorState()
             }
         }
-
     }
 
 }

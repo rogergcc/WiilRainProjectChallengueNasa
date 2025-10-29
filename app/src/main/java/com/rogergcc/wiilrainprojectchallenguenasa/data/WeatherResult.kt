@@ -6,6 +6,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.calculateAverageOrZero
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.calculateMaxOrZero
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.calculateMinOrZero
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.ClimateAnalysisResult
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.strategy.WeatherStrategyFactory
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatOneDecimal
 
@@ -14,22 +15,22 @@ import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatOn
  * Created on octubre.
  * year 2025 .
  */
-data class WeatherResult(
-    val average: Double,
-    val probability: Double,
-    val eventYears: Int,
-    val totalYears: Int,
-    val minValue: Double,
-    val maxValue: Double,
-    val interpretation: String,
-    val weatherType: WeatherType
-)
-
-data class ClimateAnalysisResult(
-    val rain: WeatherResult,
-    val temperature: WeatherResult,
-    val wind: WeatherResult,
-)
+//data class WeatherResult(
+//    val average: Double,
+//    val probability: Double,
+//    val eventYears: Int,
+//    val totalYears: Int,
+//    val minValue: Double,
+//    val maxValue: Double,
+//    val interpretation: String,
+//    val weatherType: WeatherType
+//)
+//
+//data class ClimateAnalysisResult(
+//    val rain: WeatherResult,
+//    val temperature: WeatherResult,
+//    val wind: WeatherResult,
+//)
 
 fun calculateWeatherAnalysis(
     yearlyData: List<YearlyData>,
@@ -55,36 +56,36 @@ fun calculateWeatherAnalysis(
     )
 }
 
-fun calculateWeatherResult(
-    yearlyData: List<Double>,
-    weatherType: WeatherType,
-): WeatherResult {
-    val totalYears = yearlyData.size
-    val eventYears = yearlyData.count { it > weatherType.extremeValue }
-    val probability = (eventYears.toDouble() / totalYears) * 100.0
-    val minValue = yearlyData.calculateMinOrZero()
-    val maxValue = yearlyData.calculateMaxOrZero()
-    val average = yearlyData.calculateAverageOrZero()
-
-    val interpretation = buildInterpretation(
-        threshold = weatherType.extremeValue,
-        probability = probability,
-        minValue = minValue,
-        maxValue = maxValue,
-        unit = weatherType.unit
-    )
-
-    return WeatherResult(
-        average = average,
-        probability = probability,
-        eventYears = eventYears,
-        totalYears = totalYears,
-        minValue = minValue,
-        maxValue = maxValue,
-        interpretation = interpretation,
-        weatherType = weatherType
-    )
-}
+//fun calculateWeatherResult(
+//    yearlyData: List<Double>,
+//    weatherType: WeatherType,
+//): WeatherResult {
+//    val totalYears = yearlyData.size
+//    val eventYears = yearlyData.count { it > weatherType.extremeValue }
+//    val probability = (eventYears.toDouble() / totalYears) * 100.0
+//    val minValue = yearlyData.calculateMinOrZero()
+//    val maxValue = yearlyData.calculateMaxOrZero()
+//    val average = yearlyData.calculateAverageOrZero()
+//
+//    val interpretation = buildInterpretation(
+//        threshold = weatherType.extremeValue,
+//        probability = probability,
+//        minValue = minValue,
+//        maxValue = maxValue,
+//        unit = weatherType.unit
+//    )
+//
+//    return WeatherResult(
+//        average = average,
+//        probability = probability,
+//        eventYears = eventYears,
+//        totalYears = totalYears,
+//        minValue = minValue,
+//        maxValue = maxValue,
+//        interpretation = interpretation,
+//        weatherType = weatherType
+//    )
+//}
 
 
 private fun buildInterpretation(

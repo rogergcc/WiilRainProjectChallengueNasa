@@ -10,8 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.WeatherDataManager
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
+import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryAssets
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDetailsBinding
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherFormatter
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherRepository
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.mapper.WeatherRecordMapper
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.GetFormattedWeatherUseCase
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.LoadingView
@@ -31,11 +33,14 @@ class DetailsFragment : Fragment() {
             AndroidResourceProvider(requireContext())
         )
     }
+    private val jobsCacheRepository by lazy {
+        WeatherRepositoryAssets(requireContext())
+    }
     private val weatherUseCase by lazy{
         GetFormattedWeatherUseCase(
-            WeatherDataManager(requireContext()).parseWeatherDataset(),
-            weatherFormatter,
-            WeatherRecordMapper()
+            weatherRepository = jobsCacheRepository,
+            weatherFormatter = weatherFormatter,
+            weatherRecordMapper = WeatherRecordMapper()
         )
     }
     private val viewModel by viewModels<WeatherDetailViewModel> {

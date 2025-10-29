@@ -1,6 +1,5 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.data.dummy
 
-import com.rogergcc.wiilrainprojectchallenguenasa.data.WeatherResult
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.Thresholds
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRange

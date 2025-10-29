@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherRepository
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.ClimateAnalysisResult
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.AnalyzeClimateUseCase
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -21,21 +23,23 @@ import kotlinx.coroutines.launch
  */
 class DashboardResultViewModel(
     private val weatherRepository: WeatherRepository,
+    private val analyzeClimateUseCase: AnalyzeClimateUseCase,
 ) : ViewModel() {
 
     sealed class UiState {
         data object Loading : UiState()
         data class Success(
-            val weatherDataset: WeatherDataset? = null,
+            val weatherDataset: WeatherDataset,
+            val analysis: ClimateAnalysisResult
         ) : UiState()
-
         data class Failure(val errorMessage: UiText) : UiState()
     }
+
 
     private val _uiWeatherResultState = MutableStateFlow<UiState>(UiState.Loading)
     val uiWeatherResult: StateFlow<UiState> get() = _uiWeatherResultState
 
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private val exceptionHandler  = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
         showErrorState()
     }
@@ -49,28 +53,32 @@ class DashboardResultViewModel(
     }
 
     fun calculateProbabilities() {
-        val weatherDatasetSample = weatherRepository.parseWeatherDataset()
         _uiWeatherResultState.value = UiState.Loading
-        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+        viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
             try {
-                _uiWeatherResultState.value = UiState.Success(
-                    weatherDataset = weatherDatasetSample.copy()
-                )
+                val dataset = weatherRepository.parseWeatherDataset()
+
+                val analysis = analyzeClimateUseCase(dataset.yearly_data)
+                _uiWeatherResultState.value = UiState.Success(dataset, analysis)
             } catch (e: Exception) {
                 Log.e(TEST_LOG_TAG, "markFavoriteJobPosition: ${e.message}")
                 showErrorState()
             }
+
         }
+
     }
 }
 
 class DashboardResultViewModelFactory(
-    private val weatherRepository: WeatherRepository
+    private val weatherRepository: WeatherRepository,
+    private val analyzeClimateUseCase: AnalyzeClimateUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DashboardResultViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return DashboardResultViewModel(weatherRepository) as T
+            return DashboardResultViewModel(weatherRepository,
+                analyzeClimateUseCase) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

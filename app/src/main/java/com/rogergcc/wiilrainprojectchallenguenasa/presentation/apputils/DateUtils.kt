@@ -48,7 +48,8 @@ object DateUtils {
     private val dateFormatYMD1: DateTimeFormatter by lazy {
         DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
     }
-
+//    val inputDateFormat = SimpleDateFormat("dd-MM", Locale.getDefault())
+//    val outputFormat = SimpleDateFormat("dd 'de' MMMM", Locale("es"))
     private val formatDayMonthSelect: DateTimeFormatter by lazy {
         DateTimeFormatter.ofPattern("dd-MM", Locale.getDefault())
     }

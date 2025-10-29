@@ -12,6 +12,8 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.calculateWindProbab
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -43,11 +45,13 @@ class WeatherRepositoryAssets(private val context: Context) : WeatherRepository 
         return Gson().fromJson(jsonText, ForecastData::class.java)
     }
 
-    override fun parseWeatherDataset(): WeatherDataset {
-        val inputStream =
-            context.resources.openRawResource(R.raw.dataset_sample_location_date_weather_complete)
-        val reader = InputStreamReader(inputStream)
-        return Gson().fromJson(reader, WeatherDataset::class.java)
+    override suspend fun parseWeatherDataset(): WeatherDataset {
+        return withContext(Dispatchers.IO) {
+            val inputStream =
+                context.resources.openRawResource(R.raw.dataset_sample_location_date_weather_complete)
+            val reader = InputStreamReader(inputStream)
+            Gson().fromJson(reader, WeatherDataset::class.java)
+        }
     }
 
     override fun analyzeClimateFromDataset(yearlyData: List<YearlyData>): ClimateAnalysis {

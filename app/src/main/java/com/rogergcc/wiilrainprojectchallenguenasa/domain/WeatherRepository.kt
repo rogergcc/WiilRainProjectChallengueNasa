@@ -14,7 +14,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.ForecastData
 interface WeatherRepository {
     fun getWeatherData(): ForecastResponse
     fun parseWeatherData(): ForecastData
-    fun parseWeatherDataset(): WeatherDataset
+    suspend fun parseWeatherDataset(): WeatherDataset
     fun analyzeClimateFromDataset(yearlyData: List<YearlyData>): ClimateAnalysis
     fun calculateProbabilities(yearlyData: List<YearlyData>): Map<String, Double>
 }

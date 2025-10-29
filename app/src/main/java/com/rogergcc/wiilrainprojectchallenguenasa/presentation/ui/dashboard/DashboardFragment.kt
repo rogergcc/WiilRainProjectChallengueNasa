@@ -5,14 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.rogergcc.wiilrainprojectchallenguenasa.R
-import com.rogergcc.wiilrainprojectchallenguenasa.data.calculateWeatherAnalysis
 import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.ClimateAnalysis
-import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.WeatherDataManager
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRisk
@@ -20,17 +21,19 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureR
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryAssets
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDashboardBinding
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.AnalyzeClimateUseCase
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatOneDecimal
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import kotlinx.coroutines.launch
 
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private var _binding: FragmentDashboardBinding? = null
-    private var sendLocation: LocationSearch? = null
+    private val binding get() = _binding ?: error("Binding not initialized")
 
-    private val binding get() = _binding!!
+    private var sendLocation: LocationSearch? = null
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -42,9 +45,15 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
     }
 
+    private val analyzeClimateUseCase by lazy {
+        AnalyzeClimateUseCase()
+    }
+
     private val viewModel by viewModels<DashboardResultViewModel> {
         DashboardResultViewModelFactory(
-            WeatherRepositoryAssets(requireContext())
+            WeatherRepositoryAssets(requireContext()),
+//            calculateProbabilitiesUseCase,
+            analyzeClimateUseCase
         )
     }
 
@@ -59,64 +68,88 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        try {
-
             viewModel.calculateProbabilities()
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.uiWeatherResult
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.uiWeatherResult
 //                    .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
-                    .collect { uiState ->
-                    when (uiState) {
-                        is DashboardResultViewModel.UiState.Loading -> {
-                            // Show loading state if needed
+                        .collect { uiState ->
+                            when (uiState) {
+                                is DashboardResultViewModel.UiState.Loading -> {
+                                    // Show loading state if needed
+                                }
 
-                        }
+                                is DashboardResultViewModel.UiState.Success -> {
+                                    Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
+                                    uiState.weatherDataset.let {
+                                        val dateString =
+                                            DateUtils.formatDayMonth(it.metadata.date.target)
+                                        sendLocation = LocationSearch(
 
-                        is DashboardResultViewModel.UiState.Success -> {
-                            Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
+                                            selectedDateString = dateString,
+                                            city = it.metadata.location.name,
+                                            country = it.metadata.location.country,
+                                            historicEvaluation = getString(
+                                                R.string.observation_data,
+                                                it.metadata.historical_context.period,
+                                                it.yearly_data.count().toString()
+                                            )
+                                        )
 
-//                            val inputDateFormat = SimpleDateFormat("dd-MM", Locale.getDefault())
-//                            val outputFormat = SimpleDateFormat("dd 'de' MMMM", Locale("es"))
+                                        binding.dateSearch.text =
+                                            "\uD83D\uDCCA ${sendLocation?.selectedDateString}"
+                                        binding.cityCountry.text = "📍 ${it.metadata.location.name}"
+                                    }
+                                    uiState.analysis.let { analysis ->
+                                        updateWeatherUI(
+                                            analysis.rain.probability.toFloat(),
+                                            analysis.temperature.average.toFloat(),
+                                            analysis.wind.average.toFloat()
+                                        )
 
-                            uiState.weatherDataset?.let {
-                                val dateString = DateUtils.formatDayMonth(it.metadata.date.target)
-                                sendLocation = LocationSearch(
 
-                                    selectedDateString = dateString,
-                                    city = it.metadata.location.name,
-                                    country = it.metadata.location.country,
-                                    historicEvaluation = getString(
-                                        R.string.observation_data,
-                                        it.metadata.historical_context.period,
-                                        it.yearly_data.count().toString()
-                                    )
-                                )
+                                        // Rain CardView
+                                        binding.rainProbabilityTitle.text =
+                                            resources.getString(analysis.rain.weatherType.description)
+                                        binding.rainProbabilityPercentage.text =
+                                            "${analysis.rain.probability.formatOneDecimal()}%"
+                                        binding.rainProbabilityDescription.text =
+                                            analysis.rain.interpretation
+                                        binding.cardRainProbability.tag =
+                                            resources.getString(R.string.description_rain)
 
-                                binding.dateSearch.text =
-                                    "\uD83D\uDCCA ${sendLocation?.selectedDateString}"
-                                binding.cityCountry.text = "📍 ${it.metadata.location.name}"
+                                        // Temperature CardView
+                                        binding.temperatureProbabilityTitle.text =
+                                            resources.getString(analysis.temperature.weatherType.description)
+                                        binding.temperatureProbabilityPercentage.text =
+                                            "${analysis.temperature.average.formatOneDecimal()} ${analysis.temperature.weatherType.unit}"
+                                        binding.temperatureProbabilityDescription.text =
+                                            analysis.temperature.interpretation
+                                        binding.cardTtemperatureProbability.tag =
+                                            resources.getString(R.string.description_temperature)
 
+                                        // Wind CardView
+                                        binding.windSpeedTitle.text =
+                                            resources.getString(analysis.wind.weatherType.description)
+                                        binding.windSpeedPercentage.text =
+                                            "${analysis.wind.average.formatOneDecimal()} ${analysis.wind.weatherType.unit}"
+                                        binding.windSpeedDescription.text =
+                                            analysis.wind.interpretation
+                                        binding.cardWindSpeedProbability.tag =
+                                            resources.getString(R.string.description_wind)
+
+                                    }
+
+                                }
+
+                                is DashboardResultViewModel.UiState.Failure -> {
+                                    Log.e(TEST_LOG_TAG, "Error: ${uiState.errorMessage}")
+                                }
                             }
                         }
-
-                        is DashboardResultViewModel.UiState.Failure -> {
-                            Log.e(TEST_LOG_TAG, "Error: ${uiState.errorMessage}")
-                        }
-                    }
                 }
             }
-            val dataManager = WeatherDataManager(requireContext())
-            val datasetDummy = dataManager.parseWeatherDataset()
 
-
-            val probabilities = dataManager.calculateProbabilities(datasetDummy.yearly_data)
-            Log.d(TEST_LOG_TAG, "Probabilities: $probabilities")
-
-//            val analysis = dataManager.analyzeClimateFromDataset(datasetDummy.yearly_data)
-            val analysis2 = calculateWeatherAnalysis(datasetDummy.yearly_data)
-
-//            val firstYear = datasetDummy.yearly_data.minByOrNull { it.year }?.year
-//            val lastYear = datasetDummy.yearly_data.maxByOrNull { it.year }?.year
 //
 //            val selectedLocation = arguments?.let {
 //                BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
@@ -126,47 +159,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
             // Update UI dynamically
 //            optionTestOption1Ranges()
-
-            updateWeatherUI(
-                analysis2.rain.probability.toFloat(),
-                analysis2.temperature.average.toFloat(),
-                analysis2.wind.average.toFloat()
-            )
-
-//            binding.dateSearch.text = period  // Example: "1985-2024"
-//            binding.cityCountry.text = datasetDummy.metadata.location.name // Example: "New York Central Park"
-
-            // Rain CardView
-//            binding.rainProbabilityTitle.text = analysis2.rain.weatherType.description
-            binding.rainProbabilityTitle.text = resources.getString(analysis2.rain.weatherType.description)
-            binding.rainProbabilityPercentage.text = "${"%.1f".format(analysis2.rain.probability)}%"
-            binding.rainProbabilityDescription.text = "${analysis2.rain.interpretation} "
-//            binding.rainVisualRepresentation.text = "${analysis.rain.visualBar}"
-            binding.cardRainProbability.tag = resources.getString(R.string.description_rain)
-
-            // Temperature CardView
-            binding.temperatureProbabilityTitle.text = resources.getString(analysis2.temperature.weatherType.description)
-            binding.temperatureProbabilityPercentage.text =
-                "${"%.1f".format(analysis2.temperature.average)}°C"
-//            binding.temperatureProbabilityPercentage.text = "${analysis.temperature.minTemperature}°C-${analysis.temperature.maxTemperature}°C"
-            binding.temperatureProbabilityDescription.text =
-                "${analysis2.temperature.interpretation}"
-            binding.temperatureVisualRepresentation.text = "${analysis2.temperature.interpretation}"
-            binding.cardTtemperatureProbability.tag = resources.getString(R.string.description_temperature)
-
-            // Wind CardView
-            binding.windSpeedTitle.text = resources.getString(analysis2.wind.weatherType.description)
-            binding.windSpeedPercentage.text = "${"%.1f".format(analysis2.wind.average)} km/h"
-            binding.windSpeedDescription.text = "${analysis2.wind.interpretation}"
-//            binding.windVisualRepresentation.text = "${analysis.wind.visualScale}"
-            binding.cardWindSpeedProbability.tag = resources.getString(R.string.description_wind)
-
-
-        } catch (e: Exception) {
-            Log.e("DashboardFragment", "Error: ${e.message}")
-            e.printStackTrace()
-        }
-
 
         listenerEvents()
 
@@ -220,16 +212,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         Log.e("DashboardFragment", "---------------------------")
     }
 
-    fun updateWeatherUI(rainPercentage: Float, temperature: Float, windSpeed: Float) {
-
+    private fun updateWeatherUI(rainPercentage: Float, temperature: Float, windSpeed: Float) {
         // Determine the rain range
         val rainRange = RainRange.fromValue(rainPercentage)
         println("Rain: ${rainRange.description}, Color: ${rainRange.color}")
         binding.cardRainProbability.setCardBackgroundColor(
-            resources.getColor(
-                rainRange.color,
-                null
-            )
+            ContextCompat.getColor(requireContext(), rainRange.color)
         )
 //        binding.cardRainProbability.strokeColor = resources.getColor(R.color.gray_500, null)
 
@@ -237,10 +225,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val temperatureRange = TemperatureRange.fromValue(temperature)
         println("Temperature: ${temperatureRange.description}, Color: ${temperatureRange.color}")
         binding.cardTtemperatureProbability.setCardBackgroundColor(
-            resources.getColor(
-                temperatureRange.color,
-                null
-            )
+            ContextCompat.getColor(requireContext(), temperatureRange.color)
         )
 //        binding.cardTtemperatureProbability.strokeColor = resources.getColor(temperatureRange.color, null)
 
@@ -248,10 +233,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val windRange = WindRange.fromRange(windSpeed)
         println("Wind: ${windRange.description}, Color: ${windRange.color}")
         binding.cardWindSpeedProbability.setCardBackgroundColor(
-            resources.getColor(
-                windRange.color,
-                null
-            )
+            ContextCompat.getColor(requireContext(), windRange.color)
         )
 //        binding.cardWindSpeedProbability.strokeColor = resources.getColor(windRange.color, null)
 

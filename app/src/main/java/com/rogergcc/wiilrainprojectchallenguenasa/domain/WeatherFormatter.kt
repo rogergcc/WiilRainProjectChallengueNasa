@@ -52,7 +52,7 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
     }
 
 
-    fun formatWeather(
+     fun formatWeather(
         weatherType: WeatherType,
         weatherYearRecords: List<WeatherYearRecord>,
     ): String {
