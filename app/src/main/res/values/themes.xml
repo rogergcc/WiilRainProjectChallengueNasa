@@ -6,6 +6,8 @@
     </style>
 
     <style name="Theme.WiilRainProjectChallengueNasa" parent="Base.Theme.WiilRainProjectChallengueNasa" >
+        <item name="colorOnSecondary">@color/gray_050</item>
+
         <item name="shimmerColor">@color/greyShimmerLight</item>
         <item name="baseThemeColor">@color/gray_050</item>
         <item name="shadeGrey">@color/gray_600</item>

@@ -11,6 +11,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.R
 interface Recommendation {
     val emoji: String
     val textRes: Int
+    val color: Int
     fun matches(value: Float): Boolean
 }
 

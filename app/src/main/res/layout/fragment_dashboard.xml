@@ -47,10 +47,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rainEmoji"
+                style="@style/CustomTitlePercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:text="☁️"
+                android:paddingVertical="@dimen/dim_20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rainProbabilityTitle"
+                 />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+
                 android:paddingVertical="@dimen/dim_20dp"
                 android:scaleType="fitCenter"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="40 %"
-                app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
+                app:layout_constraintStart_toEndOf="@+id/rainEmoji"
                 app:layout_constraintTop_toBottomOf="@+id/rainProbabilityTitle" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -92,7 +105,7 @@
 
 <!--        card 2 temprature-->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardTtemperatureProbability"
+        android:id="@+id/cardTemperatureProbability"
         style="@style/CardVariableProbabilityStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -113,8 +126,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tempEmoji"
+                style="@style/CustomTitlePercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="🧊"
+                android:paddingVertical="@dimen/dim_20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureProbabilityTitle"
+                />
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgTemperature"
+                android:visibility="gone"
 
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -132,7 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="40 %"
-                app:layout_constraintStart_toEndOf="@+id/imgTemperature"
+                app:layout_constraintStart_toEndOf="@+id/tempEmoji"
                 app:layout_constraintTop_toBottomOf="@+id/temperatureProbabilityTitle" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -181,7 +206,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/windEmoji"
+                style="@style/CustomTitlePercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="🍃"
+                android:paddingVertical="@dimen/dim_20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/windSpeedTitle"
+                />
+
             <androidx.appcompat.widget.AppCompatImageView
+                android:visibility="gone"
                 android:id="@+id/imgWindSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -197,7 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="40 %"
-                app:layout_constraintStart_toEndOf="@+id/imgWindSpeed"
+                app:layout_constraintStart_toEndOf="@+id/windEmoji"
                 app:layout_constraintTop_toBottomOf="@+id/windSpeedTitle" />
 
             <androidx.appcompat.widget.AppCompatTextView

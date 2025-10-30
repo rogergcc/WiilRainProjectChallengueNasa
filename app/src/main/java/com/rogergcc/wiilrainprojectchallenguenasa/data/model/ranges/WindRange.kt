@@ -31,17 +31,18 @@ enum class WindRange(
 enum class WindRecommendation(
     override val emoji: String,
     @StringRes override val textRes: Int,
+    override val color: Int, // Added color field
     private val condition: (Float) -> Boolean
 ) : Recommendation {
 
-    LIGHT_BREEZE("🍃", R.string.wind_light, { wind -> wind < 10 }),
-    MODERATE_BREEZE("🎐", R.string.wind_moderate, { wind -> wind in 10f..20f }),
-    STRONG_WINDS("🌪", R.string.wind_strong, { wind -> wind > 20 });
+    LIGHT_BREEZE("🍃", R.string.wind_light, R.color.light_green, { wind -> wind < 10 }),
+    MODERATE_BREEZE("🎐", R.string.wind_moderate, R.color.yellow, { wind -> wind in 10f..20f }),
+    STRONG_WINDS("🌪", R.string.wind_strong, R.color.orange, { wind -> wind > 20 });
 
     override fun matches(value: Float): Boolean = condition(value)
 
     companion object {
-        fun getRecommendation(rainProb: Float): WindRecommendation =
-            WindRecommendation.entries.first { it.matches(rainProb) }
+        fun getRecommendation(windSpeed: Float): WindRecommendation =
+            entries.first { it.matches(windSpeed) }
     }
 }

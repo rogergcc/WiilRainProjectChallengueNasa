@@ -36,13 +36,14 @@ enum class RainRange(
 enum class RainRecommendation(
     override val emoji: String,
     @StringRes override val textRes: Int,
+    override val color: Int, // Added color field
     private val conditionRange: ClosedRange<Float>
 ) : Recommendation {
 
-    NO_RAIN("☁️", R.string.rain_no_expected, 0f..19.99f),
-    LIGHT_RAIN("🌦️", R.string.rain_light, 20f..40f),
-    MODERATE_RAIN("🌧️", R.string.rain_moderate, 40.1f..60f),
-    HEAVY_RAIN("⛈️", R.string.rain_heavy, 60.1f..Float.MAX_VALUE);
+    NO_RAIN("☁️", R.string.rain_no_expected, R.color.light_gray, 0f..19.99f),
+    LIGHT_RAIN("🌦️", R.string.rain_light, R.color.light_blue, 20f..40f),
+    MODERATE_RAIN("🌧️", R.string.rain_moderate, R.color.blue, 40.1f..60f),
+    HEAVY_RAIN("⛈️", R.string.rain_heavy, R.color.dark_blue, 60.1f..Float.MAX_VALUE);
 
     override fun matches(value: Float): Boolean = value in conditionRange
 

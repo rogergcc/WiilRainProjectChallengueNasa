@@ -104,12 +104,42 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                         binding.cityCountry.text = "📍 ${it.metadata.location.name}"
                                     }
                                     uiState.analysis.let { analysis ->
-                                        updateWeatherUI(
-                                            analysis.rain.probability.toFloat(),
-                                            analysis.temperature.average.toFloat(),
-                                            analysis.wind.average.toFloat()
-                                        )
+//                                        updateWeatherUI(
+//                                            analysis.rain.probability.toFloat(),
+//                                            analysis.temperature.average.toFloat(),
+//                                            analysis.wind.average.toFloat()
+//                                        )
 
+//                                        binding.cardRainProbability.setCardBackgroundColor(
+//                                            ContextCompat.getColor(requireContext(),
+//                                                analysis.rain.recomendation.color)
+//                                        )
+                                        binding.cardRainProbability.strokeColor =
+                                            ContextCompat.getColor(requireContext(),
+                                            analysis.rain.recomendation.color)
+                                        binding.rainEmoji.text =
+                                            analysis.rain.recomendation.emoji
+
+//                                        binding.cardTemperatureProbability.setCardBackgroundColor(
+//                                            ContextCompat.getColor(requireContext(),
+//                                                analysis.temperature.recomendation.color)
+//                                        )
+                                        binding.cardTemperatureProbability.strokeColor =
+                                            ContextCompat.getColor(requireContext(),
+                                            analysis.temperature.recomendation.color)
+                                        binding.tempEmoji.text =
+                                            analysis.temperature.recomendation.emoji
+
+//                                        binding.cardWindSpeedProbability.setCardBackgroundColor(
+//                                            ContextCompat.getColor(requireContext(),
+//                                                analysis.wind.recomendation.color)
+//                                        )
+                                        binding.cardWindSpeedProbability.strokeColor =
+                                            ContextCompat.getColor(requireContext(),
+                                            analysis.wind.recomendation.color)
+
+                                        binding.windEmoji.text =
+                                            analysis.wind.recomendation.emoji
 
                                         staticProbability(analysis)
 
@@ -159,7 +189,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             "${analysis.temperature.average.formatOneDecimal()} ${analysis.temperature.weatherType.unit}"
         binding.temperatureProbabilityDescription.text =
             resources.getString(analysis.temperature.recomendation.textRes)
-        binding.cardTtemperatureProbability.tag =
+        binding.cardTemperatureProbability.tag =
             resources.getString(R.string.description_temperature)
 
         // Wind CardView
@@ -233,7 +263,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         // Determine the temperature range
         val temperatureRange = TemperatureRange.fromValue(temperature)
         println("Temperature: ${temperatureRange.description}, Color: ${temperatureRange.color}")
-        binding.cardTtemperatureProbability.setCardBackgroundColor(
+        binding.cardTemperatureProbability.setCardBackgroundColor(
             ContextCompat.getColor(requireContext(), temperatureRange.color)
         )
 //        binding.cardTtemperatureProbability.strokeColor = resources.getColor(temperatureRange.color, null)
@@ -250,13 +280,13 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     fun optionTestOption1Ranges() {
         binding.cardRainProbability.setCardBackgroundColor(RainRange.HIGH.color)
-        binding.cardTtemperatureProbability.setCardBackgroundColor(TemperatureRange.COMFORT.color)
+        binding.cardTemperatureProbability.setCardBackgroundColor(TemperatureRange.COMFORT.color)
         binding.cardWindSpeedProbability.setCardBackgroundColor(WindRange.MODERATE.color)
     }
 
     fun optionTestOption2Ranges() {
         binding.cardRainProbability.setCardBackgroundColor(RainRange.LOW.color)
-        binding.cardTtemperatureProbability.setCardBackgroundColor(TemperatureRange.COMFORT.color)
+        binding.cardTemperatureProbability.setCardBackgroundColor(TemperatureRange.COMFORT.color)
         binding.cardWindSpeedProbability.setCardBackgroundColor(RainRisk.MODERATE.color)
     }
 
@@ -265,7 +295,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.cardRainProbability.setOnSingleClickListener() {
             navigateDetails(it.tag as String)
         }
-        binding.cardTtemperatureProbability.setOnSingleClickListener() {
+        binding.cardTemperatureProbability.setOnSingleClickListener() {
             navigateDetails(it.tag as String)
         }
         binding.cardWindSpeedProbability.setOnSingleClickListener() {

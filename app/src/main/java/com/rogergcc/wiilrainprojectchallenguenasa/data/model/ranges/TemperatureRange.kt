@@ -32,21 +32,20 @@ enum class TemperatureRange(
 enum class TemperatureRecommendation(
     override val emoji: String,
     @StringRes override val textRes: Int,
+    override val color: Int, // Added color field
     private val conditionRange: ClosedRange<Float>
 ) : Recommendation {
 
-
-    COLD_WEATHER("🧊", R.string.temp_cold,  Float.NEGATIVE_INFINITY..15.0f),
-    COMFORTABLE("🌤", R.string.temp_comfortable, 15.1f..28.0f),
-    WARM_WEATHER("🌡️", R.string.temp_mild, 28.1f..32.0f),
-//    HEAT_ALERT("🔥", "High temperatures recorded. Stay hydrated.", 32.1f..Float.MAX_VALUE);
-    HEAT_ALERT("🔥", R.string.temp_hot, 32.1f..Float.MAX_VALUE);
+    COLD_WEATHER("🧊", R.string.temp_cold, R.color.light_blue, Float.NEGATIVE_INFINITY..15.0f),
+    COMFORTABLE("🌤", R.string.temp_comfortable, R.color.green, 15.1f..28.0f),
+    WARM_WEATHER("🌡️", R.string.temp_mild, R.color.orange, 28.1f..32.0f),
+    //    HEAT_ALERT("🔥", "High temperatures recorded. Stay hydrated.", 32.1f..Float.MAX_VALUE);
+    HEAT_ALERT("🔥", R.string.temp_hot, R.color.red, 32.1f..Float.MAX_VALUE);
 
     override fun matches(value: Float): Boolean = value in conditionRange
 
-
     companion object {
-        fun getRecommendation(rainProb: Float): TemperatureRecommendation =
-            TemperatureRecommendation.entries.first { it.matches(rainProb) }
+        fun getRecommendation(temperature: Float): TemperatureRecommendation =
+            entries.first { it.matches(temperature) }
     }
 }
