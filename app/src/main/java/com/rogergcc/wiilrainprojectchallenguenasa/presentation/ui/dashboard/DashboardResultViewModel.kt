@@ -58,7 +58,7 @@ class DashboardResultViewModel(
             try {
                 val dataset = weatherRepository.parseWeatherDataset()
 
-                val analysis = analyzeClimateUseCase(dataset.yearly_data)
+                val analysis = analyzeClimateUseCase.invoke(dataset.yearly_data)
                 _uiWeatherResultState.value = UiState.Success(dataset, analysis)
             } catch (e: Exception) {
                 Log.e(TEST_LOG_TAG, "markFavoriteJobPosition: ${e.message}")

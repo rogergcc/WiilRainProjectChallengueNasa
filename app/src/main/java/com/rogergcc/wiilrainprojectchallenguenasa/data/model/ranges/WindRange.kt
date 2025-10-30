@@ -39,4 +39,9 @@ enum class WindRecommendation(
     STRONG_WINDS("🌪", R.string.wind_strong, { wind -> wind > 20 });
 
     override fun matches(value: Float): Boolean = condition(value)
+
+    companion object {
+        fun getRecommendation(rainProb: Float): WindRecommendation =
+            WindRecommendation.entries.first { it.matches(rainProb) }
+    }
 }

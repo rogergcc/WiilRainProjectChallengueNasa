@@ -43,24 +43,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun showSearchBottomSheet() {
-        findNavController().navigate(R.id.gotoDashboard)
-//        val bottomSheet = SearchBottomSheetDialog(
-//            onSearchQuery = { query ->
-//                viewModel.filterJobs(query)
-//            }
-//        )
-//        bottomSheet.show(parentFragmentManager, "SearchBottomSheet")
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.cardSearchJob.setOnSingleClickListener() {
 //            showSearchBottomSheet()
         }
-//        binding.toolbar.visibility = View.GONE
-//        viewModel.fetchLocalJobsPositions()
 
         binding.cardDatePickerSearch.setOnSingleClickListener() {
 //            DatePickerFragment(

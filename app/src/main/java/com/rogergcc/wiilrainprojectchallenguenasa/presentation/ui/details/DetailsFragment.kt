@@ -13,9 +13,8 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryAssets
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDetailsBinding
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherFormatter
-import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherRepository
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.mapper.WeatherRecordMapper
-import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.GetFormattedWeatherUseCase
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.WeatherHistoricalReportUseCase
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.LoadingView
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.providers.AndroidResourceProvider
@@ -26,19 +25,20 @@ class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
 
     private val binding get() = _binding!!
-//    private val viewModel: WeatherDetailViewModel by viewModels()
 
     private val weatherFormatter by lazy {
         WeatherFormatter(
             AndroidResourceProvider(requireContext())
         )
     }
-    private val jobsCacheRepository by lazy {
-        WeatherRepositoryAssets(requireContext())
+    private val repositoryAssets by lazy {
+        WeatherRepositoryAssets(
+            requireContext(),
+        )
     }
     private val weatherUseCase by lazy{
-        GetFormattedWeatherUseCase(
-            weatherRepository = jobsCacheRepository,
+        WeatherHistoricalReportUseCase(
+            weatherRepository = repositoryAssets,
             weatherFormatter = weatherFormatter,
             weatherRecordMapper = WeatherRecordMapper()
         )

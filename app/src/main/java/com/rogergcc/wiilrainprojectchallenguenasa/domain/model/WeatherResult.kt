@@ -1,6 +1,7 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.domain.model
 
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.Recommendation
 
 
 /**
@@ -14,9 +15,11 @@ data class WeatherResult(
     val totalYears: Int,
     val minValue: Double,
     val maxValue: Double,
-    val interpretation: String,
+//    val interpretation: String,
     val weatherType: WeatherType,
-)
+    var recomendation: Recommendation
+
+    )
 
 data class ClimateAnalysisResult(
     val rain: WeatherResult,

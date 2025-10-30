@@ -1,7 +1,5 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase
 
-import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.ClimateAnalysis
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherRepository
 
 

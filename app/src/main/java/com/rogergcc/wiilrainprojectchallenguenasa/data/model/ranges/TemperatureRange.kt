@@ -43,4 +43,10 @@ enum class TemperatureRecommendation(
     HEAT_ALERT("🔥", R.string.temp_hot, 32.1f..Float.MAX_VALUE);
 
     override fun matches(value: Float): Boolean = value in conditionRange
+
+
+    companion object {
+        fun getRecommendation(rainProb: Float): TemperatureRecommendation =
+            TemperatureRecommendation.entries.first { it.matches(rainProb) }
+    }
 }

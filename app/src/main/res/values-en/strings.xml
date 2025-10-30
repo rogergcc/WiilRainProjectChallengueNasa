@@ -46,4 +46,9 @@
 
     <string name="label_no_data">No data available for %1$s.</string>
     <string name="label_no_recommendation">No recommendation available.</string>
+    <string name="text_loading">Loading, please wait</string>
+    <string name="classification_child">%1$s %2$s: %3$d years (%4$d%%)</string>
+    <string name="select_date_to_search">Select Date to Search 📆</string>
+    <string name="where_is_your_event">Where will your Event be?</string>
+    <string name="probability_weather">Weather Probabilities</string>
 </resources>

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
-import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.GetFormattedWeatherUseCase
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.WeatherHistoricalReportUseCase
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +20,9 @@ import kotlinx.coroutines.launch
  * year 2025 .
  */
 class WeatherDetailViewModel(
-    private val historicalDataUseCase: GetFormattedWeatherUseCase
-) : ViewModel() {
+    private val historicalDataUseCase: WeatherHistoricalReportUseCase,
+
+    ) : ViewModel() {
 
     sealed class UiState<out T> {
         object Loading : UiState<Nothing>()
@@ -58,7 +59,7 @@ class WeatherDetailViewModel(
 }
 
 class WeatherDetailViewModelFactory(
-    private val historicalDataUseCase: GetFormattedWeatherUseCase
+    private val historicalDataUseCase: WeatherHistoricalReportUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(WeatherDetailViewModel::class.java)) {

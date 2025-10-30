@@ -4,11 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.rogergcc.wiilrainprojectchallenguenasa.R
-import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.ClimateAnalysis
 import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.ForecastResponse
-import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.calculateRainProbabilityFromDataset
-import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.calculateTemperatureProbabilityFromDataset
-import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.calculateWindProbabilityFromDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherRepository
@@ -54,14 +50,14 @@ class WeatherRepositoryAssets(private val context: Context) : WeatherRepository 
         }
     }
 
-    override fun analyzeClimateFromDataset(yearlyData: List<YearlyData>): ClimateAnalysis {
-        val rainResult = calculateRainProbabilityFromDataset(yearlyData)
-        val tempResult = calculateTemperatureProbabilityFromDataset(yearlyData)
-        val windResult = calculateWindProbabilityFromDataset(yearlyData)
-
-        val firstYear = yearlyData.minByOrNull { it.year }?.year ?: 1985
-        val lastYear = yearlyData.maxByOrNull { it.year }?.year ?: 2024
-
+//    override fun analyzeClimateFromDataset(yearlyData: List<YearlyData>): ClimateAnalysis {
+//        val rainResult = calculateRainProbabilityFromDataset(yearlyData)
+//        val tempResult = calculateTemperatureProbabilityFromDataset(yearlyData)
+//        val windResult = calculateWindProbabilityFromDataset(yearlyData)
+//
+//        val firstYear = yearlyData.minByOrNull { it.year }?.year ?: 1985
+//        val lastYear = yearlyData.maxByOrNull { it.year }?.year ?: 2024
+//
 //        val metadata = mapOf(
 //            "total_years_analyzed" to rainResult.totalYears,
 //            "historical_period" to "$firstYear-$lastYear",
@@ -72,9 +68,9 @@ class WeatherRepositoryAssets(private val context: Context) : WeatherRepository 
 //            ),
 //            "data_years_range" to "${yearlyData.minByOrNull { it.year }?.year}-${yearlyData.maxByOrNull { it.year }?.year}"
 //        )
-
-        return ClimateAnalysis(rainResult, tempResult, windResult)
-    }
+//
+//        return ClimateAnalysis(rainResult, tempResult, windResult)
+//    }
 
     override fun calculateProbabilities(yearlyData: List<YearlyData>): Map<String, Double> {
         val totalYears = yearlyData.size.toDouble()

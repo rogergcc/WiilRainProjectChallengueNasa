@@ -44,34 +44,34 @@ class WeatherDataManager(private val context: Context) {
         return Gson().fromJson(reader, WeatherDataset::class.java)
     }
 
-    fun analyzeClimateFromDataset(yearlyData: List<YearlyData>): ClimateAnalysis {
-        val rainResult = calculateRainProbabilityFromDataset(yearlyData)
+//    fun analyzeClimateFromDataset(yearlyData: List<YearlyData>): ClimateAnalysis {
+//        val rainResult = calculateRainProbabilityFromDataset(yearlyData)
+//
+//        val tempResult = calculateTemperatureProbabilityFromDataset(yearlyData)
+//        val windResult = calculateWindProbabilityFromDataset(yearlyData)
+//
+//        val firstYear = yearlyData.minByOrNull { it.year }?.year ?: 1985
+//        val lastYear = yearlyData.maxByOrNull { it.year }?.year ?: 2024
+//
+//
+//        return ClimateAnalysis(rainResult, tempResult, windResult)
+//    }
 
-        val tempResult = calculateTemperatureProbabilityFromDataset(yearlyData)
-        val windResult = calculateWindProbabilityFromDataset(yearlyData)
-
-        val firstYear = yearlyData.minByOrNull { it.year }?.year ?: 1985
-        val lastYear = yearlyData.maxByOrNull { it.year }?.year ?: 2024
-
-
-        return ClimateAnalysis(rainResult, tempResult, windResult)
-    }
-
-    fun calculateProbabilities(yearlyData: List<YearlyData>): Map<String, Double> {
-        val totalYears = yearlyData.size.toDouble()
-
-        val rainEventCount = yearlyData.count { it.rain_event }
-        val heatEventCount = yearlyData.count { it.heat_event }
-        val windEventCount = yearlyData.count { it.wind_event }
-
-        val rainProbability = (rainEventCount / totalYears) * 100
-        val heatProbability = (heatEventCount / totalYears) * 100
-        val windProbability = (windEventCount / totalYears) * 100
-
-        return mapOf(
-            "Rain Probability" to rainProbability,
-            "Heat Probability" to heatProbability,
-            "Wind Probability" to windProbability
-        )
-    }
+//    fun calculateProbabilities(yearlyData: List<YearlyData>): Map<String, Double> {
+//        val totalYears = yearlyData.size.toDouble()
+//
+//        val rainEventCount = yearlyData.count { it.rain_event }
+//        val heatEventCount = yearlyData.count { it.heat_event }
+//        val windEventCount = yearlyData.count { it.wind_event }
+//
+//        val rainProbability = (rainEventCount / totalYears) * 100
+//        val heatProbability = (heatEventCount / totalYears) * 100
+//        val windProbability = (windEventCount / totalYears) * 100
+//
+//        return mapOf(
+//            "Rain Probability" to rainProbability,
+//            "Heat Probability" to heatProbability,
+//            "Wind Probability" to windProbability
+//        )
+//    }
 }

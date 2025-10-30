@@ -47,4 +47,8 @@
     <string name="label_no_data">No hay datos disponibles para %1$s.</string>
     <string name="label_no_recommendation">No hay recomendaciones disponibles.</string>
     <string name="text_loading">Cargando, espere por favor</string>
+    <string name="classification_child">%1$s %2$s: %3$d años (%4$d%%)</string>
+    <string name="select_date_to_search">Selecciona Fecha para Buscar 📆</string>
+    <string name="where_is_your_event">Donde sera tu Evento?</string>
+    <string name="probability_weather">Probabilidades Clima</string>
 </resources>

@@ -1,10 +1,6 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.data.dummy
 
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.Thresholds
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRange
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
-import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatOneDecimal
 
 
 /**
@@ -73,8 +69,6 @@ private fun calculateProbability(
 }
 
 
-private fun List<Double>.calculateMinOrZero() = this.minOrNull() ?: 0.0
-private fun List<Double>.calculateMaxOrZero() = this.maxOrNull() ?: 0.0
 private fun List<Double>.calculateAverageOrZero() = if (this.isNotEmpty()) this.average() else 0.0
 private fun List<Double>.calculatePercentile(percentile: Double): Double {
     val sorted = this.sorted()
@@ -82,126 +76,113 @@ private fun List<Double>.calculatePercentile(percentile: Double): Double {
     return sorted[index]
 }
 
-fun calculateRainProbabilityFromDataset(
-    yearlyData: List<YearlyData>,
-    weatherType: WeatherType = Thresholds().rain
-): RainResult {
-    val precipitations = yearlyData.map { it.precip_mm }
-    val (probability, rainYears) = calculateProbability(precipitations, weatherType.extremeValue)
-    val minRain = precipitations.calculateMinOrZero()
-    val maxRain = precipitations.calculateMaxOrZero()
-    val averageRain = precipitations.calculateAverageOrZero()
+//fun calculateRainProbabilityFromDataset(
+//    yearlyData: List<YearlyData>,
+//    weatherType: WeatherType = Thresholds().rain
+//): RainResult {
+//    val precipitations = yearlyData.map { it.precip_mm }
+//    val (probability, rainYears) = calculateProbability(precipitations, weatherType.extremeValue)
+//    val minRain = precipitations.calculateMinOrZero()
+//    val maxRain = precipitations.calculateMaxOrZero()
+//    val averageRain = precipitations.calculateAverageOrZero()
+//
+//    val rainRange = RainRange.fromValue(probability.toFloat())
+//
+//
+//    val interpretation = buildInterpretation(
+//        threshold = weatherType.extremeValue,
+//        probability = probability,
+//        minValue = minRain,
+//        maxValue = maxRain,
+//        unit = weatherType.unit
+//    )
+//    return RainResult(
+//        interpretation = interpretation,
+//        probability = probability,
+//        rainYears = rainYears,
+//        totalYears = yearlyData.size,
+//        averageRain = averageRain,
+//        averageRainIntensity = precipitations.filter { it > weatherType.extremeValue }.average(),
+//        maxRain = maxRain,
+//        heavyRainProbability = calculateProbability(precipitations, 5.0).first,
+//        extremeRainProbability = calculateProbability(precipitations, 20.0).first,
+//        rainRange = rainRange
+//    )
+//}
+//
+//fun calculateTemperatureProbabilityFromDataset(
+//    yearlyData: List<YearlyData>,
+//    weatherType: WeatherType = Thresholds().temperature,
+//): TemperatureResult {
+//
+//    val temperatures = yearlyData.map { it.temp_c }
+//    val heatYears = yearlyData.count { it.temp_c > weatherType.extremeValue }
+//    val totalYears = yearlyData.size
+//    val heatProbability = (heatYears.toDouble() / totalYears) * 100.0
+//
+//    val minTemp = temperatures.calculateMinOrZero()
+//    val maxTemp = temperatures.calculateMaxOrZero()
+//    val averageTemp = temperatures.calculateAverageOrZero()
+//
+//    val sortedTemps = temperatures.sorted()
+//
+//    val percentile25 = sortedTemps.calculatePercentile(0.25)
+//    val percentile75 = sortedTemps.calculatePercentile(0.75)
+//
+//
+//    val scaleMin = percentile25  // Usar percentil 25 como mínimo de escala
+//    val scaleMax = percentile75  // Usar percentil 75 como máximo de escala
+//
+//
+//
+//    val interpretation = buildInterpretation(
+//        threshold = weatherType.extremeValue,
+//        probability = heatProbability,
+//        minValue = minTemp,
+//        maxValue = maxTemp,
+//        unit = weatherType.unit
+//    )
+//    return TemperatureResult(
+//        averageTemperature = averageTemp,
+//        heatProbability = heatProbability,
+//        heatYears = heatYears,
+//        totalYears = totalYears,
+//        minTemperature = minTemp,
+//        maxTemperature = maxTemp,
+//        interpretation = interpretation,
+//    )
+//}
 
-    val rainRange = RainRange.fromValue(probability.toFloat())
+//fun calculateWindProbabilityFromDataset(
+//    yearlyData: List<YearlyData>,
+//    weatherType: WeatherType = Thresholds().wind,
+//): WindResult {
 
+//    val windSpeeds = yearlyData.map { it.wind_kmh }
+//    val strongWindYears = yearlyData.count { it.wind_kmh > weatherType.extremeValue }
+//    val totalYears = yearlyData.size
+//    val strongWindProbability = (strongWindYears.toDouble() / totalYears) * 100.0
+//
+//    val minWind = windSpeeds.calculateMinOrZero()
+//    val maxWind = windSpeeds.calculateMaxOrZero()
+//    val averageWind = windSpeeds.calculateAverageOrZero()
+//
+//    val interpretation = buildInterpretation(
+//        threshold = weatherType.extremeValue,
+//        probability = strongWindProbability,
+//        minValue = minWind,
+//        maxValue = maxWind,
+//        unit = weatherType.unit
+//    )
+//
+//    return WindResult(
+//        averageWind = averageWind,
+//        strongWindProbability = strongWindProbability,
+//        strongWindYears = strongWindYears,
+//        totalYears = totalYears,
+//        minWind = minWind,
+//        maxWind = maxWind,
+//        interpretation = interpretation
+//    )
+//}
 
-    val interpretation = buildInterpretation(
-        threshold = weatherType.extremeValue,
-        probability = probability,
-        minValue = minRain,
-        maxValue = maxRain,
-        unit = weatherType.unit
-    )
-    return RainResult(
-        interpretation = interpretation,
-        probability = probability,
-        rainYears = rainYears,
-        totalYears = yearlyData.size,
-        averageRain = averageRain,
-        averageRainIntensity = precipitations.filter { it > weatherType.extremeValue }.average(),
-        maxRain = maxRain,
-        heavyRainProbability = calculateProbability(precipitations, 5.0).first,
-        extremeRainProbability = calculateProbability(precipitations, 20.0).first,
-        rainRange = rainRange
-    )
-}
-
-fun calculateTemperatureProbabilityFromDataset(
-    yearlyData: List<YearlyData>,
-    weatherType: WeatherType = Thresholds().temperature,
-): TemperatureResult {
-
-    val temperatures = yearlyData.map { it.temp_c }
-    val heatYears = yearlyData.count { it.temp_c > weatherType.extremeValue }
-    val totalYears = yearlyData.size
-    val heatProbability = (heatYears.toDouble() / totalYears) * 100.0
-
-    val minTemp = temperatures.calculateMinOrZero()
-    val maxTemp = temperatures.calculateMaxOrZero()
-    val averageTemp = temperatures.calculateAverageOrZero()
-
-    val sortedTemps = temperatures.sorted()
-
-    val percentile25 = sortedTemps.calculatePercentile(0.25)
-    val percentile75 = sortedTemps.calculatePercentile(0.75)
-
-
-    val scaleMin = percentile25  // Usar percentil 25 como mínimo de escala
-    val scaleMax = percentile75  // Usar percentil 75 como máximo de escala
-
-
-
-    val interpretation = buildInterpretation(
-        threshold = weatherType.extremeValue,
-        probability = heatProbability,
-        minValue = minTemp,
-        maxValue = maxTemp,
-        unit = weatherType.unit
-    )
-    return TemperatureResult(
-        averageTemperature = averageTemp,
-        heatProbability = heatProbability,
-        heatYears = heatYears,
-        totalYears = totalYears,
-        minTemperature = minTemp,
-        maxTemperature = maxTemp,
-        interpretation = interpretation,
-    )
-}
-
-fun calculateWindProbabilityFromDataset(
-    yearlyData: List<YearlyData>,
-    weatherType: WeatherType = Thresholds().wind,
-): WindResult {
-
-    val windSpeeds = yearlyData.map { it.wind_kmh }
-    val strongWindYears = yearlyData.count { it.wind_kmh > weatherType.extremeValue }
-    val totalYears = yearlyData.size
-    val strongWindProbability = (strongWindYears.toDouble() / totalYears) * 100.0
-
-    val minWind = windSpeeds.calculateMinOrZero()
-    val maxWind = windSpeeds.calculateMaxOrZero()
-    val averageWind = windSpeeds.calculateAverageOrZero()
-
-    val interpretation = buildInterpretation(
-        threshold = weatherType.extremeValue,
-        probability = strongWindProbability,
-        minValue = minWind,
-        maxValue = maxWind,
-        unit = weatherType.unit
-    )
-
-    return WindResult(
-        averageWind = averageWind,
-        strongWindProbability = strongWindProbability,
-        strongWindYears = strongWindYears,
-        totalYears = totalYears,
-        minWind = minWind,
-        maxWind = maxWind,
-        interpretation = interpretation
-    )
-}
-
-private fun buildInterpretation(
-    threshold: Double,
-    probability: Double,
-    minValue: Double,
-    maxValue: Double,
-    unit: String
-): String {
-    return buildString {
-        append("Probabilidad (>${threshold}${unit}): ${probability.formatOneDecimal()}%\n")
-        append("Mínimo Histórico: ${minValue.formatOneDecimal()}${unit}\n")
-        append("Máximo Histórico: ${maxValue.formatOneDecimal()}${unit}")
-    }
-}

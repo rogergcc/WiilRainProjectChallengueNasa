@@ -43,12 +43,6 @@ fun Double.formatTwoDecimals():String{
 fun Double.formatTwoDecimalsUsa(): String =
     DecimalFormat("#0.00", DecimalFormatSymbols(Locale.US)).format(this)
 
-fun Double.formatDecimalLocale():String{
-    val locale = Locale.getDefault()
-    val formatter = NumberFormat.getNumberInstance(locale).apply { maximumFractionDigits = 2 }
-    return formatter.format(this)
-}
 
-fun Double.formatOneDecimal():String{
-    return DECIMAL_FORMAT_ONE.format(this)
-}
+
+

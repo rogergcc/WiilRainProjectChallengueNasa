@@ -21,10 +21,11 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureR
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRange
 import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryAssets
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDashboardBinding
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.ClimateAnalysisResult
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.AnalyzeClimateUseCase
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimal
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
-import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatOneDecimal
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import kotlinx.coroutines.launch
@@ -51,7 +52,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private val viewModel by viewModels<DashboardResultViewModel> {
         DashboardResultViewModelFactory(
-            WeatherRepositoryAssets(requireContext()),
+            WeatherRepositoryAssets(
+                requireContext(),
+            ),
 //            calculateProbabilitiesUseCase,
             analyzeClimateUseCase
         )
@@ -108,35 +111,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                         )
 
 
-                                        // Rain CardView
-                                        binding.rainProbabilityTitle.text =
-                                            resources.getString(analysis.rain.weatherType.description)
-                                        binding.rainProbabilityPercentage.text =
-                                            "${analysis.rain.probability.formatOneDecimal()}%"
-                                        binding.rainProbabilityDescription.text =
-                                            analysis.rain.interpretation
-                                        binding.cardRainProbability.tag =
-                                            resources.getString(R.string.description_rain)
-
-                                        // Temperature CardView
-                                        binding.temperatureProbabilityTitle.text =
-                                            resources.getString(analysis.temperature.weatherType.description)
-                                        binding.temperatureProbabilityPercentage.text =
-                                            "${analysis.temperature.average.formatOneDecimal()} ${analysis.temperature.weatherType.unit}"
-                                        binding.temperatureProbabilityDescription.text =
-                                            analysis.temperature.interpretation
-                                        binding.cardTtemperatureProbability.tag =
-                                            resources.getString(R.string.description_temperature)
-
-                                        // Wind CardView
-                                        binding.windSpeedTitle.text =
-                                            resources.getString(analysis.wind.weatherType.description)
-                                        binding.windSpeedPercentage.text =
-                                            "${analysis.wind.average.formatOneDecimal()} ${analysis.wind.weatherType.unit}"
-                                        binding.windSpeedDescription.text =
-                                            analysis.wind.interpretation
-                                        binding.cardWindSpeedProbability.tag =
-                                            resources.getString(R.string.description_wind)
+                                        staticProbability(analysis)
 
                                     }
 
@@ -162,6 +137,40 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         listenerEvents()
 
+    }
+
+    private fun staticProbability(analysis: ClimateAnalysisResult) {
+        // Rain CardView
+
+        binding.rainProbabilityTitle.text =
+            resources.getString(analysis.rain.weatherType.description)
+        binding.rainProbabilityPercentage.text =
+            "${analysis.rain.probability.formatOneDecimal()}%"
+
+        binding.rainProbabilityDescription.text =
+            resources.getString(analysis.rain.recomendation.textRes)
+        binding.cardRainProbability.tag =
+            resources.getString(R.string.description_rain)
+
+        // Temperature CardView
+        binding.temperatureProbabilityTitle.text =
+            resources.getString(analysis.temperature.weatherType.description)
+        binding.temperatureProbabilityPercentage.text =
+            "${analysis.temperature.average.formatOneDecimal()} ${analysis.temperature.weatherType.unit}"
+        binding.temperatureProbabilityDescription.text =
+            resources.getString(analysis.temperature.recomendation.textRes)
+        binding.cardTtemperatureProbability.tag =
+            resources.getString(R.string.description_temperature)
+
+        // Wind CardView
+        binding.windSpeedTitle.text =
+            resources.getString(analysis.wind.weatherType.description)
+        binding.windSpeedPercentage.text =
+            "${analysis.wind.average.formatOneDecimal()} ${analysis.wind.weatherType.unit}"
+        binding.windSpeedDescription.text =
+            resources.getString(analysis.wind.recomendation.textRes)
+        binding.cardWindSpeedProbability.tag =
+            resources.getString(R.string.description_wind)
     }
 
     private fun metadataPrint(

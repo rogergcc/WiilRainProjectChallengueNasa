@@ -10,10 +10,11 @@ import com.rogergcc.wiilrainprojectchallenguenasa.domain.mapper.WeatherRecordMap
  * Created on octubre.
  * year 2025 .
  */
-class GetFormattedWeatherUseCase(
+class WeatherHistoricalReportUseCase(
     private val weatherRepository: WeatherRepository,
     private val weatherFormatter: WeatherFormatter,
     private val weatherRecordMapper: WeatherRecordMapper,
+
 ) {
     suspend operator fun invoke(type: WeatherType): String {
         val weatherDataset= weatherRepository.parseWeatherDataset()
