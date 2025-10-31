@@ -15,10 +15,8 @@ data class WeatherResult(
     val totalYears: Int,
     val minValue: Double,
     val maxValue: Double,
-//    val interpretation: String,
     val weatherType: WeatherType,
     var recomendation: Recommendation
-
     )
 
 data class ClimateAnalysisResult(

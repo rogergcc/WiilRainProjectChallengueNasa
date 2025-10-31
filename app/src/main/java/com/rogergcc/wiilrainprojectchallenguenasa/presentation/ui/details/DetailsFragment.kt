@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.WeatherDataManager
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryAssets
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDetailsBinding
@@ -70,7 +69,6 @@ class DetailsFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val dataManager = WeatherDataManager(requireContext())
         loader = LoadingView(requireContext())
 //        val selectedType = arguments?.getString("selectedValue")
         val selectedLocation = arguments?.let {

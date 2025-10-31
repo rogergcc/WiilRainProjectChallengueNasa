@@ -17,13 +17,40 @@
     <string name="label_classification">+ CLASIFICACIÓN:</string>
     <string name="label_recommendation">💡 RECOMENDACIÓN:</string>
 
+
+    <!-- 🌧️ Rain probability -->
+<!--    <string name="rain_label_very_low">Muy baja</string>-->
+<!--    <string name="rain_desc_very_low">Casi seguro que no llueve.</string>-->
+
+<!--    <string name="rain_label_low">Baja</string>-->
+<!--    <string name="rain_desc_low">Poca probabilidad de lluvias ligeras.</string>-->
+
+<!--    <string name="rain_label_moderate">Moderada</string>-->
+<!--    <string name="rain_desc_moderate">Posibilidad real de lluvia.</string>-->
+
+<!--    <string name="rain_label_high">Alta</string>-->
+<!--    <string name="rain_desc_high">Probable lluvia, lleva paraguas.</string>-->
+
+<!--    <string name="rain_label_very_high">Muy alta</string>-->
+<!--    <string name="rain_desc_very_high">Alta certeza de lluvia o tormentas.</string>-->
+<!--    -->
+
     <!-- Temperature -->
+    <!-- T. Classification (Label) -->
+    <string name="temp_label_cold">Frío</string>
+    <string name="temp_label_comfortable">Cómodo</string>
+    <string name="temp_label_mild">Templado</string>
+    <string name="temp_label_hot">Caluroso</string>
+
+    <!-- T. Recommendation -->
     <string name="temp_cold">Frío: ideal para abrigarse bien.</string>
-    <string name="temp_comfortable">Comfortable: clima ideal para la mayoría de las actividades.</string>
+    <string name="temp_comfortable">Cómodo: clima ideal para la mayoría de las actividades.</string>
     <string name="temp_mild">Templado: condiciones agradables para actividades al aire libre.</string>
     <string name="temp_hot">Caluroso: hidrátate y evita la exposición prolongada al sol.</string>
 
     <!-- Rain -->
+    <!-- Rain Classification (Label) -->
+
     <string name="rain_no_expected">Sin lluvia esperada: disfruta de un día soleado.</string>
     <string name="rain_light">Lluvia ligera: posibles lloviznas, planifica con precaución.</string>
     <string name="rain_moderate">Lluvia moderada: lleva paraguas o impermeable.</string>

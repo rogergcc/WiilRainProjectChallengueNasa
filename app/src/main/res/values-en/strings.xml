@@ -26,8 +26,16 @@
     <string name="label_recommendation">💡 RECOMMENDATION:</string>
 
     <!-- Temperature -->
+    <!-- T. Classification (Label) -->
+    <string name="temp_label_cold">Cold</string>
+    <string name="temp_label_comfortable">Comfortable</string>
+    <string name="temp_label_mild">Mild</string>
+    <string name="temp_label_hot">Hot</string>
+
+    <!-- T. Recommendation -->
+
     <string name="temp_cold">Cold: perfect time to layer up.</string>
-    <string name="temp_comfortable">Warm weather</string>
+    <string name="temp_comfortable">Comfortable: ideal weather for most activities.</string>
     <string name="temp_mild">Mild: great weather for outdoor activities.</string>
     <string name="temp_hot">Hot: stay hydrated and avoid long sun exposure.</string>
 

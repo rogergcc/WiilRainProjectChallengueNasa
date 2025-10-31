@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Rain -->
+    <color name="rain_very_low">#FFE066</color>
+    <color name="rain_low">#FFD43B</color>
+    <color name="rain_moderate">#74C0FC</color>
+    <color name="rain_high">#339AF0</color>
+    <color name="rain_very_high">#1C7ED6</color>
+
+    <!-- Temperature -->
+    <color name="temp_very_cold">#00BFFF</color>
+    <color name="temp_cold">#1E90FF</color>
+    <color name="temp_mild">#A5D8FF</color>
+    <color name="temp_warm">#FFD43B</color>
+    <color name="temp_hot">#FF6B6B</color>
+
+    <!-- Wind -->
+    <color name="wind_calm">#D0EBFF</color>
+    <color name="wind_light">#74C0FC</color>
+    <color name="wind_moderate">#4DABF7</color>
+    <color name="wind_strong">#228BE6</color>
+    <color name="wind_very_strong">#1C7ED6</color>
+
 <!--    Temperature-->
     <color name="light_blue">#ADD8E6</color> <!-- Light Blue for COLD_WEATHER -->
     <color name="green">#008000</color> <!-- Green for COMFORTABLE -->

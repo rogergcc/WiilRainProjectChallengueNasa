@@ -2,9 +2,6 @@ package com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase
 
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRecommendation
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureRecommendation
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRecommendation
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.ClimateAnalysisResult
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.strategy.WeatherStrategyFactory
 
