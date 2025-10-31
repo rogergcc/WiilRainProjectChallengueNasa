@@ -3,6 +3,7 @@ package com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils
 import android.os.Build
 import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -44,10 +45,41 @@ object DateUtils {
     private val defaultFormatter: DateTimeFormatter by lazy {
         DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
     }
+    private val dateFormatYMD1: DateTimeFormatter by lazy {
+        DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
+    }
+//    val inputDateFormat = SimpleDateFormat("dd-MM", Locale.getDefault())
+//    val outputFormat = SimpleDateFormat("dd 'de' MMMM", Locale("es"))
+    private val formatDayMonthSelect: DateTimeFormatter by lazy {
+        DateTimeFormatter.ofPattern("dd-MM", Locale.getDefault())
+    }
+    private val formatDayMonth: DateTimeFormatter by lazy {
+        DateTimeFormatter.ofPattern("dd 'de' MMMM", Locale.getDefault())
+    }
+    fun formatDayMonth(input: String): String {
+        val parts = input.split("-")
+        if (parts.size != 2) throw IllegalArgumentException("Input must be in the format 'dd-MM'")
+
+        val day = parts[0].toInt()
+        val month = parts[1].toInt()
+        val currentYear = LocalDate.now().year
+
+        val localDate = LocalDate.of(currentYear, month, day)
+        return localDate.format(formatDayMonth)
+    }
+
+    fun formatetDayMonthSelect(date: Date): String {
+        val localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+        return localDateTime.format(formatDayMonth)
+    }
 
     fun format(date: Date): String {
         val localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
         return localDateTime.format(defaultFormatter)
+    }
+    fun formatYMD(date: Date): String {
+        val localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+        return localDateTime.format(dateFormatYMD1)
     }
 
     fun formatDateModern(date: Date?, pattern: String): String {

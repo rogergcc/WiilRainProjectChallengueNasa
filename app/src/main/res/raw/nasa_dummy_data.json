@@ -1,0 +1,49 @@
+{
+  "location": {
+    "city": "Ciudad de México",
+    "latitude": 19.4326,
+    "longitude": -99.1332
+  },
+  "event_date": "2025-10-12",
+  "event_time": "15:00",
+  "forecast": {
+    "will_rain": true,
+    "confidence": 85,
+    "probability_of_precip": 80,
+    "expected_intensity": "moderate",
+    "data_source": "NASA GEOS-FP Model",
+    "next_update": "2025-10-11T10:00:00Z"
+  },
+  "hourly_breakdown": [
+    {
+      "time": "2025-10-12T12:00:00",
+      "precip_prob": 10,
+      "condition_icon": "partly_sunny"
+    },
+    {
+      "time": "2025-10-12T13:00:00",
+      "precip_prob": 20,
+      "condition_icon": "cloudy"
+    },
+    {
+      "time": "2025-10-12T14:00:00",
+      "precip_prob": 50,
+      "condition_icon": "rainy"
+    },
+    {
+      "time": "2025-10-12T15:00:00",
+      "precip_prob": 80,
+      "condition_icon": "rainy"
+    },
+    {
+      "time": "2025-10-12T16:00:00",
+      "precip_prob": 60,
+      "condition_icon": "rainy"
+    },
+    {
+      "time": "2025-10-12T17:00:00",
+      "precip_prob": 30,
+      "condition_icon": "cloudy"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "location": {
+      "name": "New York Central Park",
+      "country": "USA",
+      "lat": 40.7829,
+      "lon": -73.9654,
+      "elevation": 35.1
+    },
+    "date": {
+      "target": "15-06",
+      "calculated": "2024-10-15T14:30:00Z",
+      "period_analyzed": "1985-2024"
+    },
+    "historical_context": {
+      "period": "1985-2024",
+      "n_years": 40,
+      "data_source": "NASA POWER API",
+      "parameters_used": ["PRECTOT", "T2M", "WS2M", "CLD"],
+      "calculation_method": "historical_probability"
+    },
+    "thresholds_used": {
+      "rain_light": 1.0,
+      "hot_extreme": 32.0,
+      "wind_strong": 20.0,
+      "unit_precip": "mm",
+      "unit_temp": "celsius",
+      "unit_wind": "km/h"
+    }
+  },
+  "summary_statistics": {
+    "precipitation": {
+      "probability": 10.0,
+      "events_detected": 4,
+      "total_observations": 40,
+      "average": 0.3,
+      "maximum": 5.3,
+      "minimum": 0.0,
+      "interpretation": "4 de cada 40 años"
+    },
+    "temperature": {
+      "probability_heat": 7.5,
+      "events_detected": 3,
+      "total_observations": 40,
+      "average": 27.0,
+      "maximum": 33.0,
+      "minimum": 22.5,
+      "percentile_25": 25.6,
+      "percentile_75": 29.7,
+      "interpretation": "3 de cada 40 años"
+    },
+    "wind": {
+      "probability_strong": 0.0,
+      "events_detected": 0,
+      "total_observations": 40,
+      "average": 10.5,
+      "maximum": 16.2,
+      "minimum": 6.3,
+      "interpretation": "0 de cada 40 años"
+    },
+    "cloud_cover": {
+      "average": 0.42,
+      "interpretation": "Parcialmente nublado"
+    }
+  },
+  "yearly_data": [
+    {"year": 1985, "precip_mm": 0.0, "temp_c": 24.5, "wind_kmh": 12.3, "cloud_fraction": 0.2, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1986, "precip_mm": 2.1, "temp_c": 25.1, "wind_kmh": 8.7, "cloud_fraction": 0.8, "rain_event": true, "heat_event": false, "wind_event": false},
+    {"year": 1987, "precip_mm": 0.0, "temp_c": 26.8, "wind_kmh": 11.2, "cloud_fraction": 0.3, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1988, "precip_mm": 0.0, "temp_c": 23.9, "wind_kmh": 9.5, "cloud_fraction": 0.1, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1989, "precip_mm": 5.3, "temp_c": 22.5, "wind_kmh": 15.8, "cloud_fraction": 0.9, "rain_event": true, "heat_event": false, "wind_event": false},
+    {"year": 1990, "precip_mm": 0.0, "temp_c": 27.3, "wind_kmh": 10.1, "cloud_fraction": 0.4, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1991, "precip_mm": 0.0, "temp_c": 28.1, "wind_kmh": 7.9, "cloud_fraction": 0.2, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1992, "precip_mm": 1.2, "temp_c": 24.8, "wind_kmh": 13.4, "cloud_fraction": 0.7, "rain_event": true, "heat_event": false, "wind_event": false},
+    {"year": 1993, "precip_mm": 0.0, "temp_c": 26.2, "wind_kmh": 12.0, "cloud_fraction": 0.5, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1994, "precip_mm": 0.0, "temp_c": 29.5, "wind_kmh": 6.3, "cloud_fraction": 0.1, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1995, "precip_mm": 0.0, "temp_c": 30.2, "wind_kmh": 8.9, "cloud_fraction": 0.0, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1996, "precip_mm": 3.8, "temp_c": 23.1, "wind_kmh": 16.2, "cloud_fraction": 0.8, "rain_event": true, "heat_event": false, "wind_event": false},
+    {"year": 1997, "precip_mm": 0.0, "temp_c": 26.7, "wind_kmh": 10.5, "cloud_fraction": 0.3, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1998, "precip_mm": 0.0, "temp_c": 27.8, "wind_kmh": 9.8, "cloud_fraction": 0.2, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 1999, "precip_mm": 0.0, "temp_c": 25.6, "wind_kmh": 11.1, "cloud_fraction": 0.6, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2000, "precip_mm": 0.0, "temp_c": 26.9, "wind_kmh": 10.7, "cloud_fraction": 0.4, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2001, "precip_mm": 0.0, "temp_c": 28.3, "wind_kmh": 8.4, "cloud_fraction": 0.1, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2002, "precip_mm": 0.0, "temp_c": 29.1, "wind_kmh": 7.6, "cloud_fraction": 0.0, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2003, "precip_mm": 0.0, "temp_c": 30.5, "wind_kmh": 9.2, "cloud_fraction": 0.2, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2004, "precip_mm": 0.0, "temp_c": 31.2, "wind_kmh": 10.3, "cloud_fraction": 0.3, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2005, "precip_mm": 0.0, "temp_c": 27.5, "wind_kmh": 12.8, "cloud_fraction": 0.5, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2006, "precip_mm": 0.0, "temp_c": 26.3, "wind_kmh": 11.9, "cloud_fraction": 0.4, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2007, "precip_mm": 0.0, "temp_c": 25.8, "wind_kmh": 13.1, "cloud_fraction": 0.7, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2008, "precip_mm": 0.0, "temp_c": 24.9, "wind_kmh": 14.0, "cloud_fraction": 0.6, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2009, "precip_mm": 0.0, "temp_c": 28.7, "wind_kmh": 8.1, "cloud_fraction": 0.2, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2010, "precip_mm": 0.0, "temp_c": 29.8, "wind_kmh": 7.5, "cloud_fraction": 0.1, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2011, "precip_mm": 0.0, "temp_c": 30.1, "wind_kmh": 8.8, "cloud_fraction": 0.0, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2012, "precip_mm": 0.0, "temp_c": 31.5, "wind_kmh": 9.0, "cloud_fraction": 0.2, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2013, "precip_mm": 0.0, "temp_c": 32.1, "wind_kmh": 10.2, "cloud_fraction": 0.3, "rain_event": false, "heat_event": true, "wind_event": false},
+    {"year": 2014, "precip_mm": 0.0, "temp_c": 33.0, "wind_kmh": 11.1, "cloud_fraction": 0.1, "rain_event": false, "heat_event": true, "wind_event": false},
+    {"year": 2015, "precip_mm": 0.0, "temp_c": 32.5, "wind_kmh": 10.8, "cloud_fraction": 0.2, "rain_event": false, "heat_event": true, "wind_event": false},
+    {"year": 2016, "precip_mm": 0.0, "temp_c": 31.8, "wind_kmh": 9.7, "cloud_fraction": 0.4, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2017, "precip_mm": 0.0, "temp_c": 30.9, "wind_kmh": 10.5, "cloud_fraction": 0.3, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2018, "precip_mm": 0.0, "temp_c": 29.7, "wind_kmh": 12.3, "cloud_fraction": 0.5, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2019, "precip_mm": 0.0, "temp_c": 28.5, "wind_kmh": 13.2, "cloud_fraction": 0.6, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2020, "precip_mm": 0.0, "temp_c": 27.9, "wind_kmh": 12.9, "cloud_fraction": 0.7, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2021, "precip_mm": 0.0, "temp_c": 26.8, "wind_kmh": 14.1, "cloud_fraction": 0.8, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2022, "precip_mm": 0.0, "temp_c": 25.5, "wind_kmh": 15.0, "cloud_fraction": 0.5, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2023, "precip_mm": 0.0, "temp_c": 24.8, "wind_kmh": 14.8, "cloud_fraction": 0.6, "rain_event": false, "heat_event": false, "wind_event": false},
+    {"year": 2024, "precip_mm": 0.0, "temp_c": 26.8, "wind_kmh": 11.2, "cloud_fraction": 0.3, "rain_event": false, "heat_event": false, "wind_event": false}
+  ],
+  "export_info": {
+    "format": "json",
+    "version": "1.0",
+    "generated_at": "2024-10-15T14:30:00Z",
+    "filename": "will_it_rain_nyc_15-06.json"
+  }
+}

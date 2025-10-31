@@ -1,0 +1,157 @@
+{
+  "legend": {
+    "rain_probability": {
+      "title": "Probabilidad de lluvia",
+      "unit": "%",
+      "ranges": [
+        {
+          "id": "RAIN_VERY_LOW",
+          "min": 0,
+          "max": 10,
+          "label": "Muy baja",
+          "icon": "☀️",
+          "description": "Casi seguro que no llueve. Cielo despejado o con pocas nubes.",
+          "color": "#FFE066"
+        },
+        {
+          "id": "RAIN_LOW",
+          "min": 11,
+          "max": 30,
+          "label": "Baja",
+          "icon": "🌤️",
+          "description": "Poca probabilidad de lluvias ligeras o pasajeras.",
+          "color": "#FFD43B"
+        },
+        {
+          "id": "RAIN_MODERATE",
+          "min": 31,
+          "max": 60,
+          "label": "Moderada",
+          "icon": "🌧️",
+          "description": "Posibilidad real de lluvia, especialmente en la tarde o noche.",
+          "color": "#74C0FC"
+        },
+        {
+          "id": "RAIN_HIGH",
+          "min": 61,
+          "max": 80,
+          "label": "Alta",
+          "icon": "🌦️",
+          "description": "Lluvias probables durante el día, llevar paraguas.",
+          "color": "#339AF0"
+        },
+        {
+          "id": "RAIN_VERY_HIGH",
+          "min": 81,
+          "max": 100,
+          "label": "Muy alta",
+          "icon": "⛈️",
+          "description": "Alta certeza de lluvia o tormentas.",
+          "color": "#1C7ED6"
+        }
+      ]
+    },
+    "temperature_average": {
+      "title": "Temperatura promedio diaria",
+      "unit": "°C",
+      "ranges": [
+        {
+          "id": "TEMP_VERY_COLD",
+          "min": -999,
+          "max": 0,
+          "label": "Muy frío",
+          "icon": "🧊",
+          "description": "Riesgo de heladas o escarcha.",
+          "color": "#00BFFF"
+        },
+        {
+          "id": "TEMP_COLD",
+          "min": 0,
+          "max": 10,
+          "label": "Frío",
+          "icon": "❄️",
+          "description": "Temperatura baja, abrigo necesario.",
+          "color": "#1E90FF"
+        },
+        {
+          "id": "TEMP_MILD",
+          "min": 11,
+          "max": 20,
+          "label": "Templado",
+          "icon": "🌤️",
+          "description": "Clima agradable, ideal para actividades al aire libre.",
+          "color": "#A5D8FF"
+        },
+        {
+          "id": "TEMP_WARM",
+          "min": 21,
+          "max": 30,
+          "label": "Cálido",
+          "icon": "☀️",
+          "description": "Día caluroso, usar bloqueador solar.",
+          "color": "#FFD43B"
+        },
+        {
+          "id": "TEMP_HOT",
+          "min": 31,
+          "max": 999,
+          "label": "Muy caluroso",
+          "icon": "🔥",
+          "description": "Riesgo de calor extremo o deshidratación.",
+          "color": "#FF6B6B"
+        }
+      ]
+    },
+    "wind_speed_average": {
+      "title": "Velocidad promedio del viento",
+      "unit": "km/h",
+      "ranges": [
+        {
+          "id": "WIND_CALM",
+          "min": 0,
+          "max": 5,
+          "label": "Calma",
+          "icon": "🌿",
+          "description": "Aire muy tranquilo, casi sin viento.",
+          "color": "#D0EBFF"
+        },
+        {
+          "id": "WIND_LIGHT",
+          "min": 6,
+          "max": 15,
+          "label": "Suave",
+          "icon": "🍃",
+          "description": "Brisa ligera, apenas mueve hojas.",
+          "color": "#74C0FC"
+        },
+        {
+          "id": "WIND_MODERATE",
+          "min": 16,
+          "max": 30,
+          "label": "Moderado",
+          "icon": "🌬️",
+          "description": "Se sienten ráfagas, pero sin peligro.",
+          "color": "#4DABF7"
+        },
+        {
+          "id": "WIND_STRONG",
+          "min": 31,
+          "max": 50,
+          "label": "Fuerte",
+          "icon": "💨",
+          "description": "Viento notorio, puede incomodar o levantar polvo.",
+          "color": "#228BE6"
+        },
+        {
+          "id": "WIND_VERY_STRONG",
+          "min": 51,
+          "max": 999,
+          "label": "Muy fuerte",
+          "icon": "🌪️",
+          "description": "Riesgo de ráfagas intensas o tormentas de viento.",
+          "color": "#1C7ED6"
+        }
+      ]
+    }
+  }
+}

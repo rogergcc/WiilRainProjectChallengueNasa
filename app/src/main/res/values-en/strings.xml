@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WiilRainProjectChallengueNasa</string>
+
+
+    <string name="message_search">Type the city or place a pin on the map</string>
+
+    <string name="rain_historical">🌧️ Historical Precipitation</string>
+    <string name="temperature_historical">🌡️ Historical Temperature</string>
+    <string name="wind_historical">🌬️ Historical Wind</string>
+    <string name="error_message">Sorry! Something went wrong. error: %1$s</string>
+    <string name="observation_data">Data %1$s (%2$s observations)</string>
+    <string name="description_rain">Rain</string>
+    <string name="description_temperature">Temperature</string>
+    <string name="description_wind">Wind</string>
+
+
+    <string name="label_statistics">📈 STATISTICS:</string>
+    <string name="label_threshold">• Threshold %1$s%2$s (⚠️)</string>
+    <string name="label_average">• Average: %1$s %2$s</string>
+    <string name="label_maximum">• Historical Maximum: %1$s %2$s</string>
+    <string name="label_minimum">• Historical Minimum: %1$s %2$s</string>
+    <string name="label_above_threshold">• %1$d years above threshold</string>
+
+    <string name="label_classification">+ CLASSIFICATION:</string>
+    <string name="label_recommendation">💡 RECOMMENDATION:</string>
+
+    <!-- Rain -->
+    <string name="rain_very_low_label">Very low</string>
+    <string name="rain_very_low_desc">Almost no chance of rain. Clear or few clouds.</string>
+
+    <string name="rain_low_label">Low</string>
+    <string name="rain_low_desc">Low chance of light or passing rain.</string>
+
+    <string name="rain_moderate_label">Moderate</string>
+    <string name="rain_moderate_desc">Possible rain, especially in the afternoon or evening.</string>
+
+    <string name="rain_high_label">High</string>
+    <string name="rain_high_desc">Likely rain during the day. Bring an umbrella.</string>
+
+    <string name="rain_very_high_label">Very high</string>
+    <string name="rain_very_high_desc">High certainty of rain or storms.</string>
+
+    <!-- Temperature -->
+    <string name="temp_very_cold_label">Very cold</string>
+    <string name="temp_very_cold_desc">Risk of frost or ice.</string>
+
+    <string name="temp_cold_label">Cold</string>
+    <string name="temp_cold_desc">Low temperature, warm clothing needed.</string>
+
+    <string name="temp_mild_label">Mild</string>
+    <string name="temp_mild_desc">Pleasant weather, great for outdoor activities.</string>
+
+    <string name="temp_warm_label">Warm</string>
+    <string name="temp_warm_desc">Hot day, use sunscreen.</string>
+
+    <string name="temp_hot_label">Very hot</string>
+    <string name="temp_hot_desc">Extreme heat risk or dehydration.</string>
+
+    <!-- Wind -->
+    <string name="wind_calm_label">Calm</string>
+    <string name="wind_calm_desc">Very calm air, almost no wind.</string>
+
+    <string name="wind_light_label">Light</string>
+    <string name="wind_light_desc">Light breeze, barely moves leaves.</string>
+
+    <string name="wind_moderate_label">Moderate</string>
+    <string name="wind_moderate_desc">Some gusts but not dangerous.</string>
+
+    <string name="wind_strong_label">Strong</string>
+    <string name="wind_strong_desc">Noticeable wind, can lift dust.</string>
+
+    <string name="wind_very_strong_label">Very strong</string>
+    <string name="wind_very_strong_desc">Risk of strong gusts or windstorms.</string>
+
+    <!-- Temperature -->
+    <!-- T. Classification (Label) -->
+    <string name="temp_label_cold">Cold</string>
+    <string name="temp_label_comfortable">Comfortable</string>
+    <string name="temp_label_mild">Mild</string>
+    <string name="temp_label_hot">Hot</string>
+
+    <!-- T. Recommendation -->
+
+    <string name="temp_cold">Cold: perfect time to layer up.</string>
+    <string name="temp_comfortable">Comfortable: ideal weather for most activities.</string>
+    <string name="temp_mild">Mild: great weather for outdoor activities.</string>
+    <string name="temp_hot">Hot: stay hydrated and avoid long sun exposure.</string>
+
+    <!-- Rain -->
+    <string name="rain_no_expected">No rain expected: enjoy a sunny day.</string>
+    <string name="rain_light">Light rain: possible drizzles, plan accordingly.</string>
+    <string name="rain_moderate">Moderate rain: bring an umbrella or raincoat.</string>
+    <string name="rain_heavy">Heavy rain: outdoor activities not recommended.</string>
+
+    <!-- Wind -->
+    <string name="wind_light">🍃 Light breeze: calm and pleasant conditions.</string>
+    <string name="wind_moderate">🎐 Moderate breeze: could affect light objects.</string>
+    <string name="wind_strong">🌪️ Strong winds: take extra precautions outdoors.</string>
+
+    <string name="label_trend">Trend: %1$s %2$s%3$s%4$s (%5$d-%6$d)</string>
+
+    <string name="label_no_data">No data available for %1$s.</string>
+    <string name="label_no_recommendation">No recommendation available.</string>
+    <string name="text_loading">Loading, please wait</string>
+    <string name="classification_child">%1$s %2$s: %3$d years (%4$d%%)</string>
+    <string name="select_date_to_search">Select Date to Search 📆</string>
+    <string name="where_is_your_event">Where will your Event be?</string>
+    <string name="probability_weather">Weather Probabilities</string>
+</resources>

@@ -1,0 +1,66 @@
+{
+  "location": {
+    "city": "Cusco",
+    "country": "Peru",
+    "coordinates": {
+      "lat": -13.53195,
+      "lon": -71.967463
+    }
+  },
+  "forecast_range": {
+    "start_date": "2025-10-08",
+    "end_date": "2025-10-14"
+  },
+  "variables": [
+    {
+      "id": "rain_probability",
+      "name": "Probabilidad de lluvia (%)",
+      "unit": "%",
+      "data": [
+        { "date": "2025-10-08", "value": 60 },
+        { "date": "2025-10-09", "value": 70 },
+        { "date": "2025-10-10", "value": 45 },
+        { "date": "2025-10-11", "value": 20 },
+        { "date": "2025-10-12", "value": 10 },
+        { "date": "2025-10-13", "value": 35 },
+        { "date": "2025-10-14", "value": 55 }
+      ]
+    },
+    {
+      "id": "temperature_avg",
+      "name": "Temperatura promedio (°C)",
+      "unit": "°C",
+      "data": [
+        { "date": "2025-10-08", "value": 18.2 },
+        { "date": "2025-10-09", "value": 19.5 },
+        { "date": "2025-10-10", "value": 20.1 },
+        { "date": "2025-10-11", "value": 21.8 },
+        { "date": "2025-10-12", "value": 22.4 },
+        { "date": "2025-10-13", "value": 20.7 },
+        { "date": "2025-10-14", "value": 19.3 }
+      ]
+    },
+    {
+      "id": "wind_speed",
+      "name": "Velocidad del viento (m/s)",
+      "unit": "m/s",
+      "data": [
+        { "date": "2025-10-08", "value": 4.5 },
+        { "date": "2025-10-09", "value": 5.2 },
+        { "date": "2025-10-10", "value": 3.8 },
+        { "date": "2025-10-11", "value": 2.6 },
+        { "date": "2025-10-12", "value": 2.2 },
+        { "date": "2025-10-13", "value": 3.4 },
+        { "date": "2025-10-14", "value": 4.0 }
+      ]
+    }
+  ],
+  "summary": {
+    "rain_days": 3,
+    "highest_temp": 22.4,
+    "lowest_temp": 18.2,
+    "avg_rain_probability": 42.1,
+    "recommended_day": "2025-10-12",
+    "recommendation": "El mejor día para tu evento al aire libre sería el 12 de octubre: temperatura agradable y baja probabilidad de lluvia (10%)."
+  }
+}

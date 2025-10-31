@@ -1,0 +1,93 @@
+
+{
+  "location": {
+    "city": "Arequipa",
+    "country": "Perú",
+    "coordinates": { "lat": -16.409, "lon": -71.537 }
+  },
+  "date": "2025-10-22",
+  "summary": {
+    "description": "Cielo parcialmente nublado, baja probabilidad de lluvia. Vientos ligeros del sur.",
+    "recommendation": "Buen día para actividades al aire libre. Llevar protección solar ligera."
+  },
+  "variables": [
+    {
+      "id": "rain_probability",
+      "name": "Probabilidad de lluvia",
+      "unit": "%",
+      "value": 15,
+      "description": "En Arequipa llueve en 1 o 2 de cada 10 días en octubre.",
+      "historical_average": {
+        "period": "2015-2024",
+        "average_rainfall_mm": 22,
+        "interpretation": "Octubre suele ser seco, con lluvias esporádicas al final del mes."
+      },
+      "chart_data": [
+        { "month": "Enero", "value": 95 },
+        { "month": "Febrero", "value": 105 },
+        { "month": "Marzo", "value": 80 },
+        { "month": "Abril", "value": 45 },
+        { "month": "Mayo", "value": 20 },
+        { "month": "Junio", "value": 10 },
+        { "month": "Julio", "value": 8 },
+        { "month": "Agosto", "value": 12 },
+        { "month": "Septiembre", "value": 18 },
+        { "month": "Octubre", "value": 22 },
+        { "month": "Noviembre", "value": 40 },
+        { "month": "Diciembre", "value": 75 }
+      ]
+    },
+    {
+      "id": "temperature",
+      "name": "Temperatura promedio",
+      "unit": "°C",
+      "value": 23,
+      "description": "Temperaturas templadas durante el día, frescas por la noche.",
+      "historical_average": {
+        "period": "2015-2024",
+        "average_temperature": 22.5,
+        "interpretation": "La temperatura media de octubre en Arequipa es de 22 °C."
+      },
+      "chart_data": [
+        { "month": "Enero", "value": 20 },
+        { "month": "Febrero", "value": 21 },
+        { "month": "Marzo", "value": 22 },
+        { "month": "Abril", "value": 21 },
+        { "month": "Mayo", "value": 19 },
+        { "month": "Junio", "value": 18 },
+        { "month": "Julio", "value": 18 },
+        { "month": "Agosto", "value": 19 },
+        { "month": "Septiembre", "value": 21 },
+        { "month": "Octubre", "value": 23 },
+        { "month": "Noviembre", "value": 24 },
+        { "month": "Diciembre", "value": 23 }
+      ]
+    },
+    {
+      "id": "wind_speed",
+      "name": "Velocidad del viento",
+      "unit": "km/h",
+      "value": 14,
+      "description": "Vientos suaves del sur predominantes en horas de la tarde.",
+      "historical_average": {
+        "period": "2015-2024",
+        "average_wind_speed": 13.5,
+        "interpretation": "El viento promedio en octubre es moderado, entre 12 y 15 km/h."
+      },
+      "chart_data": [
+        { "month": "Enero", "value": 10 },
+        { "month": "Febrero", "value": 9 },
+        { "month": "Marzo", "value": 11 },
+        { "month": "Abril", "value": 13 },
+        { "month": "Mayo", "value": 15 },
+        { "month": "Junio", "value": 16 },
+        { "month": "Julio", "value": 17 },
+        { "month": "Agosto", "value": 16 },
+        { "month": "Septiembre", "value": 15 },
+        { "month": "Octubre", "value": 14 },
+        { "month": "Noviembre", "value": 13 },
+        { "month": "Diciembre", "value": 12 }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,129 @@
 <resources>
     <string name="app_name">WiilRainProjectChallengueNasa</string>
-    <string name="name_app">Will Rain?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_app" translatable="false">Will Rain?</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="message_search">Escribe la ciudado coloca un pin en el mapa</string>
+
+    <string name="rain_historical">🌧️ Precipitación Histórica</string>
+    <string name="temperature_historical">🌡️ Temperatura Histórica</string>
+    <string name="wind_historical">🌬️ Viento Histórico</string>
+
+    <string name="error_message">¡Lo siento! Algo salió mal. error: %1$s</string>
+    <string name="observation_data">Datos %1$s (%2$s observaciones)</string>
+    <string name="description_rain">Lluvias</string>
+    <string name="description_temperature">Temperatura</string>
+    <string name="description_wind">Viento</string>
+
+    <string name="label_classification">+ CLASIFICACIÓN:</string>
+    <string name="label_recommendation">💡 RECOMENDACIÓN:</string>
+
+
+    <!-- 🌧️ Lluvia -->
+    <string name="rain_very_low_label">Muy baja</string>
+    <string name="rain_very_low_desc">Casi seguro que no llueve. Cielo despejado o con pocas nubes.</string>
+
+    <string name="rain_low_label">Baja</string>
+    <string name="rain_low_desc">Poca probabilidad de lluvias ligeras o pasajeras.</string>
+
+    <string name="rain_moderate_label">Moderada</string>
+    <string name="rain_moderate_desc">Posibilidad real de lluvia, especialmente en la tarde o noche.</string>
+
+    <string name="rain_high_label">Alta</string>
+    <string name="rain_high_desc">Lluvias probables durante el día, llevar paraguas.</string>
+
+    <string name="rain_very_high_label">Muy alta</string>
+    <string name="rain_very_high_desc">Alta certeza de lluvia o tormentas.</string>
+
+    <!-- 🌡️ Temperatura -->
+    <string name="temp_very_cold_label">Muy frío</string>
+    <string name="temp_very_cold_desc">Riesgo de heladas o escarcha.</string>
+
+    <string name="temp_cold_label">Frío</string>
+    <string name="temp_cold_desc">Temperatura baja, abrigo necesario.</string>
+
+    <string name="temp_mild_label">Templado</string>
+    <string name="temp_mild_desc">Clima agradable, ideal para actividades al aire libre.</string>
+
+    <string name="temp_warm_label">Cálido</string>
+    <string name="temp_warm_desc">Día caluroso, usar bloqueador solar.</string>
+
+    <string name="temp_hot_label">Muy caluroso</string>
+    <string name="temp_hot_desc">Riesgo de calor extremo o deshidratación.</string>
+
+    <!-- 💨 Viento -->
+    <string name="wind_calm_label">Calma</string>
+    <string name="wind_calm_desc">Aire muy tranquilo, casi sin viento.</string>
+
+    <string name="wind_light_label">Suave</string>
+    <string name="wind_light_desc">Brisa ligera, apenas mueve hojas.</string>
+
+    <string name="wind_moderate_label">Moderado</string>
+    <string name="wind_moderate_desc">Se sienten ráfagas, pero sin peligro.</string>
+
+    <string name="wind_strong_label">Fuerte</string>
+    <string name="wind_strong_desc">Viento notorio, puede incomodar o levantar polvo.</string>
+
+    <string name="wind_very_strong_label">Muy fuerte</string>
+    <string name="wind_very_strong_desc">Riesgo de ráfagas intensas o tormentas de viento.</string>
+
+    <!-- 🌧️ Rain probability -->
+<!--    <string name="rain_label_very_low">Muy baja</string>-->
+<!--    <string name="rain_desc_very_low">Casi seguro que no llueve.</string>-->
+
+<!--    <string name="rain_label_low">Baja</string>-->
+<!--    <string name="rain_desc_low">Poca probabilidad de lluvias ligeras.</string>-->
+
+<!--    <string name="rain_label_moderate">Moderada</string>-->
+<!--    <string name="rain_desc_moderate">Posibilidad real de lluvia.</string>-->
+
+<!--    <string name="rain_label_high">Alta</string>-->
+<!--    <string name="rain_desc_high">Probable lluvia, lleva paraguas.</string>-->
+
+<!--    <string name="rain_label_very_high">Muy alta</string>-->
+<!--    <string name="rain_desc_very_high">Alta certeza de lluvia o tormentas.</string>-->
+<!--    -->
+
+    <!-- Temperature -->
+    <!-- T. Classification (Label) -->
+    <string name="temp_label_cold">Frío</string>
+    <string name="temp_label_comfortable">Cómodo</string>
+    <string name="temp_label_mild">Templado</string>
+    <string name="temp_label_hot">Caluroso</string>
+
+    <!-- T. Recommendation -->
+    <string name="temp_cold">Frío: ideal para abrigarse bien.</string>
+    <string name="temp_comfortable">Cómodo: clima ideal para la mayoría de las actividades.</string>
+    <string name="temp_mild">Templado: condiciones agradables para actividades al aire libre.</string>
+    <string name="temp_hot">Caluroso: hidrátate y evita la exposición prolongada al sol.</string>
+
+    <!-- Rain -->
+    <!-- Rain Classification (Label) -->
+
+    <string name="rain_no_expected">Sin lluvia esperada: disfruta de un día soleado.</string>
+    <string name="rain_light">Lluvia ligera: posibles lloviznas, planifica con precaución.</string>
+    <string name="rain_moderate">Lluvia moderada: lleva paraguas o impermeable.</string>
+    <string name="rain_heavy">Lluvia intensa: evita actividades al aire libre.</string>
+
+    <!-- Wind -->
+    <string name="wind_light">Brisa ligera: condiciones tranquilas para caminatas.</string>
+    <string name="wind_moderate">Brisa moderada: podría afectar estructuras livianas.</string>
+    <string name="wind_strong">Viento fuerte: toma precauciones adicionales al aire libre.</string>
+
+
+    <string name="label_statistics">📈 ESTADÍSTICAS:</string>
+    <string name="label_threshold">• Umbral %1$s%2$s (⚠️)</string>
+    <string name="label_average">• Promedio: %1$s %2$s</string>
+    <string name="label_maximum">• Máximo Histórico: %1$s%2$s</string>
+    <string name="label_minimum">• Mínimo Histórico: %1$s%2$s</string>
+    <string name="label_above_threshold">• %1$d años por encima del umbral</string>
+
+    <string name="label_trend">Tendencia: %1$s %2$s%3$s%4$s (%5$d-%6$d)</string>
+
+    <string name="label_no_data">No hay datos disponibles para %1$s.</string>
+    <string name="label_no_recommendation">No hay recomendaciones disponibles.</string>
+    <string name="text_loading">Cargando, espere por favor</string>
+    <string name="classification_child">%1$s %2$s: %3$d años (%4$d%%)</string>
+    <string name="select_date_to_search">Selecciona Fecha para Buscar 📆</string>
+    <string name="where_is_your_event">Donde sera tu Evento?</string>
+    <string name="probability_weather">Probabilidades Clima</string>
 </resources>

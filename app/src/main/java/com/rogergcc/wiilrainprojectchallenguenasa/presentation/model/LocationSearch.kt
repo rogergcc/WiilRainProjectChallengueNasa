@@ -2,8 +2,6 @@ package com.rogergcc.wiilrainprojectchallenguenasa.presentation.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.Date
 
 
@@ -13,10 +11,12 @@ import java.util.Date
  */
 @Parcelize
 data class LocationSearch(
+    var type: String = "",
     var city: String = "",
     var country: String = "",
-    var selectedDate: Date,
-    val selectedDateString: String = "",
+    var selectedDate: Date = Date(),
+    var selectedDateString: String = "",
+    var historicEvaluation: String = "",
     var location: SimpleLocation = SimpleLocation(0.0, 0.0),
 ) : Parcelable
 

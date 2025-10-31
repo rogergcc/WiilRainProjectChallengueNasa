@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="?attr/backgroundColorTheme"
     android:orientation="vertical"
     android:padding="@dimen/dim_16dp"
@@ -15,7 +14,6 @@
         style="@style/viewParent.title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_20dp"
         android:text="Tacna Peru" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -23,80 +21,247 @@
         style="@style/viewParent.subTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_8dp"
         android:text="11 de Octubre 2025" />
 
 
+    <!--        android:background="?attr/selectableItemBackground"-->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardTemperatureDetails"
+        android:id="@+id/cardRainProbability"
+        style="@style/CardVariableProbabilityStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_26dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardCornerRadius="20dp"
-        app:contentPadding="@dimen/dim_16dp"
-        app:strokeColor="#5C6BC0"
-        app:strokeWidth="@dimen/dim_2dp">
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/temperatureTitle"
+                android:id="@+id/rainProbabilityTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/futura_medium"
-                android:paddingVertical="@dimen/dim_8dp"
                 android:text="Probabilidad de Lluvia"
-                android:textSize="@dimen/dim_22dp"
+                android:textSize="@dimen/size_22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rainEmoji"
+                style="@style/CustomTitlePercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:paddingHorizontal="@dimen/dim_8dp"
+                android:text="☁️"
                 android:paddingVertical="@dimen/dim_20dp"
-                android:scaleType="centerCrop"
-
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/temperatureTitle"
-                app:srcCompat="@drawable/temperature_gota" />
+                app:layout_constraintTop_toBottomOf="@+id/rainProbabilityTitle"
+                 />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
 
-            <TextView
-                android:id="@+id/temperature"
+                android:paddingVertical="@dimen/dim_20dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rainProbabilityTitle"
+                app:srcCompat="@drawable/rain_2" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rainProbabilityPercentage"
+                style="@style/CustomTitlePercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/futura_medium"
-                android:gravity="center"
-                android:layout_marginStart="@dimen/dim_8dp"
-
                 android:text="40 %"
-                android:textSize="@dimen/size_48sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
-                app:layout_constraintTop_toBottomOf="@+id/temperatureTitle" />
+                app:layout_constraintStart_toEndOf="@+id/rainEmoji"
+                app:layout_constraintTop_toBottomOf="@+id/rainProbabilityTitle" />
 
-            <TextView
-                android:id="@+id/temperatureDetails"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rainProbabilityDescription"
+                style="@style/CustomTextPropDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dim_8dp"
-                android:fontFamily="@font/futura_medium"
-                android:layout_marginStart="@dimen/dim_8dp"
                 android:text="En este lugar llueve cada 10 dia en promedio en Octubre"
-                android:textSize="@dimen/size_16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/temperature"
-                app:layout_constraintTop_toBottomOf="@+id/temperature" />
+                app:layout_constraintStart_toStartOf="@+id/rainProbabilityPercentage"
+                app:layout_constraintTop_toBottomOf="@+id/rainProbabilityPercentage" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rainVisualRepresentation"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-----Visual Representation---------"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
+<!--        card 2 temprature-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardTemperatureProbability"
+        style="@style/CardVariableProbabilityStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/temperatureProbabilityTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futura_medium"
+                android:text="Temperature Promedio"
+                android:textSize="@dimen/size_22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tempEmoji"
+                style="@style/CustomTitlePercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="🧊"
+                android:paddingVertical="@dimen/dim_20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureProbabilityTitle"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgTemperature"
+                android:visibility="gone"
+
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingVertical="@dimen/dim_20dp"
+                android:scaleType="fitCenter"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureProbabilityTitle"
+                app:srcCompat="@drawable/temperature_2"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/temperatureProbabilityPercentage"
+                style="@style/CustomTitlePercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="40 %"
+                app:layout_constraintStart_toEndOf="@+id/tempEmoji"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureProbabilityTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/temperatureProbabilityDescription"
+                style="@style/CustomTextPropDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="En este lugar llueve cada 10 dia en promedio en Octubre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/temperatureProbabilityPercentage"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureProbabilityPercentage" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/temperatureVisualRepresentation"
+                android:visibility="gone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-----Visual Representation---------"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgTemperature" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+<!--Wind card-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardWindSpeedProbability"
+        style="@style/CardVariableProbabilityStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/windSpeedTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futura_medium"
+                android:text="Velocidad de Viento"
+                android:textSize="@dimen/size_22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/windEmoji"
+                style="@style/CustomTitlePercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="🍃"
+                android:paddingVertical="@dimen/dim_20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/windSpeedTitle"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:visibility="gone"
+                android:id="@+id/imgWindSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingVertical="@dimen/dim_20dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/windSpeedTitle"
+                app:srcCompat="@drawable/wind_2" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/windSpeedPercentage"
+                style="@style/CustomTitlePercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="40 %"
+                app:layout_constraintStart_toEndOf="@+id/windEmoji"
+                app:layout_constraintTop_toBottomOf="@+id/windSpeedTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/windSpeedDescription"
+                style="@style/CustomTextPropDescription"
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+                android:text="En este lugar hauy viento promedio de 10 km/h"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/windSpeedPercentage"
+                app:layout_constraintTop_toBottomOf="@+id/windSpeedPercentage"
+
+
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/windVisualRepresentation"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="-----Visual Representation---------"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgWindSpeed" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
