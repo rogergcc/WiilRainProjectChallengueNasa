@@ -22,8 +22,6 @@ fun List<Double>.calculatePercentile(percentile: Double): Double {
     val index = (percentile * (sorted.size - 1)).toInt()
     return sorted[index]
 }
-
-
 //fun Double.formatOneDecimal(): String = String.format(DECIMAL_FORMAT_ONE, this)
 
 fun Double.formatOneDecimalLocale():String{
@@ -37,7 +35,6 @@ fun Double.formatTwoDecimalLocale():String{
     val formatter = NumberFormat.getNumberInstance(locale).apply { maximumFractionDigits = 2 }
     return formatter.format(this)
 }
-
 
 fun Double.formatOneDecimal():String{
     return DECIMAL_FORMAT_ONE.format(this)

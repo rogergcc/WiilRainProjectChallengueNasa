@@ -25,6 +25,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.AnalyzeClimateU
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimal
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimalLocale
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatTwoDecimalLocale
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.BUNDLE_LOCATION_SEARCH
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
@@ -131,7 +132,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 }
             }
 //            val selectedLocation = arguments?.let {
-//                BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
+//                BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
 //            }
 
 
@@ -252,17 +253,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 analysis.wind.probability
             }%"
         )
-        // Metadata adicional
-        println("\n--- METADATA ---")
-
-//        println("Período analizado: ${analysis.metadata["historical_period"]}")
-//        println("Umbral lluvia: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["rain"]} mm")
-//        println("Umbral calor: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["extreme_heat"]} °C")
-//        println("Umbral viento: ${(analysis.metadata["thresholds_used"] as Map<*, *>)["strong_wind"]} km/h")
-//        println("\n--- METADATA 2 ---")
-//        println("Metada 2--- ${analysis.metadata}")
-
-        Log.e("DashboardFragment", "---------------------------")
+        Log.e(TEST_LOG_TAG, "---------------------------")
     }
 
 
@@ -287,7 +278,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         sendLocation?.type = tag
 
         findNavController().navigate(R.id.gotoDetailsView, Bundle().also {
-            it.putParcelable("selectedLocationSearch", sendLocation)
+            it.putParcelable(BUNDLE_LOCATION_SEARCH, sendLocation)
 
         })
 

@@ -8,12 +8,6 @@ import com.rogergcc.wiilrainprojectchallenguenasa.R
  * Created on octubre.
  * year 2025 .
  */
-data class Thresholds(
-    val rain: WeatherType = WeatherType.RAIN,
-    val temperature: WeatherType = WeatherType.TEMP,
-    val wind: WeatherType = WeatherType.WIND
-)
-
 
 enum class WeatherType(
     val description: Int ,

@@ -11,6 +11,8 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentHomeBinding
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.BUNDLE_LOCATION_SEARCH
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.ui.dashboard.MaterialDatePickerFragment
@@ -20,9 +22,9 @@ import java.util.Date
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
-    private var locationSearch:LocationSearch? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding ?: error("Binding not initialized")
 
+    private var locationSearch:LocationSearch? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -98,7 +100,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         selectedDate = Date(selectedDate.time) // Crear nueva instancia de Date
                     )
 
-                    Log.d("DATE", "Selected Date object: cal = ${locationSearch?.selectedDate}" )
+                    Log.d(TEST_LOG_TAG, "[Home] Selected Date object: cal = ${locationSearch?.selectedDate}" )
 
                 }
             ).show(parentFragmentManager, "material_date_picker")
@@ -116,7 +118,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             val bundle = Bundle().apply {
                 putString("selectedDate", dateSearch)
-                putParcelable("selectedLocationSearch", locationSearch)
+                putParcelable(BUNDLE_LOCATION_SEARCH, locationSearch)
             }
 
 //        findNavController().navigate(action)

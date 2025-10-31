@@ -19,10 +19,6 @@ import kotlin.math.roundToInt
  * Created on octubre.
  * year 2025 .
  */
-
-
-////////////////////////////
-
 class WeatherFormatter(private val resourceProvider: ResourceProvider) {
     private fun getTrendSummary(
         startYear: Int,

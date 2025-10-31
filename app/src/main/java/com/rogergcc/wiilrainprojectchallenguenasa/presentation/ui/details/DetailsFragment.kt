@@ -10,10 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryAssets
+import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDashboardBinding
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDetailsBinding
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherFormatter
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.mapper.WeatherRecordMapper
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.WeatherHistoricalReportUseCase
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.BUNDLE_LOCATION_SEARCH
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.LoadingView
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.providers.AndroidResourceProvider
@@ -22,8 +24,20 @@ import kotlinx.coroutines.launch
 class DetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
+    private val binding get() = _binding ?: error("Binding not initialized")
 
-    private val binding get() = _binding!!
+    private lateinit var loader: LoadingView
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+        }
+    }
 
     private val weatherFormatter by lazy {
         WeatherFormatter(
@@ -47,17 +61,7 @@ class DetailsFragment : Fragment() {
             weatherUseCase
         )
     }
-    private lateinit var loader: LoadingView
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +76,7 @@ class DetailsFragment : Fragment() {
         loader = LoadingView(requireContext())
 //        val selectedType = arguments?.getString("selectedValue")
         val selectedLocation = arguments?.let {
-            BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
+            BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
         }
         val weatherType = WeatherType.fromDescription(selectedLocation?.type ?: "-", requireContext())
 
