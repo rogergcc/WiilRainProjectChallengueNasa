@@ -30,17 +30,24 @@ enum class TemperatureRange(
 //│ 🔥 Caluroso: 7 (18%)
 
 enum class TemperatureRecommendation(
+    private val conditionRange: ClosedRange<Float>,
     override val emoji: String,
-    @StringRes override val textRes: Int,
     override val color: Int, // Added color field
-    private val conditionRange: ClosedRange<Float>
+    @StringRes override val labelRes: Int,
+    @StringRes override val descRes: Int
 ) : Recommendation {
 
-    COLD_WEATHER("🧊", R.string.temp_cold, R.color.light_blue, Float.NEGATIVE_INFINITY..15.0f),
-    COMFORTABLE("🌤", R.string.temp_comfortable, R.color.green, 15.1f..28.0f),
-    WARM_WEATHER("🌡️", R.string.temp_mild, R.color.orange, 28.1f..32.0f),
-    //    HEAT_ALERT("🔥", "High temperatures recorded. Stay hydrated.", 32.1f..Float.MAX_VALUE);
-    HEAT_ALERT("🔥", R.string.temp_hot, R.color.red, 32.1f..Float.MAX_VALUE);
+//    COLD_WEATHER("🧊", R.string.temp_cold, R.color.light_blue, Float.NEGATIVE_INFINITY..15.0f),
+//    COMFORTABLE("🌤", R.string.temp_comfortable, R.color.green, 15.1f..28.0f),
+//    WARM_WEATHER("🌡️", R.string.temp_mild, R.color.orange, 28.1f..32.0f),
+//    //    HEAT_ALERT("🔥", "High temperatures recorded. Stay hydrated.", 32.1f..Float.MAX_VALUE);
+//    HEAT_ALERT("🔥", R.string.temp_hot, R.color.red, 32.1f..Float.MAX_VALUE);
+
+    TEMP_VERY_COLD(-999f ..  0f, "🧊", R.color.temp_very_cold, R.string.temp_very_cold_label, R.string.temp_very_cold_desc),
+    TEMP_COLD(0f .. 10f, "❄️", R.color.temp_cold, R.string.temp_cold_label, R.string.temp_cold_desc),
+    TEMP_MILD(11f .. 20f, "🌤️", R.color.temp_mild, R.string.temp_mild_label, R.string.temp_mild_desc),
+    TEMP_WARM(21f .. 30f, "☀️", R.color.temp_warm, R.string.temp_warm_label, R.string.temp_warm_desc),
+    TEMP_HOT(31f.. 999f, "🔥", R.color.temp_hot, R.string.temp_hot_label, R.string.temp_hot_desc);
 
     override fun matches(value: Float): Boolean = value in conditionRange
 

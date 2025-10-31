@@ -25,6 +25,54 @@
     <string name="label_classification">+ CLASSIFICATION:</string>
     <string name="label_recommendation">💡 RECOMMENDATION:</string>
 
+    <!-- Rain -->
+    <string name="rain_very_low_label">Very low</string>
+    <string name="rain_very_low_desc">Almost no chance of rain. Clear or few clouds.</string>
+
+    <string name="rain_low_label">Low</string>
+    <string name="rain_low_desc">Low chance of light or passing rain.</string>
+
+    <string name="rain_moderate_label">Moderate</string>
+    <string name="rain_moderate_desc">Possible rain, especially in the afternoon or evening.</string>
+
+    <string name="rain_high_label">High</string>
+    <string name="rain_high_desc">Likely rain during the day. Bring an umbrella.</string>
+
+    <string name="rain_very_high_label">Very high</string>
+    <string name="rain_very_high_desc">High certainty of rain or storms.</string>
+
+    <!-- Temperature -->
+    <string name="temp_very_cold_label">Very cold</string>
+    <string name="temp_very_cold_desc">Risk of frost or ice.</string>
+
+    <string name="temp_cold_label">Cold</string>
+    <string name="temp_cold_desc">Low temperature, warm clothing needed.</string>
+
+    <string name="temp_mild_label">Mild</string>
+    <string name="temp_mild_desc">Pleasant weather, great for outdoor activities.</string>
+
+    <string name="temp_warm_label">Warm</string>
+    <string name="temp_warm_desc">Hot day, use sunscreen.</string>
+
+    <string name="temp_hot_label">Very hot</string>
+    <string name="temp_hot_desc">Extreme heat risk or dehydration.</string>
+
+    <!-- Wind -->
+    <string name="wind_calm_label">Calm</string>
+    <string name="wind_calm_desc">Very calm air, almost no wind.</string>
+
+    <string name="wind_light_label">Light</string>
+    <string name="wind_light_desc">Light breeze, barely moves leaves.</string>
+
+    <string name="wind_moderate_label">Moderate</string>
+    <string name="wind_moderate_desc">Some gusts but not dangerous.</string>
+
+    <string name="wind_strong_label">Strong</string>
+    <string name="wind_strong_desc">Noticeable wind, can lift dust.</string>
+
+    <string name="wind_very_strong_label">Very strong</string>
+    <string name="wind_very_strong_desc">Risk of strong gusts or windstorms.</string>
+
     <!-- Temperature -->
     <!-- T. Classification (Label) -->
     <string name="temp_label_cold">Cold</string>

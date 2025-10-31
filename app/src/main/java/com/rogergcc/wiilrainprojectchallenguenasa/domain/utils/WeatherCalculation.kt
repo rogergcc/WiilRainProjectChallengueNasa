@@ -9,6 +9,8 @@ import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.WeatherResult
  * Created on octubre.
  * year 2025 .
  */
+
+
 fun calculateWeatherResult(
     yearlyData: List<Double>,
     weatherType: WeatherType,
@@ -30,6 +32,30 @@ fun calculateWeatherResult(
 //        unit = weatherType.unit
 //    )
 
+//    🌀 1️⃣ Diferencia conceptual entre las tres métricas
+//
+//    | Métrica                 | Qué representa                | Qué mide exactamente                                       | Ejemplo de interpretación         |
+//    | ----------------------- | ----------------------------- | ---------------------------------------------------------- | --------------------------------- |
+//    | **rain_probability**    | Probabilidad de lluvia        | Porcentaje (%) de días con lluvia o eventos de lluvia      | 70% → alta probabilidad de lluvia |
+//    | **temperature_average** | Temperatura promedio diaria   | Valor medio (°C) de las temperaturas registradas en el día | 25°C → día cálido                 |
+//    | **wind_speed_average**  | Velocidad promedio del viento | Valor medio (km/h) del viento medido durante el día        | 20 km/h → viento moderado         |
+//    💡 En resumen:
+//
+//    🌧️ rain_probability → mide probabilidad (valor porcentual)
+//
+//    🌡️ temperature_average → mide promedio (valor continuo en °C)
+//
+//    💨 wind_speed_average → mide promedio (valor continuo en km/h)
+
+//    🧩 En resumen:
+//    | Métrica                     | Tipo de variable         | Qué representa              | Justificación del nombre                                         |
+//    | --------------------------- | ------------------------ | --------------------------- | ---------------------------------------------------------------- |
+//    | 🌧️ **rain_probability**    | Probabilística (0–100 %) | Chance de que ocurra lluvia | No es una magnitud promedio, sino una **probabilidad** de evento |
+//    | 🌡️ **temperature_average** | Continua (°C)            | Promedio diario             | Variable física promedio                                         |
+//    | 💨 **wind_speed_average**   | Continua (km/h)          | Promedio diario             | Variable física promedio                                         |
+
+
+    // Obtain recommendation based on average value generic form for each weather type Enum
     val recommendation: Recommendation = recommendationProvider(average)
 //    val recommandationString = buildRecommendation(
 //       recommendations = recommendationType ,

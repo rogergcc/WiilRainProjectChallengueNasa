@@ -14,11 +14,17 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRecommendation
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.Recommendation
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureRecommendation
+import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRecommendation
 import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryAssets
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDashboardBinding
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.ClimateAnalysisResult
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.AnalyzeClimateUseCase
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimal
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimalLocale
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatTwoDecimalLocale
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
@@ -80,6 +86,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                 is DashboardResultViewModel.UiState.Success -> {
                                     Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
                                     uiState.weatherDataset.let {
+
+
                                         val dateString =
                                             DateUtils.formatDayMonth(it.metadata.date.target)
                                         sendLocation = LocationSearch(
@@ -99,12 +107,19 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                         binding.cityCountry.text = "📍 ${it.metadata.location.name}"
                                     }
                                     uiState.analysis.let { analysis ->
+                                        val rainDataLevel =  RainRecommendation.getRecommendation(analysis.rain.probability.toFloat())
+                                        val temperatureDataLevel = TemperatureRecommendation.getRecommendation(analysis.temperature.average.toFloat())
+                                        val windDataLevel =  WindRecommendation.getRecommendation(analysis.wind.average.toFloat())
 
-                                        setUptColorRecomendation(analysis)
-
-                                        staticProbability(analysis)
+                                        setUptColorRecomendation(analysis,rainDataLevel, temperatureDataLevel, windDataLevel)
+                                        staticProbability(analysis,rainDataLevel, temperatureDataLevel, windDataLevel)
 
                                     }
+//                                    metadataPrint(uiState.weatherDataset,
+//                                        uiState.weatherDataset.metadata.date.target,
+//                                        uiState.weatherDataset.yearly_data.first().year,
+//                                        uiState.weatherDataset.yearly_data.last().year, uiState.analysis)
+
 
                                 }
 
@@ -115,33 +130,36 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                         }
                 }
             }
-
-//
 //            val selectedLocation = arguments?.let {
 //                BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
 //            }
 
-//            metadataPrint(datasetDummy, metadataDate, firstYear, lastYear, analysis)
+
 
             // Update UI dynamically
-//            optionTestOption1Ranges()
 
         listenerEvents()
 
     }
 
-    private fun setUptColorRecomendation(analysis: ClimateAnalysisResult) {
+    private fun setUptColorRecomendation(
+        analysis: ClimateAnalysisResult,
+        rainDataLevel: Recommendation,
+        temperaturaDataLevel: TemperatureRecommendation,
+        windDataLevel: WindRecommendation
+    ) {
         //                                        binding.cardRainProbability.setCardBackgroundColor(
         //                                            ContextCompat.getColor(requireContext(),
         //                                                analysis.rain.recomendation.color)
         //                                        )
+
         binding.cardRainProbability.strokeColor =
             ContextCompat.getColor(
                 requireContext(),
-                analysis.rain.recomendation.color
+                rainDataLevel.color
             )
         binding.rainEmoji.text =
-            analysis.rain.recomendation.emoji
+            rainDataLevel.emoji
 
         //                                        binding.cardTemperatureProbability.setCardBackgroundColor(
         //                                            ContextCompat.getColor(requireContext(),
@@ -150,10 +168,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.cardTemperatureProbability.strokeColor =
             ContextCompat.getColor(
                 requireContext(),
-                analysis.temperature.recomendation.color
+                temperaturaDataLevel.color
             )
         binding.tempEmoji.text =
-            analysis.temperature.recomendation.emoji
+            temperaturaDataLevel.emoji
 
         //                                        binding.cardWindSpeedProbability.setCardBackgroundColor(
         //                                            ContextCompat.getColor(requireContext(),
@@ -162,23 +180,27 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.cardWindSpeedProbability.strokeColor =
             ContextCompat.getColor(
                 requireContext(),
-                analysis.wind.recomendation.color
+                windDataLevel.color
             )
 
         binding.windEmoji.text =
-            analysis.wind.recomendation.emoji
+            windDataLevel.emoji
     }
 
-    private fun staticProbability(analysis: ClimateAnalysisResult) {
+    private fun staticProbability(
+        analysis: ClimateAnalysisResult,
+        rainDataLevel: Recommendation,
+        temperatureDataLevel: TemperatureRecommendation,
+        windDataLevel: WindRecommendation
+    ) {
         // Rain CardView
-
         binding.rainProbabilityTitle.text =
             resources.getString(analysis.rain.weatherType.description)
         binding.rainProbabilityPercentage.text =
-            "${analysis.rain.probability.formatOneDecimal()}%"
+            "${analysis.rain.probability.formatOneDecimalLocale()}%"
 
         binding.rainProbabilityDescription.text =
-            resources.getString(analysis.rain.recomendation.textRes)
+            resources.getString(rainDataLevel.descRes)
         binding.cardRainProbability.tag =
             resources.getString(R.string.description_rain)
 
@@ -186,9 +208,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.temperatureProbabilityTitle.text =
             resources.getString(analysis.temperature.weatherType.description)
         binding.temperatureProbabilityPercentage.text =
-            "${analysis.temperature.average.formatOneDecimal()} ${analysis.temperature.weatherType.unit}"
+            "${analysis.temperature.average.formatOneDecimalLocale()} ${analysis.temperature.weatherType.unit}"
         binding.temperatureProbabilityDescription.text =
-            resources.getString(analysis.temperature.recomendation.textRes)
+            resources.getString(temperatureDataLevel.descRes)
         binding.cardTemperatureProbability.tag =
             resources.getString(R.string.description_temperature)
 
@@ -198,7 +220,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.windSpeedPercentage.text =
             "${analysis.wind.average.formatOneDecimal()} ${analysis.wind.weatherType.unit}"
         binding.windSpeedDescription.text =
-            resources.getString(analysis.wind.recomendation.textRes)
+            resources.getString(windDataLevel.descRes)
         binding.cardWindSpeedProbability.tag =
             resources.getString(R.string.description_wind)
     }
@@ -214,23 +236,20 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         println("📊 Datos $firstYear-$lastYear (${analysis.rain.totalYears} observaciones)")
         println()
 
-        println("☔ LLOVIA: ${"%.1f".format(analysis.rain.probability)}%")
+        println("☔ ${analysis.rain.weatherType.name}: ${analysis.rain.probability.formatOneDecimalLocale()}%")
         println()
 
         println(
-            "🌡 TEMPERATURA: ${"%.1f".format(analysis.temperature.average)}°C · ${
-                "%.1f".format(
-                    analysis.temperature.probability
-                )
+            "🌡 ${analysis.temperature.weatherType.name}: ${analysis.temperature.average.formatOneDecimalLocale()}${analysis.temperature.weatherType.unit} · ${
+                analysis.temperature.probability
+                
             }%"
         )
         println()
 
         println(
-            "💨 VIENTO: ${"%.1f".format(analysis.wind.average)} km/h · ${
-                "%.1f".format(
-                    analysis.wind.probability
-                )
+            "💨 ${analysis.wind.weatherType.name}: ${analysis.wind.average.formatTwoDecimalLocale()} ${analysis.wind.weatherType.unit} · ${
+                analysis.wind.probability
             }%"
         )
         // Metadata adicional

@@ -18,6 +18,54 @@
     <string name="label_recommendation">💡 RECOMENDACIÓN:</string>
 
 
+    <!-- 🌧️ Lluvia -->
+    <string name="rain_very_low_label">Muy baja</string>
+    <string name="rain_very_low_desc">Casi seguro que no llueve. Cielo despejado o con pocas nubes.</string>
+
+    <string name="rain_low_label">Baja</string>
+    <string name="rain_low_desc">Poca probabilidad de lluvias ligeras o pasajeras.</string>
+
+    <string name="rain_moderate_label">Moderada</string>
+    <string name="rain_moderate_desc">Posibilidad real de lluvia, especialmente en la tarde o noche.</string>
+
+    <string name="rain_high_label">Alta</string>
+    <string name="rain_high_desc">Lluvias probables durante el día, llevar paraguas.</string>
+
+    <string name="rain_very_high_label">Muy alta</string>
+    <string name="rain_very_high_desc">Alta certeza de lluvia o tormentas.</string>
+
+    <!-- 🌡️ Temperatura -->
+    <string name="temp_very_cold_label">Muy frío</string>
+    <string name="temp_very_cold_desc">Riesgo de heladas o escarcha.</string>
+
+    <string name="temp_cold_label">Frío</string>
+    <string name="temp_cold_desc">Temperatura baja, abrigo necesario.</string>
+
+    <string name="temp_mild_label">Templado</string>
+    <string name="temp_mild_desc">Clima agradable, ideal para actividades al aire libre.</string>
+
+    <string name="temp_warm_label">Cálido</string>
+    <string name="temp_warm_desc">Día caluroso, usar bloqueador solar.</string>
+
+    <string name="temp_hot_label">Muy caluroso</string>
+    <string name="temp_hot_desc">Riesgo de calor extremo o deshidratación.</string>
+
+    <!-- 💨 Viento -->
+    <string name="wind_calm_label">Calma</string>
+    <string name="wind_calm_desc">Aire muy tranquilo, casi sin viento.</string>
+
+    <string name="wind_light_label">Suave</string>
+    <string name="wind_light_desc">Brisa ligera, apenas mueve hojas.</string>
+
+    <string name="wind_moderate_label">Moderado</string>
+    <string name="wind_moderate_desc">Se sienten ráfagas, pero sin peligro.</string>
+
+    <string name="wind_strong_label">Fuerte</string>
+    <string name="wind_strong_desc">Viento notorio, puede incomodar o levantar polvo.</string>
+
+    <string name="wind_very_strong_label">Muy fuerte</string>
+    <string name="wind_very_strong_desc">Riesgo de ráfagas intensas o tormentas de viento.</string>
+
     <!-- 🌧️ Rain probability -->
 <!--    <string name="rain_label_very_low">Muy baja</string>-->
 <!--    <string name="rain_desc_very_low">Casi seguro que no llueve.</string>-->

@@ -103,7 +103,7 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
             resourceProvider.getString(
                 R.string.classification_child,
                 rec.emoji,
-                resourceProvider.getString(rec.textRes),
+                resourceProvider.getString(rec.labelRes),
                 count,
                 percentage
             )
@@ -177,7 +177,7 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         val avgFloat = avg.toFloat()
 
         return recommendations.firstOrNull { it.matches(avgFloat) }?.let {
-            "${it.emoji} ${resourceProvider.getString(it.textRes)}"
+            "${it.emoji} ${resourceProvider.getString(it.descRes)}"
         } ?: resourceProvider.getString(R.string.label_no_recommendation)
     }
 

@@ -34,16 +34,23 @@ enum class RainRange(
 }
 
 enum class RainRecommendation(
+    private val conditionRange: ClosedRange<Float>,
     override val emoji: String,
-    @StringRes override val textRes: Int,
     override val color: Int, // Added color field
-    private val conditionRange: ClosedRange<Float>
+    @StringRes override val labelRes: Int,
+    @StringRes override val descRes: Int
 ) : Recommendation {
 
-    NO_RAIN("☁️", R.string.rain_no_expected, R.color.light_gray, 0f..19.99f),
-    LIGHT_RAIN("🌦️", R.string.rain_light, R.color.light_blue, 20f..40f),
-    MODERATE_RAIN("🌧️", R.string.rain_moderate, R.color.blue, 40.1f..60f),
-    HEAVY_RAIN("⛈️", R.string.rain_heavy, R.color.dark_blue, 60.1f..Float.MAX_VALUE);
+//    NO_RAIN("☁️", R.string.rain_no_expected, R.color.light_gray, 0f..19.99f),
+//    LIGHT_RAIN("🌦️", R.string.rain_light, R.color.light_blue, 20f..40f),
+//    MODERATE_RAIN("🌧️", R.string.rain_moderate, R.color.blue, 40.1f..60f),
+//    HEAVY_RAIN("⛈️", R.string.rain_heavy, R.color.dark_blue, 60.1f..Float.MAX_VALUE);
+
+    RAIN_VERY_LOW(0f.. 10f, "☁️", R.color.rain_very_low, R.string.rain_very_low_label, R.string.rain_very_low_desc),
+    RAIN_LOW(11f.. 30f, "🌤️", R.color.rain_low, R.string.rain_low_label, R.string.rain_low_desc),
+    RAIN_MODERATE(31f.. 60f, "🌧️", R.color.rain_moderate, R.string.rain_moderate_label, R.string.rain_moderate_desc),
+    RAIN_HIGH(61f.. 80f, "🌦️", R.color.rain_high, R.string.rain_high_label, R.string.rain_high_desc),
+    RAIN_VERY_HIGH(81f.. 100f, "⛈️", R.color.rain_very_high, R.string.rain_very_high_label, R.string.rain_very_high_desc);
 
     override fun matches(value: Float): Boolean = value in conditionRange
 

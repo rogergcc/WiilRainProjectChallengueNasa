@@ -53,16 +53,16 @@ interface WeatherStrategy {
 
 class GenericWeatherStrategy<T : Recommendation>(
     private val selector: (YearlyData) -> Double,
-    private val recommendationProvider: (Double) -> T
+    private val recommendationProvider: (Double) -> T,
 ) : WeatherStrategy {
     override fun calculate(yearlyData: List<YearlyData>, weatherType: WeatherType): WeatherResult {
         val values = yearlyData.map(selector)
-        val result = calculateWeatherResult(values, weatherType,recommendationProvider)
+        val result = calculateWeatherResult(values, weatherType, recommendationProvider)
 //        val recommendation:Recommendation = recommendationProvider(result.average)
 //        result.recomendation = recommendation
 //        val resultModi = result.copy(recomendation = recommendation)
 
-        return  result
+        return result
     }
 }
 
@@ -74,10 +74,12 @@ object WeatherStrategyFactory {
                 selector = { it.precip_mm },
                 recommendationProvider = { RainRecommendation.getRecommendation(it.toFloat()) }
             )
+
             WeatherType.TEMP -> GenericWeatherStrategy(
                 selector = { it.temp_c },
                 recommendationProvider = { TemperatureRecommendation.getRecommendation(it.toFloat()) }
             )
+
             WeatherType.WIND -> GenericWeatherStrategy(
                 selector = { it.wind_kmh },
                 recommendationProvider = { WindRecommendation.getRecommendation(it.toFloat()) }

@@ -9,9 +9,10 @@ import com.rogergcc.wiilrainprojectchallenguenasa.R
  */
 
 interface Recommendation {
-    val emoji: String
-    val textRes: Int
     val color: Int
+    val emoji: String
+    val labelRes: Int
+    val descRes: Int
     fun matches(value: Float): Boolean
 }
 

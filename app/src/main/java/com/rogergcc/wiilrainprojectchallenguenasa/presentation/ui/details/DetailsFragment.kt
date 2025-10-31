@@ -102,56 +102,10 @@ class DetailsFragment : Fragment() {
             }
         }
 
-//        val datasetDummy = dataManager.parseWeatherDataset()
-//        val yearlyDataBase= datasetDummy.yearly_data
 
-
-
-//        chartContainer.setupHistoricalBarChart(
-//            requireContext(),
-//            data = datasetDummy.yearly_data,
-//            getValue = { it.temp_c },
-//            getMaxScale = { list -> list.maxOf { it.temp_c } },
-//            getThreshold = { 32.0 },
-//            valueFormatter = { "%.1f".format(it) },
-//            unit = "%"
-//        )
-//        chartContainer.setupHistoricalBarChart(
-//            requireContext(),
-//            data = datasetDummy.yearly_data,
-//            getValue = { it.temp_c },
-//            getMaxScale = { data -> data.maxOf { it.temp_c } }, // Escala: min→max histórico
-//            getThreshold = { 32.0 }, // Umbral calor extremo
-////            getIcon = { temp -> if (temp > 32.0) Icons.Default.Warning else null },
-//            valueFormatter = { "%.1f".format(it) },
-//            unit = "°C"
-//        )
-
-//        val weatherForDate = dataAqpSearchDummy.variables?.find { it?.id == dateSearch }
-//
-//        showData(weatherForDate!!)
 
     }
 
-//    private fun showData(detail: ForecastData.Variable) {
-//        // Configurar gráfico
-//        val entries = detail.chartData?.mapIndexed { index, mv ->
-//            mv?.value?.let { BarEntry(index.toFloat(), it.toFloat()) }
-//        }
-//        val dataSet = BarDataSet(entries, detail.name).apply {
-//            valueTextSize = 12f
-//        }
-//        val data = BarData(dataSet)
-//        binding.barChart.data = data
-//        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(detail.chartData?.map { it?.month })
-//        binding.barChart.invalidate()
-//
-//
-//        // Mostrar textos
-//        binding. tvInterpretation.text = detail.historicalAverage?.interpretation
-//        binding.tvAverage.text = "Media histórica: ${detail.historicalAverage?.averageRainfallMm} ${detail.unit}"
-////        binding.tvRecommendation.text = detail.historicalAverage.summary.recommendation
-//    }
 
     companion object {
 
