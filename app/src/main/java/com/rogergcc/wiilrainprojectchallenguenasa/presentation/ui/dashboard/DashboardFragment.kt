@@ -73,72 +73,76 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            viewModel.calculateProbabilities()
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.uiWeatherResult
+        viewModel.calculateProbabilities()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiWeatherResult
 //                    .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
-                        .collect { uiState ->
-                            when (uiState) {
-                                is DashboardResultViewModel.UiState.Loading -> {
-                                    // Show loading state if needed
-                                }
+                    .collect { uiState ->
+                        when (uiState) {
+                            is DashboardResultViewModel.UiState.Loading -> {
+                                // Show loading state if needed
+                            }
 
-                                is DashboardResultViewModel.UiState.Success -> {
-                                    Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
-                                    uiState.weatherDataset.let {
+                            is DashboardResultViewModel.UiState.Success -> {
+                                Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
+                                uiState.weatherDataset.let {
 
 
-                                        val dateString =
-                                            DateUtils.formatDayMonth(it.metadata.date.target)
-                                        sendLocation = LocationSearch(
+                                    val dateString =
+                                        DateUtils.formatDayMonth(it.metadata.date.target)
+                                    sendLocation = LocationSearch(
 
-                                            selectedDateString = dateString,
-                                            city = it.metadata.location.name,
-                                            country = it.metadata.location.country,
-                                            historicEvaluation = getString(
-                                                R.string.observation_data,
-                                                it.metadata.historical_context.period,
-                                                it.yearly_data.count().toString()
-                                            )
+                                        selectedDateString = dateString,
+                                        city = it.metadata.location.name,
+                                        country = it.metadata.location.country,
+                                        historicEvaluation = getString(
+                                            R.string.observation_data,
+                                            it.metadata.historical_context.period,
+                                            it.yearly_data.count().toString()
                                         )
+                                    )
 
-                                        binding.dateSearch.text =
-                                            "\uD83D\uDCCA ${sendLocation?.selectedDateString}"
-                                        binding.cityCountry.text = "📍 ${it.metadata.location.name}"
-                                    }
-                                    uiState.analysis.let { analysis ->
-                                        val rainDataLevel =  RainRecommendation.getRecommendation(analysis.rain.probability.toFloat())
-                                        val temperatureDataLevel = TemperatureRecommendation.getRecommendation(analysis.temperature.average.toFloat())
-                                        val windDataLevel =  WindRecommendation.getRecommendation(analysis.wind.average.toFloat())
+                                    binding.dateSearch.text =
+                                        "\uD83D\uDCCA ${sendLocation?.selectedDateString}"
+                                    binding.cityCountry.text = "📍 ${it.metadata.location.name}"
+                                }
+                                uiState.analysis.let { analysis ->
+                                    val rainDataLevel =
+                                        RainRecommendation.getRecommendation(analysis.rain.probability.toFloat())
+                                    val temperatureDataLevel =
+                                        TemperatureRecommendation.getRecommendation(analysis.temperature.average.toFloat())
+                                    val windDataLevel =
+                                        WindRecommendation.getRecommendation(analysis.wind.average.toFloat())
 
-                                        setUptColorRecomendation(analysis,rainDataLevel, temperatureDataLevel, windDataLevel)
-                                        staticProbability(analysis,rainDataLevel, temperatureDataLevel, windDataLevel)
-
-                                    }
-//                                    metadataPrint(uiState.weatherDataset,
-//                                        uiState.weatherDataset.metadata.date.target,
-//                                        uiState.weatherDataset.yearly_data.first().year,
-//                                        uiState.weatherDataset.yearly_data.last().year, uiState.analysis)
-
+                                    setUptColorRecomendation(
+                                        analysis,
+                                        rainDataLevel,
+                                        temperatureDataLevel,
+                                        windDataLevel
+                                    )
+                                    staticProbability(
+                                        analysis,
+                                        rainDataLevel,
+                                        temperatureDataLevel,
+                                        windDataLevel
+                                    )
 
                                 }
 
-                                is DashboardResultViewModel.UiState.Failure -> {
-                                    Log.e(TEST_LOG_TAG, "Error: ${uiState.errorMessage}")
-                                }
+
+                            }
+
+                            is DashboardResultViewModel.UiState.Failure -> {
+                                Log.e(TEST_LOG_TAG, "Error: ${uiState.errorMessage}")
                             }
                         }
-                }
+                    }
             }
+        }
 //            val selectedLocation = arguments?.let {
 //                BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
 //            }
-
-
-
-            // Update UI dynamically
-
         listenerEvents()
 
     }
@@ -147,7 +151,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         analysis: ClimateAnalysisResult,
         rainDataLevel: Recommendation,
         temperaturaDataLevel: TemperatureRecommendation,
-        windDataLevel: WindRecommendation
+        windDataLevel: WindRecommendation,
     ) {
         //                                        binding.cardRainProbability.setCardBackgroundColor(
         //                                            ContextCompat.getColor(requireContext(),
@@ -192,7 +196,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         analysis: ClimateAnalysisResult,
         rainDataLevel: Recommendation,
         temperatureDataLevel: TemperatureRecommendation,
-        windDataLevel: WindRecommendation
+        windDataLevel: WindRecommendation,
     ) {
         // Rain CardView
         binding.rainProbabilityTitle.text =
@@ -243,7 +247,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         println(
             "🌡 ${analysis.temperature.weatherType.name}: ${analysis.temperature.average.formatOneDecimalLocale()}${analysis.temperature.weatherType.unit} · ${
                 analysis.temperature.probability
-                
+
             }%"
         )
         println()
@@ -255,7 +259,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         )
         Log.e(TEST_LOG_TAG, "---------------------------")
     }
-
 
 
     private fun listenerEvents() {

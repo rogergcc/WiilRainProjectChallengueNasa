@@ -86,7 +86,7 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
     }
 
 
-    private fun <T> buildClassification(
+    fun <T> buildClassification(
         records: List<WeatherYearRecord>,
         recommendations: Iterable<T>,
         valueSelector: (WeatherYearRecord) -> Double,
@@ -128,6 +128,9 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         )
         val chart = generateVisualBarChart(records, weatherType, valueSelector, statistics.max)
         val classification = buildClassification(records, recommendations, valueSelector, condition)
+
+        // todo Build recommendation based on average value + Generic for all weather types
+        //WeatherType Temperature, Wind use avg and for Rain use probabability % already use in in Dashboard
         val recommendation = buildRecommendation(statistics.avg, recommendations)
 
         return buildString {
