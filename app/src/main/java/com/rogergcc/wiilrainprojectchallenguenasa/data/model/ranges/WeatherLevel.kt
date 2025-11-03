@@ -7,6 +7,7 @@ package com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges
  */
 
 interface Recommendation {
+    val conditionRange: ClosedRange<Float>
     val color: Int
     val emoji: String
     val labelRes: Int

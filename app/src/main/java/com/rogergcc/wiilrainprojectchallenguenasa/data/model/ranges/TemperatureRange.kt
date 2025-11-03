@@ -18,9 +18,9 @@ import com.rogergcc.wiilrainprojectchallenguenasa.R
 
 
 enum class TemperatureRecommendation(
-    private val conditionRange: ClosedRange<Float>,
+    override val conditionRange: ClosedRange<Float>,
     override val emoji: String,
-    override val color: Int, // Added color field
+    override val color: Int,
     @StringRes override val labelRes: Int,
     @StringRes override val descRes: Int
 ) : Recommendation {

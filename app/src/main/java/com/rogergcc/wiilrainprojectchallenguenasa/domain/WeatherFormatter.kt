@@ -86,7 +86,7 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
     }
 
 
-    fun <T> buildClassification(
+    private fun <T> buildClassification(
         records: List<WeatherYearRecord>,
         recommendations: Iterable<T>,
         valueSelector: (WeatherYearRecord) -> Double,
@@ -96,10 +96,17 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         return recommendations.joinToString("\n") { rec ->
             val count = records.count { condition(rec, valueSelector(it)) }
             val percentage = if (total > 0) (count * 100) / total else 0
+            val range =
+                when {
+                    rec.conditionRange.start == -999f -> "(<= ${rec.conditionRange.endInclusive})"
+                    rec.conditionRange.endInclusive == 999f -> "(>= ${rec.conditionRange.start})"
+                    else -> "(${rec.conditionRange.start} - ${rec.conditionRange.endInclusive})"
+                }
             resourceProvider.getString(
                 R.string.classification_child,
                 rec.emoji,
                 resourceProvider.getString(rec.labelRes),
+                range,
                 count,
                 percentage
             )
@@ -129,6 +136,7 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         val chart = generateVisualBarChart(records, weatherType, valueSelector, statistics.max)
         val classification = buildClassification(records, recommendations, valueSelector, condition)
 
+        println(classification)
         // todo Build recommendation based on average value + Generic for all weather types
         //WeatherType Temperature, Wind use avg and for Rain use probabability % already use in in Dashboard
         val recommendation = buildRecommendation(statistics.avg, recommendations)
@@ -175,9 +183,10 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
     ): String where T : Enum<T>, T : Recommendation {
         val avgFloat = avg.toFloat()
 
-        return recommendations.firstOrNull { it.matches(avgFloat) }?.let {
-            "${it.emoji} ${resourceProvider.getString(it.descRes)}"
-        } ?: resourceProvider.getString(R.string.label_no_recommendation)
+        return recommendations.firstOrNull { it.matches(avgFloat) }
+            ?.let {
+                "${it.emoji} ${resourceProvider.getString(it.descRes)}"
+            } ?: resourceProvider.getString(R.string.label_no_recommendation)
     }
 
 
