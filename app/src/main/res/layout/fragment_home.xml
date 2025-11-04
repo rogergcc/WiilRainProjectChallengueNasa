@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
+    android:background="@drawable/cloud_night_back"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_nasa"
-
     android:padding="@dimen/dim_16dp"
     tools:context=".presentation.ui.home.HomeFragment">
 
@@ -43,7 +42,7 @@
             android:layout_marginTop="@dimen/dim_20dp"
             app:cardBackgroundColor="#ECEDF1"
             app:contentPadding="@dimen/dim_12dp"
-            app:strokeColor="#5C6BC0">
+            >
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -52,14 +51,13 @@
                 android:fontFamily="@font/poppins"
                 android:singleLine="true"
                 android:text="@string/message_search"
-                android:textColor="#052035"
-                android:textSize="@dimen/size_14sp"
+                android:textColor="@color/gray_500"
                 app:drawableStartCompat="@drawable/search_icon" />
         </com.google.android.material.card.MaterialCardView>
 
 
         <!--            android:background="?attr/selectableItemBackground"-->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardDatePickerSearch"
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
@@ -67,7 +65,7 @@
             android:layout_marginTop="@dimen/dim_20dp"
             app:cardBackgroundColor="#ECEDF1"
             app:contentPadding="@dimen/dim_12dp"
-            app:strokeColor="#5C6BC0">
+            >
             <!--                android:text="12 Octubre 2025 - 14 Octubre 2025 📆📆"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/dateSelectedSearch"
@@ -75,17 +73,17 @@
                 android:layout_height="wrap_content"
                 android:drawableTint="@color/black"
                 android:fontFamily="@font/poppins"
-                android:hint="@string/select_date_to_search"
-                android:textColor="#052035"
-                android:textColorHint="?attr/baseThemeColor"
+                android:text="@string/select_date_to_search"
+                android:textColor="@color/gray_700"
                 android:textSize="@dimen/size_14sp"
                 app:drawableStartCompat="@drawable/search_icon" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/searchButton"
-        style="@style/Widget.MaterialButton.Custom"
+        app:backgroundTint="@color/blue_300"
+        android:textColor="@color/gray_050"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/dim_16dp"

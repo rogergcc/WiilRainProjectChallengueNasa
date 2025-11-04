@@ -3,18 +3,24 @@
     <style name="Base.Theme.WiilRainProjectChallengueNasa" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-<!--        <item name="android:textColorPrimary">@color/gray_800</item>-->
+        <item name="android:textColorPrimary">@color/gray_800</item>
     </style>
+
 
     <style name="Theme.WiilRainProjectChallengueNasa" parent="Base.Theme.WiilRainProjectChallengueNasa" >
         <item name="colorOnSecondary">@color/gray_050</item>
 
         <item name="shimmerColor">@color/greyShimmerLight</item>
-        <item name="baseThemeColor">@color/gray_050</item>
+        <item name="baseThemeColor">@color/white</item>
         <item name="shadeGrey">@color/gray_600</item>
         <item name="contentColor">@color/gray_050</item>
-        <item name="backgroundColorTheme">@color/gray_010</item>
+        <item name="backgroundColorTheme">@color/gray_020</item>
 
+    </style>
+
+    <style name="CustomHomeParent" >
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:background">@drawable/cloud_day_back</item>
     </style>
 
     <style name="Widget.MaterialButton.Custom" parent="Widget.MaterialComponents.Button">
