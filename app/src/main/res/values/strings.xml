@@ -15,11 +15,12 @@
     <string name="description_temperature">Temperatura promedio diaria</string>
     <string name="description_wind">Velocidad promedio del viento</string>
 
-    <string name="label_classification">+ CLASIFICACIÓN:</string>
+    <string name="label_classification">+ CLASIFICACIÓN: (Registros)</string>
     <string name="label_recommendation">💡 RECOMENDACIÓN:</string>
 
 
     <!-- 🌧️ Lluvia -->
+    <string name="rain_clasification_title">Intensidad de Lluvia</string>
     <string name="rain_very_low_label">Muy baja</string>
     <string name="rain_very_low_desc">Casi seguro que no llueve. Cielo despejado o con pocas nubes.</string>
 
@@ -36,6 +37,7 @@
     <string name="rain_very_high_desc">Alta certeza de lluvia o tormentas.</string>
 
     <!-- 🌡️ Temperatura -->
+    <string name="temperature_clasification_title">Rango de Temperatura</string>
     <string name="temp_very_cold_label">Muy frío</string>
     <string name="temp_very_cold_desc">Riesgo de heladas o escarcha.</string>
 
@@ -52,6 +54,7 @@
     <string name="temp_hot_desc">Riesgo de calor extremo o deshidratación.</string>
 
     <!-- 💨 Viento -->
+    <string name="wind_clasification_title">Velocidad del Viento</string>
     <string name="wind_calm_label">Calma</string>
     <string name="wind_calm_desc">Aire muy tranquilo, casi sin viento.</string>
 

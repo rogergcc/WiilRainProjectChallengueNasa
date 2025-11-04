@@ -3,6 +3,7 @@
     <style name="Base.Theme.WiilRainProjectChallengueNasa" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<!--        <item name="android:textColorPrimary">@color/gray_800</item>-->
     </style>
 
     <style name="Theme.WiilRainProjectChallengueNasa" parent="Base.Theme.WiilRainProjectChallengueNasa" >

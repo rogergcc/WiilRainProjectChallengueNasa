@@ -22,10 +22,11 @@
     <string name="label_minimum">• Historical Minimum: %1$s %2$s</string>
     <string name="label_above_threshold">• %1$d years above threshold</string>
 
-    <string name="label_classification">+ CLASSIFICATION:</string>
+    <string name="label_classification">+ CLASSIFICATION: (Records)</string>
     <string name="label_recommendation">💡 RECOMMENDATION:</string>
 
     <!-- Rain -->
+    <string name="rain_clasification_title">by Rain Intensity</string>
     <string name="rain_very_low_label">Very low</string>
     <string name="rain_very_low_desc">Almost no chance of rain. Clear or few clouds.</string>
 
@@ -42,6 +43,7 @@
     <string name="rain_very_high_desc">High certainty of rain or storms.</string>
 
     <!-- Temperature -->
+    <string name="temperature_clasification_title">by Temperature Range</string>
     <string name="temp_very_cold_label">Very cold</string>
     <string name="temp_very_cold_desc">Risk of frost or ice.</string>
 
@@ -58,6 +60,7 @@
     <string name="temp_hot_desc">Extreme heat risk or dehydration.</string>
 
     <!-- Wind -->
+    <string name="wind_clasification_title">by Wind Speed</string>
     <string name="wind_calm_label">Calm</string>
     <string name="wind_calm_desc">Very calm air, almost no wind.</string>
 

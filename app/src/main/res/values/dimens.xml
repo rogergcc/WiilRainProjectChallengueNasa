@@ -17,6 +17,8 @@
 
     <dimen name="size_11sp">11sp</dimen>
     <dimen name="size_12sp">12sp</dimen>
+    <dimen name="size_13sp">13sp</dimen>
+    <dimen name="size_13_5sp">13.5sp</dimen>
     <dimen name="size_14sp">14sp</dimen>
     <dimen name="size_15sp">15sp</dimen>
     <dimen name="size_16sp">16sp</dimen>

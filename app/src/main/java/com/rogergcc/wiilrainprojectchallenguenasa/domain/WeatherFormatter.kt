@@ -85,6 +85,27 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         }
     }
 
+    private fun buildRainClassification(
+        records: List<WeatherYearRecord>,
+        recommendations: Iterable<RainRecommendation>,
+    ): String {
+        val totalRecords = records.size
+        val rainyRecords = records.count { it.precip_mm > 0 } // Contar registros con lluvia
+        val rainProbability = if (totalRecords > 0) (rainyRecords * 100f) / totalRecords else 0f
+
+        // Obtener la recomendación basada en la probabilidad de lluvia
+        val recommendation = RainRecommendation.getRecommendation(rainProbability)
+
+        // Construir el resultado
+        return resourceProvider.getString(
+            R.string.classification_child,
+            recommendation.emoji,
+            resourceProvider.getString(recommendation.labelRes),
+            "(${recommendation.conditionRange.start} - ${recommendation.conditionRange.endInclusive})",
+            rainyRecords,
+            rainProbability.toInt()
+        )
+    }
 
     private fun <T> buildClassification(
         records: List<WeatherYearRecord>,
@@ -126,6 +147,13 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         val weatherValueSelected = records.map(valueSelector)
 
         val statistics = calculateStatistics(weatherValueSelected, weatherType)
+
+        if (weatherType == WeatherType.RAIN) {
+            val classificationRain = buildRainClassification(records, RainRecommendation.entries)
+            println("Rain classification:")
+            println(classificationRain)
+        }
+
         val trend = getTrendSummary(
             startYear = records.first().year,
             endYear = records.last().year,
@@ -135,11 +163,11 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         )
         val chart = generateVisualBarChart(records, weatherType, valueSelector, statistics.max)
         val classification = buildClassification(records, recommendations, valueSelector, condition)
-
+        println("Generic classification:")
         println(classification)
         // todo Build recommendation based on average value + Generic for all weather types
         //WeatherType Temperature, Wind use avg and for Rain use probabability % already use in in Dashboard
-        val recommendation = buildRecommendation(statistics.avg, recommendations)
+//        val recommendation = buildRecommendation(statistics.avg, recommendations)
 
         return buildString {
             appendLine(resourceProvider.getString(titleResId))
@@ -149,10 +177,11 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
             appendLine(trend)
             appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
             appendLine(resourceProvider.getString(R.string.label_classification))
+            appendLine(resourceProvider.getString(weatherType.clasificationTitle))
             appendLine(classification)
             appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-            appendLine(resourceProvider.getString(R.string.label_recommendation))
-            appendLine(recommendation)
+//            appendLine(resourceProvider.getString(R.string.label_recommendation))
+//            appendLine(recommendation)
         }.trimEnd()
     }
 
