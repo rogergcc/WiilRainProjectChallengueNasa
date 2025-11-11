@@ -159,7 +159,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 onDateSelected = { year, month, day, tag ->
                     val formatted = "%02d/%02d/%04d".format(day + 1, month + 1, year)
 
-                    binding.dateSelectedSearch.text = "${day + 1}/${month + 1}/$year"
+                    binding.dateSelectedSearch.text = "📆 ${day + 1}/${month + 1}/$year"
 
                     val selectedDate = Calendar.getInstance().apply {
                         set(Calendar.YEAR, year)
@@ -173,7 +173,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     Log.d(TEST_LOG_TAG,
                         "[Home] Selected Date object: cal = ${locationSearch?.date}"
                     )
-
                 }
             ).show(parentFragmentManager, "material_date_picker")
 

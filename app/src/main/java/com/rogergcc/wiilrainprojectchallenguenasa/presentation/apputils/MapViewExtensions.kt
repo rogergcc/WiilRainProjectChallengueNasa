@@ -61,8 +61,6 @@ fun initDroppedMarkerLayer(
 }
 
 fun MapView.initDefault(context: Context) {
-
-
     val mapOptions = MapOptions.Builder()
         .applyDefaultParams(context)
         .constrainMode(ConstrainMode.HEIGHT_ONLY)

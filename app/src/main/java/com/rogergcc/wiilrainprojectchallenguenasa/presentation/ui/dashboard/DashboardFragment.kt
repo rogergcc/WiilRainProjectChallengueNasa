@@ -93,7 +93,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                     val dateString =
                                         DateUtils.formatDayMonth(it.metadata.date.target)
                                     sendLocation = LocationSearch(
-
                                         selectedDateString = dateString,
                                         city = it.metadata.location.name,
                                         country = it.metadata.location.country,

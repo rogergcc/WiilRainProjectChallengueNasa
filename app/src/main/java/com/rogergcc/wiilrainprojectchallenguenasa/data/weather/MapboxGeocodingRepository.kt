@@ -6,6 +6,7 @@ import com.mapbox.api.geocoding.v5.GeocodingCriteria
 import com.mapbox.api.geocoding.v5.MapboxGeocoding
 import com.mapbox.api.geocoding.v5.models.GeocodingResponse
 import com.mapbox.geojson.Point
+import com.rogergcc.wiilrainprojectchallenguenasa.BuildConfig
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.GeocodingResult
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.PlaceInfo
@@ -33,7 +34,8 @@ class MapboxGeocodingRepository(
     override suspend fun reverseGeocodingPlace(lat: Double, lon: Double): PlaceInfo {
         return suspendCancellableCoroutine { cont ->
             val geocoding = MapboxGeocoding.builder()
-                .accessToken(context.getString(R.string.mapbox_access_token_styled))
+//                .accessToken(context.getString(R.string.mapbox_access_token_styled))
+                .accessToken( BuildConfig.MAPBOX_DEFAULT_TOKEN)
                 .query(Point.fromLngLat(lon, lat))
                 .geocodingTypes(GeocodingCriteria.TYPE_PLACE)
                 .build()
