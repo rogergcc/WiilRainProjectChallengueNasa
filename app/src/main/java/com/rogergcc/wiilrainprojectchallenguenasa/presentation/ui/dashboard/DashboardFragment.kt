@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.BundleCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.rogergcc.wiilrainprojectchallenguenasa.R
-import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.RainRecommendation
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.Recommendation
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureRecommendation
@@ -24,11 +24,11 @@ import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.ClimateAnalysisRe
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.AnalyzeClimateUseCase
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimal
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimalLocale
-import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatTwoDecimalLocale
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.BUNDLE_LOCATION_SEARCH
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.toast
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import kotlinx.coroutines.launch
 
@@ -86,6 +86,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
                             is DashboardResultViewModel.UiState.Success -> {
                                 Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
+                                requireContext().toast("[Dashboard] Weather dataset processed successfully")
                                 uiState.weatherDataset.let {
 
 
@@ -140,9 +141,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     }
             }
         }
-//            val selectedLocation = arguments?.let {
-//                BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
-//            }
+            val selectedLocation = arguments?.let {
+                BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
+
+            }
+//
+//        requireContext().toast("Location: ${selectedLocation?.city}, Date: ${selectedLocation?.selectedDateString}")
         listenerEvents()
 
     }
@@ -198,7 +202,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         temperatureDataLevel: TemperatureRecommendation,
         windDataLevel: WindRecommendation,
     ) {
-        // Rain CardView
+        // Rain
         binding.rainProbabilityTitle.text =
             resources.getString(analysis.rain.weatherType.description)
         binding.rainProbabilityPercentage.text =
@@ -209,7 +213,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.cardRainProbability.tag =
             resources.getString(R.string.description_rain)
 
-        // Temperature CardView
+        // Temperature
         binding.temperatureProbabilityTitle.text =
             resources.getString(analysis.temperature.weatherType.description)
         binding.temperatureProbabilityPercentage.text =
@@ -219,7 +223,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.cardTemperatureProbability.tag =
             resources.getString(R.string.description_temperature)
 
-        // Wind CardView
+        // Wind
         binding.windSpeedTitle.text =
             resources.getString(analysis.wind.weatherType.description)
         binding.windSpeedPercentage.text =
@@ -228,36 +232,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             resources.getString(windDataLevel.descRes)
         binding.cardWindSpeedProbability.tag =
             resources.getString(R.string.description_wind)
-    }
-
-    private fun metadataPrint(
-        datasetDummy: WeatherDataset,
-        metadataDate: String?,
-        firstYear: Int?,
-        lastYear: Int?,
-        analysis: ClimateAnalysisResult,
-    ) {
-        println("📍 ${datasetDummy.metadata.location} · $metadataDate") //📍 Central Park, NYC · 15 de junio
-        println("📊 Datos $firstYear-$lastYear (${analysis.rain.totalYears} observaciones)")
-        println()
-
-        println("☔ ${analysis.rain.weatherType.name}: ${analysis.rain.probability.formatOneDecimalLocale()}%")
-        println()
-
-        println(
-            "🌡 ${analysis.temperature.weatherType.name}: ${analysis.temperature.average.formatOneDecimalLocale()}${analysis.temperature.weatherType.unit} · ${
-                analysis.temperature.probability
-
-            }%"
-        )
-        println()
-
-        println(
-            "💨 ${analysis.wind.weatherType.name}: ${analysis.wind.average.formatTwoDecimalLocale()} ${analysis.wind.weatherType.unit} · ${
-                analysis.wind.probability
-            }%"
-        )
-        Log.e(TEST_LOG_TAG, "---------------------------")
     }
 
 

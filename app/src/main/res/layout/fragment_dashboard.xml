@@ -14,14 +14,15 @@
         style="@style/viewParent.title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tacna Peru" />
+        android:text="@string/title_city"
+        />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/dateSearch"
         style="@style/viewParent.subTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="11 de Octubre 2025" />
+        android:text="@string/title_date" />
 
 
     <!--        android:background="?attr/selectableItemBackground"-->
@@ -41,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/futura_medium"
-                android:text="Probabilidad de Lluvia"
+                android:text="@string/description_rain"
                 android:textSize="@dimen/size_22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +85,7 @@
                 style="@style/CustomTextPropDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="En este lugar llueve cada 10 dia en promedio en Octubre"
+                android:text="@string/label_recommendation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/rainProbabilityPercentage"
                 app:layout_constraintTop_toBottomOf="@+id/rainProbabilityPercentage" />
@@ -165,7 +166,7 @@
                 style="@style/CustomTextPropDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="En este lugar llueve cada 10 dia en promedio en Octubre"
+                android:text="@string/label_recommendation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/temperatureProbabilityPercentage"
                 app:layout_constraintTop_toBottomOf="@+id/temperatureProbabilityPercentage" />
@@ -243,7 +244,7 @@
                 android:layout_width="0dp"
 
                 android:layout_height="wrap_content"
-                android:text="En este lugar hauy viento promedio de 10 km/h"
+                android:text="@string/label_recommendation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/windSpeedPercentage"
                 app:layout_constraintTop_toBottomOf="@+id/windSpeedPercentage"

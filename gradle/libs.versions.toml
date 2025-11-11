@@ -26,6 +26,15 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 gson = { group = "com.google.code.gson", name = "gson", version = "2.10.1" }
 mpndroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version = "v3.1.0" }
+mapbox-maps = { group = "com.mapbox.maps", name = "android", version = "10.14.0" }
+mapbox-sdk-turf = { group = "com.mapbox.mapboxsdk", name = "mapbox-sdk-turf", version = "5.8.0" }
+#mapbox-sdk-services= { group = "com.mapbox.mapboxsdk", name = "mapbox-sdk-services", version = "5.9.0" }
+mapbox-sdk-services = { group = "com.mapbox.mapboxsdk", name = "mapbox-sdk-services", version = "5.8.0" }
+#mapbox-ndk = { group = "com.mapbox.maps", name = "android-ndk27", version = "11.16.2" }
+
+
+
+
 #okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version = "4.11.0" }
 #retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0" }
 #converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version = "2.9.0" }

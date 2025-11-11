@@ -2,7 +2,11 @@
     <string name="app_name">WiilRainProjectChallengueNasa</string>
     <string name="name_app" translatable="false">Will Rain?</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="message_search">Escribe la ciudado coloca un pin en el mapa</string>
+
+    <string name="title_city">📍 Ciudad</string>
+    <string name="title_date">📆 Fecha</string>
+    <string name="select_place_to_search">📍 coloca un pin en el mapa</string>
+    <string name="select_date_to_search">📆 Selecciona Fecha para Buscar</string>
 
     <string name="rain_historical">🌧️ Precipitación Histórica</string>
     <string name="temperature_historical">🌡️ Temperatura Histórica</string>
@@ -15,8 +19,8 @@
     <string name="description_temperature">Temperatura promedio diaria</string>
     <string name="description_wind">Velocidad promedio del viento</string>
 
-    <string name="label_classification">+ CLASIFICACIÓN: (Registros)</string>
-    <string name="label_recommendation">💡 RECOMENDACIÓN:</string>
+    <string name="label_classification">+ Clasificacion: (Registros)</string>
+    <string name="label_recommendation">💡 Recomandacion:</string>
 
 
     <!-- 🌧️ Lluvia -->
@@ -114,7 +118,7 @@
     <string name="wind_strong">Viento fuerte: toma precauciones adicionales al aire libre.</string>
 
 
-    <string name="label_statistics">📈 ESTADÍSTICAS:</string>
+    <string name="label_statistics">📈 Estadisticas:</string>
     <string name="label_threshold">• Umbral %1$s%2$s (⚠️)</string>
     <string name="label_average">• Promedio: %1$s %2$s</string>
     <string name="label_maximum">• Máximo Histórico: %1$s%2$s</string>
@@ -127,7 +131,7 @@
     <string name="label_no_recommendation">No hay recomendaciones disponibles.</string>
     <string name="text_loading">Cargando, espere por favor</string>
     <string name="classification_child">%1$s %2$s %3$s: %4$d años (%5$d%%)</string>
-    <string name="select_date_to_search">Selecciona Fecha para Buscar 📆</string>
+
     <string name="where_is_your_event">Donde sera tu Evento?</string>
     <string name="probability_weather">Probabilidades Clima</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.domain
 
+import android.util.Log
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.WeatherYearRecord
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
@@ -9,6 +10,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureR
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRecommendation
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatTwoDecimalLocale
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DECIMAL_FORMAT_ONE
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TREND_THRESHOLD
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatTwoDecimals
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.providers.ResourceProvider
@@ -45,43 +47,52 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
             endYear
         )
     }
-     fun formatWeather(
+
+    fun formatWeather(
         weatherType: WeatherType,
         weatherYearRecords: List<WeatherYearRecord>,
     ): String {
-        if (weatherYearRecords.isEmpty()) {
-            return resourceProvider.getString(R.string.label_no_data, weatherType.name.lowercase())
-        }
+        try {
+            if (weatherYearRecords.isEmpty()) {
+                return resourceProvider.getString(
+                    R.string.label_no_data,
+                    weatherType.name.lowercase()
+                )
+            }
 
-        val sortedRecords = weatherYearRecords.sortedBy { it.year }
+            val sortedRecords = weatherYearRecords.sortedBy { it.year }
 
-        return when (weatherType) {
-            WeatherType.RAIN -> buildWeatherReportSection(
-                records = sortedRecords,
-                weatherType = weatherType,
-                titleResId = R.string.rain_historical,
-                valueSelector = { it.precip_mm },
-                recommendations = RainRecommendation.entries,
-                condition = { rec, value -> rec.matches(value.toFloat()) }
-            )
+            return when (weatherType) {
+                WeatherType.RAIN -> buildWeatherReportSection(
+                    records = sortedRecords,
+                    weatherType = weatherType,
+                    titleResId = R.string.rain_historical,
+                    valueSelector = { it.precip_mm },
+                    recommendations = RainRecommendation.entries,
+                    condition = { rec, value -> rec.matches(value.toFloat()) }
+                )
 
-            WeatherType.TEMP -> buildWeatherReportSection(
-                records = sortedRecords,
-                weatherType = weatherType,
-                titleResId = R.string.temperature_historical,
-                valueSelector = { it.temp_c },
-                recommendations = TemperatureRecommendation.entries,
-                condition = { rec, value -> rec.matches(value.toFloat()) }
-            )
+                WeatherType.TEMP -> buildWeatherReportSection(
+                    records = sortedRecords,
+                    weatherType = weatherType,
+                    titleResId = R.string.temperature_historical,
+                    valueSelector = { it.temp_c },
+                    recommendations = TemperatureRecommendation.entries,
+                    condition = { rec, value -> rec.matches(value.toFloat()) }
+                )
 
-            WeatherType.WIND -> buildWeatherReportSection(
-                records = sortedRecords,
-                weatherType = weatherType,
-                titleResId = R.string.wind_historical,
-                valueSelector = { it.wind_kmh },
-                recommendations = WindRecommendation.entries,
-                condition = { rec, value -> rec.matches(value.toFloat()) }
-            )
+                WeatherType.WIND -> buildWeatherReportSection(
+                    records = sortedRecords,
+                    weatherType = weatherType,
+                    titleResId = R.string.wind_historical,
+                    valueSelector = { it.wind_kmh },
+                    recommendations = WindRecommendation.entries,
+                    condition = { rec, value -> rec.matches(value.toFloat()) }
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(TEST_LOG_TAG, "[WeatherFormatter] Error in formatWeather: ${e.message}")
+            throw e
         }
     }
 
@@ -187,7 +198,7 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
 
     private fun calculateStatistics(
         values: List<Double>,
-        weatherType: WeatherType
+        weatherType: WeatherType,
     ): Statistics {
 
         val max = values.maxOrNull() ?: 0.0
@@ -197,15 +208,40 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
 
         val summary = buildString {
             appendLine(resourceProvider.getString(R.string.label_statistics))
-            appendLine(resourceProvider.getString(R.string.label_threshold, weatherType.extremeValue.toString(), weatherType.unit))
-            appendLine(resourceProvider.getString(R.string.label_average, avg.formatTwoDecimals(), weatherType.unit))
-            appendLine(resourceProvider.getString(R.string.label_maximum, max.formatTwoDecimalLocale(), weatherType.unit))
-            appendLine(resourceProvider.getString(R.string.label_minimum, min.formatTwoDecimalLocale(), weatherType.unit))
+            appendLine(
+                resourceProvider.getString(
+                    R.string.label_threshold,
+                    weatherType.extremeValue.toString(),
+                    weatherType.unit
+                )
+            )
+            appendLine(
+                resourceProvider.getString(
+                    R.string.label_average,
+                    avg.formatTwoDecimals(),
+                    weatherType.unit
+                )
+            )
+            appendLine(
+                resourceProvider.getString(
+                    R.string.label_maximum,
+                    max.formatTwoDecimalLocale(),
+                    weatherType.unit
+                )
+            )
+            appendLine(
+                resourceProvider.getString(
+                    R.string.label_minimum,
+                    min.formatTwoDecimalLocale(),
+                    weatherType.unit
+                )
+            )
             appendLine(resourceProvider.getString(R.string.label_above_threshold, extremeCount))
         }
 
-        return Statistics(max =  max, min =  min, avg =  avg, summary =  summary)
+        return Statistics(max = max, min = min, avg = avg, summary = summary)
     }
+
     private fun <T> buildRecommendation(
         avg: Double,
         recommendations: Iterable<T>,

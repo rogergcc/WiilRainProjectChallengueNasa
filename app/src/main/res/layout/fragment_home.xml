@@ -6,8 +6,23 @@
     android:background="@drawable/cloud_night_back"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/dim_16dp"
     tools:context=".presentation.ui.home.HomeFragment">
+
+
+    <com.mapbox.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mapbox_cameraTargetLat="37.7749"
+        app:mapbox_cameraZoom="10"
+        app:mapbox_styleUri="@string/mapbox_style_url"
+        app:mapbox_locationComponentEnabled="true" />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView"
@@ -17,19 +32,21 @@
         android:layout_marginTop="@dimen/dim_20dp"
         android:text="@string/where_is_your_event"
         android:textColor="@color/gray_010"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/dim_16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/searchLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 
     <LinearLayout
         android:id="@+id/searchLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dim_16dp"
-        android:layout_marginBottom="@dimen/dim_16dp"
+        android:layout_marginBottom="@dimen/dim_10dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/searchButton"
+        app:layout_constraintBottom_toTopOf="@+id/btnResultClimate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -39,20 +56,23 @@
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_20dp"
+            android:layout_marginTop="@dimen/dim_10dp"
             app:cardBackgroundColor="#ECEDF1"
-            app:contentPadding="@dimen/dim_12dp"
             >
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+                android:id="@+id/apTvCitySearch"
+                android:paddingVertical="@dimen/dim_14dp"
+                android:paddingHorizontal="@dimen/dim_12dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableTint="@color/black"
                 android:fontFamily="@font/poppins"
                 android:singleLine="true"
-                android:text="@string/message_search"
+                android:text="@string/select_place_to_search"
                 android:textColor="@color/gray_500"
-                app:drawableStartCompat="@drawable/search_icon" />
+
+                />
         </com.google.android.material.card.MaterialCardView>
 
 
@@ -62,13 +82,15 @@
             style="@style/CardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_20dp"
+            android:layout_marginTop="@dimen/dim_10dp"
             app:cardBackgroundColor="#ECEDF1"
-            app:contentPadding="@dimen/dim_12dp"
             >
             <!--                android:text="12 Octubre 2025 - 14 Octubre 2025 📆📆"-->
+<!--                app:drawableStartCompat="@drawable/search_icon" -->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/dateSelectedSearch"
+                android:paddingVertical="@dimen/dim_14dp"
+                android:paddingHorizontal="@dimen/dim_12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableTint="@color/black"
@@ -76,19 +98,19 @@
                 android:text="@string/select_date_to_search"
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/size_14sp"
-                app:drawableStartCompat="@drawable/search_icon" />
+                />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/searchButton"
+        android:id="@+id/btnResultClimate"
         app:backgroundTint="@color/blue_300"
         android:textColor="@color/gray_050"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/dim_16dp"
         android:text="@string/probability_weather"
-        android:textSize="@dimen/size_14sp"
+        android:layout_margin="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
