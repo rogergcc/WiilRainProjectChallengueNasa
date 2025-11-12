@@ -50,9 +50,7 @@ object MapBoxUtils {
     private const val MARKER_STYLE_LAYER = "markers-style-layer"
     private const val MARKER_IMAGE = "custom-marker"
     private const val SHADOW_CIRCLE_LAYER_ID = "SHADOW_CIRCLE_LAYER_ID"
-
     private const val DROPPED_MARKER_LAYER_ID = "DROPPED_MARKER_LAYER_ID"
-
     private const val STORE_ICON_SOURCE_ID = "store-location-source-id"
 
     fun setUpUiSettings(mapView: MapView) {
