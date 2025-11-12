@@ -27,6 +27,7 @@ import com.mapbox.maps.plugin.Plugin
 import com.mapbox.maps.plugin.gestures.gestures
 import com.mapbox.maps.plugin.locationcomponent.location
 import com.mapbox.maps.plugin.scalebar.scalebar
+import com.rogergcc.wiilrainprojectchallenguenasa.BuildConfig
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 
 
@@ -88,14 +89,20 @@ fun MapView.initDefault(context: Context) {
     // set token and tile store usage mode for this particular map view, these settings will overwrite the default value.
 
     val resourceOptions = ResourceOptions.Builder()
-        .accessToken(context.getString(R.string.mapbox_access_token))
+        .accessToken(BuildConfig.MAPBOX_DEFAULT_TOKEN)
         .tileStoreUsageMode(TileStoreUsageMode.DISABLED)
-
         .applyDefaultParams(context)
         .build()
 
+    // Find the container for the MapView
+//    val mapContainer = view.findViewById<FrameLayout>(R.id.mapContainer)
+
     val mapInitOptions =
         MapInitOptions(context, resourceOptions, mapOptions, plugins, initialCameraOptions, true)
+    // Create the MapView programmatically
+    val mapView = MapView(context, mapInitOptions)
+    // Add the MapView to the container
+//    mapContainer.addView(mapView)
 
     getMapboxMap().subscribeMapLoadingError {
         // Error occurred when loading the map, try to handle it gracefully here
@@ -138,6 +145,36 @@ fun MapView.initDefault(context: Context) {
 //            }
 //        }
 //    )
+
+    getMapboxMap().apply {
+        loadStyleUri(Style.DARK) {
+        }
+
+        scalebar.enabled = false
+        location.enabled = true
+        gestures.quickZoomEnabled = true
+    }
+
+}
+
+fun MapView.initDefaultXm(context: Context) {
+    val initialCameraOptions = CameraOptions.Builder()
+        //-18.005089, -70.241262
+        .center(Point.fromLngLat(-70.241262, -18.005089))
+        .zoom(12.0)
+//            .bearing(120.0)
+        .build()
+
+
+    getMapboxMap().subscribeMapLoadingError {
+        // Error occurred when loading the map, try to handle it gracefully here
+        Log.e(TEST_LOG_TAG, "subscribeMapLoadingError initDefault: ${it.data} ")
+    }
+    getMapboxMap().subscribeStyleLoaded {
+        Log.d(TEST_LOG_TAG, "Style loaded successfully")
+    }
+    getMapboxMap().setCamera(initialCameraOptions)
+
 
     getMapboxMap().apply {
         loadStyleUri(Style.DARK) {

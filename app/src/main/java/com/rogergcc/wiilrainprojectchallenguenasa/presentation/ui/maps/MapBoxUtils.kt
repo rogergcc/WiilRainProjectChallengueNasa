@@ -41,6 +41,7 @@ import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
 import com.mapbox.maps.plugin.gestures.gestures
 import com.mapbox.maps.plugin.locationcomponent.location
 import com.mapbox.maps.plugin.scalebar.scalebar
+import com.rogergcc.wiilrainprojectchallenguenasa.BuildConfig
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 
@@ -138,9 +139,8 @@ object MapBoxUtils {
             .build()
 
         // 3️⃣ Configurar ResourceOptions con token
-        val accessToken = context.getString(R.string.mapbox_access_token_styled)
         val resourceOptions = ResourceOptions.Builder()
-            .accessToken(accessToken)
+            .accessToken(BuildConfig.MAPBOX_DEFAULT_TOKEN)
             // READ_ONLY es más seguro que DISABLED (permite descargas online)
             .tileStoreUsageMode(TileStoreUsageMode.READ_ONLY)
             .applyDefaultParams(context)

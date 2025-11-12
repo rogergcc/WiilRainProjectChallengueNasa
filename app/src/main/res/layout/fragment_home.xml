@@ -20,7 +20,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:mapbox_cameraTargetLat="37.7749"
         app:mapbox_cameraZoom="10"
-        app:mapbox_styleUri="@string/mapbox_style_url"
         app:mapbox_locationComponentEnabled="true" />
 
 

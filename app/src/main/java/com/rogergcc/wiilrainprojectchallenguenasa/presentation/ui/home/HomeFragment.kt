@@ -30,6 +30,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.BUNDLE_L
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.fullScreen
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.initDefault
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.initDefaultXm
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.restartDefaultStyles
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.toast
@@ -134,7 +135,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 //        initMap()
         requireActivity().fullScreen()
-        binding.mapView.initDefault(requireContext())
+        binding.mapView.initDefaultXm(requireContext())
 
         binding.mapView.gestures.addOnMapLongClickListener() { point ->
             addMarker(point)
