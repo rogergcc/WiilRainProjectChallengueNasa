@@ -2,12 +2,16 @@
 <resources>
     <string name="app_name">WiilRainProjectChallengueNasa</string>
 
-
-    <string name="message_search">Type the city or place a pin on the map</string>
+    <string name="title_city">📍 City</string>
+    <string name="title_date">📆 Date</string>
+    <string name="select_place_to_search">📍 place a pin on the map</string>
+    <string name="select_date_to_search">📆 Select Date to Search</string>
+    <string name="label_threshold">• Threshold %1$s%2$s (⚠️)</string>
 
     <string name="rain_historical">🌧️ Historical Precipitation</string>
     <string name="temperature_historical">🌡️ Historical Temperature</string>
     <string name="wind_historical">🌬️ Historical Wind</string>
+
     <string name="error_message">Sorry! Something went wrong. error: %1$s</string>
     <string name="observation_data">Data %1$s (%2$s observations)</string>
     <string name="description_rain">Rain</string>
@@ -15,15 +19,14 @@
     <string name="description_wind">Wind</string>
 
 
-    <string name="label_statistics">📈 STATISTICS:</string>
-    <string name="label_threshold">• Threshold %1$s%2$s (⚠️)</string>
+    <string name="label_statistics">📈 Statistics:</string>
     <string name="label_average">• Average: %1$s %2$s</string>
     <string name="label_maximum">• Historical Maximum: %1$s %2$s</string>
     <string name="label_minimum">• Historical Minimum: %1$s %2$s</string>
     <string name="label_above_threshold">• %1$d years above threshold</string>
 
-    <string name="label_classification">+ CLASSIFICATION: (Records)</string>
-    <string name="label_recommendation">💡 RECOMMENDATION:</string>
+    <string name="label_classification">+ Classification: (Records)</string>
+    <string name="label_recommendation">💡 Recommendation:</string>
 
     <!-- Rain -->
     <string name="rain_clasification_title">by Rain Intensity</string>
@@ -84,7 +87,6 @@
     <string name="temp_label_hot">Hot</string>
 
     <!-- T. Recommendation -->
-
     <string name="temp_cold">Cold: perfect time to layer up.</string>
     <string name="temp_comfortable">Comfortable: ideal weather for most activities.</string>
     <string name="temp_mild">Mild: great weather for outdoor activities.</string>
@@ -106,8 +108,8 @@
     <string name="label_no_data">No data available for %1$s.</string>
     <string name="label_no_recommendation">No recommendation available.</string>
     <string name="text_loading">Loading, please wait</string>
-    <string name="classification_child">%1$s %2$s: %3$d years (%4$d%%)</string>
-    <string name="select_date_to_search">Select Date to Search 📆</string>
+    <string name="classification_child">%1$s %2$s %3$s: %4$d años (%5$d%%)</string>
+
     <string name="where_is_your_event">Where will your Event be?</string>
     <string name="probability_weather">Weather Probabilities</string>
 </resources>

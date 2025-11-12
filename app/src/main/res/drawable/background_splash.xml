@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:opacity="opaque"
     >
-    <!--    android:drawable="@drawable/background_gradient"-->
 <!--    <item android:drawable="@color/black" />-->
     <item
 

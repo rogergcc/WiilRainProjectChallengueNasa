@@ -14,7 +14,7 @@ data class LocationSearch(
     var type: String = "",
     var city: String = "",
     var country: String = "",
-    var selectedDate: Date = Date(),
+    var date: Date? = null,
     var selectedDateString: String = "",
     var historicEvaluation: String = "",
     var location: SimpleLocation = SimpleLocation(0.0, 0.0),

@@ -14,8 +14,10 @@ import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.SplashThemeCorrect)
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
+
         setContentView(R.layout.activity_splash)
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
 //            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

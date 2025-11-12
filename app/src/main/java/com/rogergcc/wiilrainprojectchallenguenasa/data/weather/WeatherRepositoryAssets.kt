@@ -8,6 +8,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.ForecastResponse
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.YearlyData
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherRepository
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -29,7 +30,7 @@ class WeatherRepositoryAssets(private val context: Context) : WeatherRepository 
                 ForecastResponse::class.java
             )
         } catch (e: IOException) {
-            Log.e("WeatherRepository", "Error reading JSON file", e)
+            Log.e(TEST_LOG_TAG, "[WeatherRepository] Error reading JSON file ${e.message}" )
             throw e
         }
     }
@@ -42,11 +43,15 @@ class WeatherRepositoryAssets(private val context: Context) : WeatherRepository 
     }
 
     override suspend fun parseWeatherDataset(): WeatherDataset {
-        return withContext(Dispatchers.IO) {
-            val inputStream =
-                context.resources.openRawResource(R.raw.dataset_sample_location_date_weather_complete)
-            val reader = InputStreamReader(inputStream)
-            Gson().fromJson(reader, WeatherDataset::class.java)
+        try {
+            return withContext(Dispatchers.IO) {
+                val inputStream = context.resources.openRawResource(R.raw.dataset_sample_location_date_weather_complete)
+                val reader = InputStreamReader(inputStream)
+                Gson().fromJson(reader, WeatherDataset::class.java)
+            }
+        } catch (e: Exception) {
+            Log.e(TEST_LOG_TAG, "[WeatherRepository] Error reading dataset ${e.message}" )
+            throw e
         }
     }
 
