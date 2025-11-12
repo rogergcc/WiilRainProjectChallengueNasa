@@ -117,14 +117,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun addMarker(point: Point) {
         pointAnnotationManager.deleteAll()
-
         markerBitmap?.let {
             val marker = PointAnnotationOptions()
                 .withPoint(point)
                 .withIconImage(it)
             pointAnnotationManager.create(marker)
         }
-
 //        binding.tvCoordinates.text = "Lat: %.5f, Lon: %.5f".format(point.latitude(), point.longitude())
         Log.d(TEST_LOG_TAG,
             "[Home] Marker added at: Lat %.5f, Lon %.5f".format(point.latitude(), point.longitude())
@@ -140,11 +138,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.mapView.gestures.addOnMapLongClickListener() { point ->
             addMarker(point)
-
             viewModel.getLocationDetails(point.latitude(), point.longitude())
             true
         }
-//        uiListeners()
         pointAnnotationManager = binding.mapView.annotations.createPointAnnotationManager()
         polygonAnnotationManager = binding.mapView.annotations.createPolygonAnnotationManager()
 

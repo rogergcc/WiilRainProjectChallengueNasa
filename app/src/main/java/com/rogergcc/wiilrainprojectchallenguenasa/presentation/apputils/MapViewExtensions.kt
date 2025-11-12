@@ -73,7 +73,6 @@ fun MapView.initDefault(context: Context) {
         )
         .crossSourceCollisions(false)
         .optimizeForTerrain(false)
-
         .build()
 
     val initialCameraOptions = CameraOptions.Builder()
@@ -83,9 +82,9 @@ fun MapView.initDefault(context: Context) {
 //            .bearing(120.0)
         .build()
     val plugins = listOf(
-//            Plugin.Mapbox(MAPBOX_LOGO_PLUGIN_ID),
         Plugin.Mapbox(Plugin.MAPBOX_ATTRIBUTION_PLUGIN_ID)
     )
+
     // set token and tile store usage mode for this particular map view, these settings will overwrite the default value.
 
     val resourceOptions = ResourceOptions.Builder()
@@ -141,8 +140,8 @@ fun MapView.initDefault(context: Context) {
 //    )
 
     getMapboxMap().apply {
-            loadStyleUri(Style.DARK) {
-            }
+        loadStyleUri(Style.DARK) {
+        }
 
         scalebar.enabled = false
         location.enabled = true
