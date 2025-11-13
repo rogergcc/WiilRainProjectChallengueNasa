@@ -13,7 +13,7 @@
     <string name="wind_historical">🌬️ Historical Wind</string>
 
     <string name="error_message">Sorry! Something went wrong. error: %1$s</string>
-    <string name="observation_data">Data %1$s (%2$s observations)</string>
+    <string name="observation_data">📊 Data %1$s (%2$s observations)</string>
     <string name="description_rain">Rain</string>
     <string name="description_temperature">Temperature</string>
     <string name="description_wind">Wind</string>

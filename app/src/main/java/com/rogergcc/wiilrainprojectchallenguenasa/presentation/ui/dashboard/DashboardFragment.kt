@@ -27,7 +27,9 @@ import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimalL
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.BUNDLE_LOCATION_SEARCH
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.hideView
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.showView
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.toast
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import kotlinx.coroutines.launch
@@ -71,9 +73,32 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     }
 
+    private fun hideLoadingState() {
+        binding.swipeRefresh.isRefreshing = false
+        binding.simmerDashboard.hideView()
+
+        binding.containterDashboard.showView()
+        binding.simmerDashboard.stopShimmer()
+    }
+
+    private fun showLoadingState() {
+        binding.swipeRefresh.isRefreshing = true
+        binding.containterDashboard.hideView()
+
+        binding.simmerDashboard.showView()
+        binding.simmerDashboard.startShimmer()
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.calculateProbabilities()
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.calculateProbabilities()
+//            showLoadingState()
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiWeatherResult
@@ -82,14 +107,13 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                         when (uiState) {
                             is DashboardResultViewModel.UiState.Loading -> {
                                 // Show loading state if needed
+                                showLoadingState()
                             }
 
                             is DashboardResultViewModel.UiState.Success -> {
+                                hideLoadingState()
                                 Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
-                                requireContext().toast("[Dashboard] Weather dataset processed successfully")
                                 uiState.weatherDataset.let {
-
-
                                     val dateString =
                                         DateUtils.formatDayMonth(it.metadata.date.target)
                                     sendLocation = LocationSearch(
@@ -104,7 +128,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                     )
 
                                     binding.dateSearch.text =
-                                        "\uD83D\uDCCA ${sendLocation?.selectedDateString}"
+                                    "📆 ${sendLocation?.selectedDateString}"
                                     binding.cityCountry.text = "📍 ${it.metadata.location.name}"
                                 }
                                 uiState.analysis.let { analysis ->
@@ -134,6 +158,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                             }
 
                             is DashboardResultViewModel.UiState.Failure -> {
+                                hideLoadingState()
                                 Log.e(TEST_LOG_TAG, "Error: ${uiState.errorMessage}")
                             }
                         }

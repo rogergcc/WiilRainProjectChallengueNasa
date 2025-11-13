@@ -19,12 +19,14 @@ import java.util.concurrent.atomic.AtomicBoolean
  * year 2025 .
  */
 
-fun View.show() {
+fun View.showView() {
     this.visibility = View.VISIBLE
 }
-fun View.hide() {
+
+fun View.hideView() {
     this.visibility = View.GONE
 }
+
 fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
