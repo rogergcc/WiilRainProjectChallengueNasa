@@ -44,7 +44,7 @@ class WeatherDetailViewModel(
     fun loadWeatherReport(weatherType: WeatherType) {
         _weatherState.value = UiState.Loading
         viewModelScope.launch(Dispatchers.Default + coroutineExceptionHandler) {
-            delay(500)
+            delay(2000)
             runCatching {
                 historicalDataUseCase.invoke(weatherType)
             }.onSuccess { formatted ->

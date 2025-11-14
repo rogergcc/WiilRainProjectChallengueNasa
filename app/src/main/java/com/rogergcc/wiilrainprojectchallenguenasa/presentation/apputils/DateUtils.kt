@@ -56,6 +56,25 @@ object DateUtils {
     private val formatDayMonth: DateTimeFormatter by lazy {
         DateTimeFormatter.ofPattern("dd 'de' MMMM", Locale.getDefault())
     }
+
+    private val formatDayMonthYear: DateTimeFormatter by lazy {
+        DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
+    }
+
+    //dd-MM-YYYY to "dd 'de' MMMM yyyy"
+    fun formatDayMonthYear(input: String): String {
+        val parts = input.split("/")
+        if (parts.size != 3) throw IllegalArgumentException("Input must be in the format 'dd/MM/YYYY'")
+
+        val day = parts[0].toInt()
+        val month = parts[1].toInt()
+        val year = parts[2].toInt()
+//        val currentYear = LocalDate.now().year
+
+        val localDate = LocalDate.of(year, month, day)
+        return localDate.format(formatDayMonthYear)
+    }
+
     fun formatDayMonth(input: String): String {
         val parts = input.split("-")
         if (parts.size != 2) throw IllegalArgumentException("Input must be in the format 'dd-MM'")

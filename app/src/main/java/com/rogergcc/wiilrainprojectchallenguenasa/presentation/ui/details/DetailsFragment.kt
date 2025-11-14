@@ -10,15 +10,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
 import com.rogergcc.wiilrainprojectchallenguenasa.data.weather.WeatherRepositoryAssets
-import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDashboardBinding
 import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDetailsBinding
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherFormatter
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.mapper.WeatherRecordMapper
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.WeatherHistoricalReportUseCase
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.BUNDLE_LOCATION_SEARCH
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.LoadingView
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.hideView
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.providers.AndroidResourceProvider
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.showView
 import kotlinx.coroutines.launch
 
 class DetailsFragment : Fragment() {
@@ -71,6 +72,22 @@ class DetailsFragment : Fragment() {
         return binding.root
 
     }
+
+    private fun hideLoadingState() {
+        binding.shimmerStadisticDetails.hideView()
+
+        binding.chartContainer.showView()
+        binding.shimmerStadisticDetails.stopShimmer()
+    }
+
+    private fun showLoadingState() {
+        binding.chartContainer.hideView()
+
+        binding.shimmerStadisticDetails.showView()
+        binding.shimmerStadisticDetails.startShimmer()
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loader = LoadingView(requireContext())
@@ -80,7 +97,9 @@ class DetailsFragment : Fragment() {
         }
         val weatherType = WeatherType.fromDescription(selectedLocation?.type ?: "-", requireContext())
 
-        binding.title.text = selectedLocation?.selectedDateString + " - " + selectedLocation?.city + ", " + selectedLocation?.country
+        binding.tvCityCountry.text = "📍 ${selectedLocation?.city}, ${selectedLocation?.country}"
+        binding.tvDate.text =  "📆 ${selectedLocation?.selectedDateString}"
+
         binding.dateHistoric.text = selectedLocation?.historicEvaluation
 //        binding.weatherTextView.text = viewModel.getWeatherText(weatherType)
         viewModel.loadWeatherReport(weatherType)
@@ -93,24 +112,30 @@ class DetailsFragment : Fragment() {
                 when (state) {
                     is WeatherDetailViewModel.UiState.Loading -> {
                         loader.show()
+                        showLoadingState()
                     }
                     is WeatherDetailViewModel.UiState.Success -> {
+                        hideLoadingState()
                         loader.hide()
                         binding.weatherTextView.text = state.data
                     }
                     is WeatherDetailViewModel.UiState.Error -> {
+                        hideLoadingState()
                         loader.hide()
+
                         binding.weatherTextView.text = "Error: ${state.message}"
                     }
                 }
             }
         }
 
-
-
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        loader.dismiss()
+    }
     companion object {
 
     }

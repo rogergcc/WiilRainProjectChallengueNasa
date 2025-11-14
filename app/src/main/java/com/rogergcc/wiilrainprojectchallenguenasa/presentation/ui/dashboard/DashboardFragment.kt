@@ -30,7 +30,6 @@ import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.hideView
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.showView
-import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.toast
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import kotlinx.coroutines.launch
 
@@ -98,7 +97,17 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             viewModel.calculateProbabilities()
 //            showLoadingState()
         }
+        val selectedLocation = arguments?.let {
+            BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
+        }
+        sendLocation = selectedLocation
+        val dateTitle =  DateUtils.formatDayMonthYear(selectedLocation?.selectedDateString ?: "")
+        val cityCountryTitle = "${selectedLocation?.city}, ${selectedLocation?.country}"
+        binding.cityCountry.text =
+            "📍 $cityCountryTitle"
+        binding.dateSearch.text = "📆 $dateTitle"
 
+        Log.d(TEST_LOG_TAG, "Selected location from bundle: $selectedLocation")
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiWeatherResult
@@ -106,20 +115,24 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     .collect { uiState ->
                         when (uiState) {
                             is DashboardResultViewModel.UiState.Loading -> {
-                                // Show loading state if needed
                                 showLoadingState()
                             }
-
                             is DashboardResultViewModel.UiState.Success -> {
                                 hideLoadingState()
                                 Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
                                 uiState.weatherDataset.let {
                                     val dateString =
                                         DateUtils.formatDayMonth(it.metadata.date.target)
-                                    sendLocation = LocationSearch(
-                                        selectedDateString = dateString,
-                                        city = it.metadata.location.name,
-                                        country = it.metadata.location.country,
+//                                    sendLocation = LocationSearch(
+//                                        selectedDateString = dateTitle,
+////                                        city = it.metadata.location.name,
+//                                        historicEvaluation = getString(
+//                                            R.string.observation_data,
+//                                            it.metadata.historical_context.period,
+//                                            it.yearly_data.count().toString()
+//                                        )
+//                                    )
+                                    sendLocation = (sendLocation ?: LocationSearch()).copy(
                                         historicEvaluation = getString(
                                             R.string.observation_data,
                                             it.metadata.historical_context.period,
@@ -127,9 +140,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                         )
                                     )
 
-                                    binding.dateSearch.text =
-                                    "📆 ${sendLocation?.selectedDateString}"
-                                    binding.cityCountry.text = "📍 ${it.metadata.location.name}"
+//                                    binding.dateSearch.text =
+//                                        "📆 ${sendLocation?.selectedDateString}"
+//                                    binding.cityCountry.text = "📍 ${it.metadata.location.name}"
                                 }
                                 uiState.analysis.let { analysis ->
                                     val rainDataLevel =
@@ -165,12 +178,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     }
             }
         }
-            val selectedLocation = arguments?.let {
-                BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
 
-            }
-//
-//        requireContext().toast("Location: ${selectedLocation?.city}, Date: ${selectedLocation?.selectedDateString}")
         listenerEvents()
 
     }
