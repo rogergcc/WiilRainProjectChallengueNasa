@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
  */
 class WeatherDetailViewModel(
     private val historicalDataUseCase: WeatherHistoricalReportUseCase,
-
     ) : ViewModel() {
 
     sealed class UiState<out T> {
@@ -37,14 +36,12 @@ class WeatherDetailViewModel(
         showErrorState()
     }
     private fun showErrorState() {
-        _weatherState.value = UiState.Error(
-            "An error occurred while loading data."
-        )
+        _weatherState.value = UiState.Error("An error occurred while loading data.")
     }
     fun loadWeatherReport(weatherType: WeatherType) {
         _weatherState.value = UiState.Loading
         viewModelScope.launch(Dispatchers.Default + coroutineExceptionHandler) {
-            delay(2000)
+            delay(1500)
             runCatching {
                 historicalDataUseCase.invoke(weatherType)
             }.onSuccess { formatted ->

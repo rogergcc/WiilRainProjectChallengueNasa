@@ -58,7 +58,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             WeatherRepositoryAssets(
                 requireContext(),
             ),
-//            calculateProbabilitiesUseCase,
             analyzeClimateUseCase
         )
     }
@@ -95,7 +94,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.calculateProbabilities()
-//            showLoadingState()
         }
         val selectedLocation = arguments?.let {
             BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
@@ -103,8 +101,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         sendLocation = selectedLocation
         val dateTitle =  DateUtils.formatDayMonthYear(selectedLocation?.selectedDateString ?: "")
         val cityCountryTitle = "${selectedLocation?.city}, ${selectedLocation?.country}"
-        binding.cityCountry.text =
-            "📍 $cityCountryTitle"
+
+        binding.cityCountry.text = "📍 $cityCountryTitle"
         binding.dateSearch.text = "📆 $dateTitle"
 
         Log.d(TEST_LOG_TAG, "Selected location from bundle: $selectedLocation")
@@ -121,8 +119,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                 hideLoadingState()
                                 Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
                                 uiState.weatherDataset.let {
-                                    val dateString =
-                                        DateUtils.formatDayMonth(it.metadata.date.target)
+                                    val dateString = DateUtils.formatDayMonth(it.metadata.date.target)
 //                                    sendLocation = LocationSearch(
 //                                        selectedDateString = dateTitle,
 ////                                        city = it.metadata.location.name,

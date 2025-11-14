@@ -19,8 +19,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 fun Activity.splashBackground() {
     window.apply {
         setBackgroundDrawableResource(R.drawable.background_splash)
-
-        // Configurar el modo de recorte para dispositivos con notch
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             attributes.layoutInDisplayCutoutMode =
                 android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
@@ -74,36 +72,6 @@ fun Activity.fullScreen() {
         statusBarColor = android.graphics.Color.TRANSPARENT
     }
 
-//    @Suppress("DEPRECATION")
-//    window.decorView.systemUiVisibility = (
-//            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-//                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-//            )
-//    @Suppress("DEPRECATION")
-//    window.statusBarColor = resources.getColor(android.R.color.transparent, null)
-
-
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//        window.insetsController?.let { controller ->
-//            controller.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-//            controller.systemBarsBehavior =
-//                WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-//        }
-//    } else {
-//        @Suppress("DEPRECATION")
-//        window.decorView.systemUiVisibility = (
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                        or View.SYSTEM_UI_FLAG_FULLSCREEN
-//                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-//                )
-//    }
 }
 
 fun Activity.hideSystemUIAndNavigation() {
@@ -160,10 +128,3 @@ class OnSingleClickListener(
         }
     }
 }
-
-//fun String.formatStrDateTo(inputFormat: String, outputFormat: String): String {
-//    val sdf = SimpleDateFormat(inputFormat, locale)
-//    val date = sdf.parse(this)
-//    val newSdf = SimpleDateFormat(outputFormat, locale)
-//    return newSdf.format(date!!)
-//}

@@ -61,8 +61,7 @@ object DateUtils {
         DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
     }
 
-    //dd-MM-YYYY to "dd 'de' MMMM yyyy"
-    fun formatDayMonthYear(input: String): String {
+    fun formatDayMonthYear(input: String): String { // input "dd/MM/YYYY"
         val parts = input.split("/")
         if (parts.size != 3) throw IllegalArgumentException("Input must be in the format 'dd/MM/YYYY'")
 
@@ -75,7 +74,7 @@ object DateUtils {
         return localDate.format(formatDayMonthYear)
     }
 
-    fun formatDayMonth(input: String): String {
+    fun formatDayMonth(input: String): String { // input "dd-MM"
         val parts = input.split("-")
         if (parts.size != 2) throw IllegalArgumentException("Input must be in the format 'dd-MM'")
 

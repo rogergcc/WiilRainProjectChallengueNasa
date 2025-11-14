@@ -213,8 +213,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                         is HomeViewModel.UiState.Success -> {
                             Log.d(TEST_LOG_TAG, "[Home] Geocoding success: ${state.data}")
-//                            requireContext().toast("[Home] Location found: ${state.data}")
-
                             binding.apTvCitySearch.text = "📍 ${state.data.regionName}, ${state.data.countryName}"
                             // Ensure locationSearch is initialized
                             locationSearch = (locationSearch ?: LocationSearch()).copy(

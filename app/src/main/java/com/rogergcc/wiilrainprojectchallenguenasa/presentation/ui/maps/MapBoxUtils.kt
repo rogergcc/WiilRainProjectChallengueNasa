@@ -50,8 +50,6 @@ object MapBoxUtils {
     private const val MARKER_SOURCE = "markers-source"
     private const val MARKER_STYLE_LAYER = "markers-style-layer"
     private const val MARKER_IMAGE = "custom-marker"
-    private const val SHADOW_CIRCLE_LAYER_ID = "SHADOW_CIRCLE_LAYER_ID"
-    private const val DROPPED_MARKER_LAYER_ID = "DROPPED_MARKER_LAYER_ID"
     private const val STORE_ICON_SOURCE_ID = "store-location-source-id"
 
     fun setUpUiSettings(mapView: MapView) {
@@ -75,11 +73,9 @@ object MapBoxUtils {
             iconAllowOverlap(true)
             minZoom(ZOOM_LEVEL_FOR_SWITCH_FROM_CIRCLE_TO_ICON.toDouble())
         }
-
         style.addLayer(
             symbolIconLayer
         )
-
     }
     fun addSourceFeatureCollection(mapView: MapView, features: FeatureCollection) {
         val style = mapView.getMapboxMap().getStyle()
@@ -95,13 +91,6 @@ object MapBoxUtils {
                 }
             )
         }
-
-//        style{
-//            +geoJsonSource( STORE_ICON_SOURCE_ID) {
-//                featureCollection(features)
-//            }
-//        }
-
 
     }
 
