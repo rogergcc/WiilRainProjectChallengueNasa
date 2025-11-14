@@ -1,0 +1,67 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/CustomTextPropDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dim_8dp"
+        android:text="@string/title_city"
+        android:textSize="@dimen/size_22sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/CustomTextPropDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dim_8dp"
+        android:textSize="@dimen/size_18sp"
+        android:text="@string/title_date" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/CustomTextPropDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dim_8dp"
+        android:text="$ {Dataset Years Records }" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/CustomTextPropDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dim_8dp"
+        android:text="${historic data}" />
+
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/CustomTextPropDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dim_8dp"
+        android:text="${Statistics}" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/CustomTextPropDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dim_8dp"
+        android:text="${Classification}" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+    <include layout="@layout/item_statistics_year_shimmer" />
+
+</LinearLayout>

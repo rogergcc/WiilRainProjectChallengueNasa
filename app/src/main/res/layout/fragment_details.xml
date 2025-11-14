@@ -1,51 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chartContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?attr/backgroundColorTheme"
     tools:context=".presentation.ui.details.DetailsFragment">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/title"
-        android:text="Probabilidad de ...."
-        style="@style/CustomTextPropDescription"
-        android:padding="@dimen/dim_8dp"
-        android:textSize="@dimen/size_22sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/dateHistoric"
-        android:text="Probabilidad de ...."
-        style="@style/CustomTextPropDescription"
-        android:paddingHorizontal="@dimen/dim_8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <ScrollView
-        android:id="@+id/scrollContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        >
-        <!--    <LinearLayout-->
-        <!--        android:id="@+id/chartContainer"-->
-        <!--        android:visibility="gone"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:orientation="vertical" />-->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerStadisticDetails"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="800">
+
+        <include layout="@layout/staticdetails_shimmer" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/chartContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/weatherTextView"
-            android:text="Weather Data-------------------------"
-            android:layout_width="match_parent"
+            android:id="@+id/tvCityCountry"
+            style="@style/CustomTextPropDescription"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:lineSpacingExtra="4dp"
-            android:textSize="@dimen/size_13sp" />
+            android:paddingHorizontal="@dimen/dim_8dp"
+            android:text="@string/title_city"
+            android:textSize="@dimen/size_22sp" />
 
-    </ScrollView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDate"
+            style="@style/CustomTextPropDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/dim_8dp"
+            android:text="@string/title_date"
+            android:textSize="@dimen/size_18sp" />
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateHistoric"
+            style="@style/CustomTextPropDescription"
+            android:layout_marginTop="@dimen/dim_8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/dim_8dp"
+            android:text="@string/observation_data" />
+
+        <ScrollView
+            android:id="@+id/scrollContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dim_8dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/weatherTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:lineSpacingExtra="4dp"
+                android:text="Weather Data-------------------------"
+                android:textSize="@dimen/size_13sp" />
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

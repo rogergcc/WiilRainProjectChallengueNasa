@@ -89,6 +89,16 @@
         <item name="cardBackgroundColor">?attr/baseThemeColor</item>
     </style>
 
+    <style name="CardItemShimmerStyle" parent="Widget.MaterialComponents.CardView">
+        <!--<item name="android:foreground">@drawable/ripple_custom</item>-->
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="cardCornerRadius">@dimen/dim_8dp</item>
+        <item name="strokeWidth">@dimen/dim_2dp</item>
+
+        <item name="cardBackgroundColor">@color/gray_100</item>
+    </style>
+
+
     <style name="CustomTitlePercentage" parent="TextAppearance.AppCompat.Large">
         <item name="android:fontFamily">@font/futura_medium</item>
         <item name="android:textStyle">bold</item>

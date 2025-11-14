@@ -53,6 +53,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         lifecycleScope.launch {
             viewModel.homeState.collect { state ->
                 when (state) {
@@ -62,12 +63,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                     is HomeViewModel.UiState.Success -> {
                         Log.d(TEST_LOG_TAG, "[Home] Geocoding success: ${state.data}")
-                        requireContext().toast("[Home] Location found: ${state.data}")
+//                        requireContext().toast("[Home] Location found: ${state.data}")
 
                         binding.apTvCitySearch.text = "📍 ${state.data.regionName}, ${state.data.countryName}"
                         // Ensure locationSearch is initialized
                         locationSearch = (locationSearch ?: LocationSearch()).copy(
-                            city = state.data.regionName
+                            city = state.data.regionName,
+                            country = state.data.countryName
                         )
                     }
 
@@ -165,7 +167,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }.time
                     // Ensure locationSearch is initialized
                     locationSearch = (locationSearch ?: LocationSearch()).copy(
-                        date = Date(selectedDate.time)
+                        date = Date(selectedDate.time),
+                        selectedDateString = formatted
                     )
                     Log.d(TEST_LOG_TAG,
                         "[Home] Selected Date object: cal = ${locationSearch?.date}"
@@ -206,17 +209,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     when (state) {
                         is HomeViewModel.UiState.Loading -> {
                             Log.d(TEST_LOG_TAG, "[Home] Loading geocoding...")
-
                         }
 
                         is HomeViewModel.UiState.Success -> {
                             Log.d(TEST_LOG_TAG, "[Home] Geocoding success: ${state.data}")
-                            requireContext().toast("[Home] Location found: ${state.data}")
-
                             binding.apTvCitySearch.text = "📍 ${state.data.regionName}, ${state.data.countryName}"
                             // Ensure locationSearch is initialized
                             locationSearch = (locationSearch ?: LocationSearch()).copy(
-                                city = state.data.regionName
+                                city = state.data.regionName,
+                                country = state.data.countryName
                             )
                         }
 

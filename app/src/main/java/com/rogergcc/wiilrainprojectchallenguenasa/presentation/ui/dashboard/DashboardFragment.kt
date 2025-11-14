@@ -27,8 +27,9 @@ import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimalL
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.BUNDLE_LOCATION_SEARCH
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DateUtils
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.hideView
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.setOnSingleClickListener
-import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.toast
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.showView
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import kotlinx.coroutines.launch
 
@@ -57,7 +58,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             WeatherRepositoryAssets(
                 requireContext(),
             ),
-//            calculateProbabilitiesUseCase,
             analyzeClimateUseCase
         )
     }
@@ -71,9 +71,41 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     }
 
+    private fun hideLoadingState() {
+        binding.swipeRefresh.isRefreshing = false
+        binding.simmerDashboard.hideView()
+
+        binding.containterDashboard.showView()
+        binding.simmerDashboard.stopShimmer()
+    }
+
+    private fun showLoadingState() {
+        binding.swipeRefresh.isRefreshing = true
+        binding.containterDashboard.hideView()
+
+        binding.simmerDashboard.showView()
+        binding.simmerDashboard.startShimmer()
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.calculateProbabilities()
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.calculateProbabilities()
+        }
+        val selectedLocation = arguments?.let {
+            BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
+        }
+        sendLocation = selectedLocation
+        val dateTitle =  DateUtils.formatDayMonthYear(selectedLocation?.selectedDateString ?: "")
+        val cityCountryTitle = "${selectedLocation?.city}, ${selectedLocation?.country}"
+
+        binding.cityCountry.text = "📍 $cityCountryTitle"
+        binding.dateSearch.text = "📆 $dateTitle"
+
+        Log.d(TEST_LOG_TAG, "Selected location from bundle: $selectedLocation")
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiWeatherResult
@@ -81,21 +113,23 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     .collect { uiState ->
                         when (uiState) {
                             is DashboardResultViewModel.UiState.Loading -> {
-                                // Show loading state if needed
+                                showLoadingState()
                             }
-
                             is DashboardResultViewModel.UiState.Success -> {
+                                hideLoadingState()
                                 Log.d(TEST_LOG_TAG, "Weather dataset processed successfully.")
-                                requireContext().toast("[Dashboard] Weather dataset processed successfully")
                                 uiState.weatherDataset.let {
-
-
-                                    val dateString =
-                                        DateUtils.formatDayMonth(it.metadata.date.target)
-                                    sendLocation = LocationSearch(
-                                        selectedDateString = dateString,
-                                        city = it.metadata.location.name,
-                                        country = it.metadata.location.country,
+                                    val dateString = DateUtils.formatDayMonth(it.metadata.date.target)
+//                                    sendLocation = LocationSearch(
+//                                        selectedDateString = dateTitle,
+////                                        city = it.metadata.location.name,
+//                                        historicEvaluation = getString(
+//                                            R.string.observation_data,
+//                                            it.metadata.historical_context.period,
+//                                            it.yearly_data.count().toString()
+//                                        )
+//                                    )
+                                    sendLocation = (sendLocation ?: LocationSearch()).copy(
                                         historicEvaluation = getString(
                                             R.string.observation_data,
                                             it.metadata.historical_context.period,
@@ -103,9 +137,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                                         )
                                     )
 
-                                    binding.dateSearch.text =
-                                        "\uD83D\uDCCA ${sendLocation?.selectedDateString}"
-                                    binding.cityCountry.text = "📍 ${it.metadata.location.name}"
+//                                    binding.dateSearch.text =
+//                                        "📆 ${sendLocation?.selectedDateString}"
+//                                    binding.cityCountry.text = "📍 ${it.metadata.location.name}"
                                 }
                                 uiState.analysis.let { analysis ->
                                     val rainDataLevel =
@@ -134,18 +168,14 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                             }
 
                             is DashboardResultViewModel.UiState.Failure -> {
+                                hideLoadingState()
                                 Log.e(TEST_LOG_TAG, "Error: ${uiState.errorMessage}")
                             }
                         }
                     }
             }
         }
-            val selectedLocation = arguments?.let {
-                BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
 
-            }
-//
-//        requireContext().toast("Location: ${selectedLocation?.city}, Date: ${selectedLocation?.selectedDateString}")
         listenerEvents()
 
     }

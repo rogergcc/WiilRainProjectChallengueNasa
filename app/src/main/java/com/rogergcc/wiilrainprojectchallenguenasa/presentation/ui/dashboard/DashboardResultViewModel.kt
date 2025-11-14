@@ -12,6 +12,7 @@ import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.AnalyzeClimateU
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -56,6 +57,7 @@ class DashboardResultViewModel(
         _uiWeatherResultState.value = UiState.Loading
         viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
             try {
+                delay(1000)
                 val dataset = weatherRepository.parseWeatherDataset()
 
                 val analysis = analyzeClimateUseCase.invoke(dataset.yearly_data)
