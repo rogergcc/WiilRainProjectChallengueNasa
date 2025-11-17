@@ -60,11 +60,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     is HomeViewModel.UiState.Loading -> {
                         Log.d(TEST_LOG_TAG, "[Home] Loading geocoding...")
                     }
-
                     is HomeViewModel.UiState.Success -> {
                         Log.d(TEST_LOG_TAG, "[Home] Geocoding success: ${state.data}")
-//                        requireContext().toast("[Home] Location found: ${state.data}")
-
                         binding.apTvCitySearch.text = "📍 ${state.data.regionName}, ${state.data.countryName}"
                         // Ensure locationSearch is initialized
                         locationSearch = (locationSearch ?: LocationSearch()).copy(
@@ -126,7 +123,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 .withIconImage(it)
             pointAnnotationManager.create(marker)
         }
-//        binding.tvCoordinates.text = "Lat: %.5f, Lon: %.5f".format(point.latitude(), point.longitude())
         Log.d(TEST_LOG_TAG,
             "[Home] Marker added at: Lat %.5f, Lon %.5f".format(point.latitude(), point.longitude())
         )
@@ -135,7 +131,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        initMap()
         requireActivity().fullScreen()
         binding.mapView.initDefaultXm(requireContext())
 
@@ -179,7 +174,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         binding.btnResultClimate.setOnSingleClickListener {
-
             Log.d(TEST_LOG_TAG, "[Home] Search button clicked with date: $locationSearch")
             if (locationSearch?.date == null) {
                 requireContext().toast(ContextCompat.getString(requireContext(), R.string.select_date_to_search))
@@ -202,33 +196,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun uiListeners() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.homeState.collect { state ->
-                    when (state) {
-                        is HomeViewModel.UiState.Loading -> {
-                            Log.d(TEST_LOG_TAG, "[Home] Loading geocoding...")
-                        }
-
-                        is HomeViewModel.UiState.Success -> {
-                            Log.d(TEST_LOG_TAG, "[Home] Geocoding success: ${state.data}")
-                            binding.apTvCitySearch.text = "📍 ${state.data.regionName}, ${state.data.countryName}"
-                            // Ensure locationSearch is initialized
-                            locationSearch = (locationSearch ?: LocationSearch()).copy(
-                                city = state.data.regionName,
-                                country = state.data.countryName
-                            )
-                        }
-
-                        is HomeViewModel.UiState.Error -> {
-                            Log.d(TEST_LOG_TAG, "[Home] Geocoding error: ${state.message}")
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     companion object {
 

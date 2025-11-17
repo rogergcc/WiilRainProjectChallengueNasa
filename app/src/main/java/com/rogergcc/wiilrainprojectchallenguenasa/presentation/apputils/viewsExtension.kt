@@ -38,10 +38,12 @@ fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-fun Double.formatTwoDecimals():String{
-    return DECIMAL_FORMAT_TWO.format(this)
+fun Double.averageText(unit: String): String {
+    return "$this $unit"
 }
-
+fun Double.probabilityText(): String {
+    return "$this %"
+}
 fun Double.formatTwoDecimalsUsa(): String =
     DecimalFormat("#0.00", DecimalFormatSymbols(Locale.US)).format(this)
 

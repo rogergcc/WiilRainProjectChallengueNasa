@@ -1,6 +1,7 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.domain.utils
 
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DECIMAL_FORMAT_ONE
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DECIMAL_FORMAT_TWO
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -38,4 +39,8 @@ fun Double.formatTwoDecimalLocale():String{
 
 fun Double.formatOneDecimal():String{
     return DECIMAL_FORMAT_ONE.format(this)
+}
+
+fun Double.formatTwoDecimals():String{
+    return DECIMAL_FORMAT_TWO.format(this)
 }

@@ -104,8 +104,6 @@ class DetailsFragment : Fragment() {
 //        binding.weatherTextView.text = viewModel.getWeatherText(weatherType)
         viewModel.loadWeatherReport(weatherType)
 
-//        binding.weatherTextView.text = viewModel.getDetailsHistoricalRaw(weatherType)
-
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewModel.weatherState.collect { state ->

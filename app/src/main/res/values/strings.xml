@@ -12,7 +12,7 @@
     <string name="temperature_historical">🌡️ Temperatura Histórica</string>
     <string name="wind_historical">🌬️ Viento Histórico</string>
 
-    <string name="error_message">¡Lo siento! Algo salió mal. error: %1$s</string>
+    <string name="error_generic">¡Lo siento! Algo salió mal. error: %1$s</string>
     <string name="observation_data">📊 Datos %1$s (%2$s observaciones)</string>
 
     <string name="description_rain">Probabilidad de lluvia</string>
