@@ -1,17 +1,13 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.view.View
 import android.widget.Toast
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimalLocale
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
-import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.concurrent.atomic.AtomicBoolean
 
 
 /**
@@ -30,6 +26,7 @@ fun View.hideView() {
 fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
+
 fun Toast.makeTextShort(message: String, activity: Activity) {
     Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
 }
@@ -39,11 +36,13 @@ fun Context.toast(message: String) {
 }
 
 fun Double.averageText(unit: String): String {
-    return "$this $unit"
+    return "${this.formatOneDecimalLocale()} $unit"
 }
+
 fun Double.probabilityText(): String {
-    return "$this %"
+    return "${this.formatOneDecimalLocale()}%"
 }
+
 fun Double.formatTwoDecimalsUsa(): String =
     DecimalFormat("#0.00", DecimalFormatSymbols(Locale.US)).format(this)
 

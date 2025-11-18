@@ -9,10 +9,10 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.Recommendati
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureRecommendation
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRecommendation
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatTwoDecimalLocale
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatTwoDecimals
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DECIMAL_FORMAT_ONE
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TREND_THRESHOLD
-import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatTwoDecimals
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.providers.ResourceProvider
 import kotlin.math.roundToInt
 

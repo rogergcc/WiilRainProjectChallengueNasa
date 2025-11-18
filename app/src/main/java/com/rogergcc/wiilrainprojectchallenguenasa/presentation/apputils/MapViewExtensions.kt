@@ -161,7 +161,7 @@ fun MapView.initDefaultXm(context: Context) {
     val initialCameraOptions = CameraOptions.Builder()
         //-18.005089, -70.241262
         .center(Point.fromLngLat(-70.241262, -18.005089))
-        .zoom(12.0)
+        .zoom(3.0)
 //            .bearing(120.0)
         .build()
 
