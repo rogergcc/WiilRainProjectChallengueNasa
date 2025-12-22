@@ -43,9 +43,9 @@ jobs:
 #        env:
           # override default build-tools version (33.0.0) -- optional
 #          BUILD_TOOLS_VERSION: "34.0.0"
-      - uses: actions/upload-artifact@v3.2.1
+      - uses: actions/upload-artifact@v4
         with:
-          name: FilmsTMDB.apk
+          name: WiilRainProject.apk
           path: ${{steps.sign.outputs.signedReleaseFile}}
 
       - name: Get App version code
