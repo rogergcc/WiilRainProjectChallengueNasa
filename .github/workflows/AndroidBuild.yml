@@ -27,7 +27,6 @@ jobs:
       #        with:
       #          name: FilmsTMDB_debug.apk
       #          path: app/build/outputs/apk/debug/app-debug.apk
-
       - name: Build the app
         run: ./gradlew assembleRelease
 
