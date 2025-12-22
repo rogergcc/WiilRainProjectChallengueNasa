@@ -7,14 +7,20 @@ import androidx.lifecycle.viewModelScope
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherDataset
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherRepository
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.mapper.WeatherRecordMapper
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.model.ClimateAnalysisResult
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.AnalyzeClimateUseCase
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.DashboardUiMapper
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.DashboardUiState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -29,45 +35,43 @@ class DashboardResultViewModel(
     sealed class UiState {
         data object Loading : UiState()
         data class Success(
-            val weatherDataset: WeatherDataset,
-            val analysis: ClimateAnalysisResult
+            val uiState: DashboardUiState
         ) : UiState()
         data class Failure(val errorMessage: UiText) : UiState()
     }
 
-
     private val _uiWeatherResultState = MutableStateFlow<UiState>(UiState.Loading)
     val uiWeatherResult: StateFlow<UiState> get() = _uiWeatherResultState
 
-    private val exceptionHandler  = CoroutineExceptionHandler { _, throwable ->
-        throwable.printStackTrace()
-        showErrorState()
-    }
-
-    private fun showErrorState() {
-        _uiWeatherResultState.value = UiState.Failure(
-            UiText.StringResource(
-                R.string.error_message
-            )
-        )
-    }
-
     fun calculateProbabilities() {
-        _uiWeatherResultState.value = UiState.Loading
-        viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
-            try {
-                val dataset = weatherRepository.parseWeatherDataset()
+//        _uiWeatherResultState.value = UiState.Loading
+        _uiWeatherResultState.update { UiState.Loading }
+        viewModelScope.launch {
+            delay(2000) // Simula retardo para mostrar loading
+            runCatching {
+                val dataset = withContext(Dispatchers.Default) {
+                    weatherRepository.parseWeatherDataset()
+                }
 
-                val analysis = analyzeClimateUseCase.invoke(dataset.yearly_data)
-                _uiWeatherResultState.value = UiState.Success(dataset, analysis)
-            } catch (e: Exception) {
-                Log.e(TEST_LOG_TAG, "markFavoriteJobPosition: ${e.message}")
-                showErrorState()
+                // análisis (si es costoso, mantén en Default)
+                val analysis = withContext(Dispatchers.Default) {
+                    analyzeClimateUseCase.invoke(dataset.yearly_data)
+                }
+
+                DashboardUiMapper().map(dataset, analysis)
+            }.onSuccess { mappedUi ->
+                _uiWeatherResultState.update { UiState.Success(mappedUi) }
+            }.onFailure { throwable ->
+                throwable.printStackTrace()
+                _uiWeatherResultState.update {
+                    UiState.Failure(
+                        UiText.StringResource(R.string.error_generic) // ajusta recurso
+                    )
+                }
             }
-
         }
-
     }
+
 }
 
 class DashboardResultViewModelFactory(

@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import com.rogergcc.wiilrainprojectchallenguenasa.R
 import java.text.SimpleDateFormat
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -12,6 +15,65 @@ import java.util.concurrent.atomic.AtomicBoolean
  * Created on octubre.
  * year 2025 .
  */
+
+fun Activity.splashBackground() {
+    window.apply {
+        setBackgroundDrawableResource(R.drawable.background_splash)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            attributes.layoutInDisplayCutoutMode =
+                android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
+
+        // Configurar la barra de estado y el modo de pantalla completa
+        decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                )
+    }
+}
+
+fun Activity.restartDefaultStyles() {
+    window.apply {
+        @Suppress("DEPRECATION")
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        @Suppress("DEPRECATION")
+        statusBarColor = android.graphics.Color.BLACK
+    }
+
+    // Reset the window settings when leaving the fragment
+    window.apply {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            attributes.layoutInDisplayCutoutMode =
+                android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
+        }
+        @Suppress("DEPRECATION")
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        @Suppress("DEPRECATION")
+        statusBarColor = android.graphics.Color.TRANSPARENT
+    }
+}
+fun Activity.fullScreen() {
+    window.apply {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            attributes.layoutInDisplayCutoutMode =
+                android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
+        @Suppress("DEPRECATION")
+        decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                )
+        @Suppress("DEPRECATION")
+        statusBarColor = android.graphics.Color.TRANSPARENT
+    }
+
+}
+
 fun Activity.hideSystemUIAndNavigation() {
     val decorView: View = this.window.decorView
     decorView.systemUiVisibility =
@@ -66,10 +128,3 @@ class OnSingleClickListener(
         }
     }
 }
-
-//fun String.formatStrDateTo(inputFormat: String, outputFormat: String): String {
-//    val sdf = SimpleDateFormat(inputFormat, locale)
-//    val date = sdf.parse(this)
-//    val newSdf = SimpleDateFormat(outputFormat, locale)
-//    return newSdf.format(date!!)
-//}

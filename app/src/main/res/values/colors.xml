@@ -74,6 +74,7 @@
     <color name="gray_600">#272727</color>
     <color name="gray_700">#1C1C1C</color>
     <color name="gray_800">#121212</color>
+    <color name="gray_900">#0A0A0A</color>
     <color name="blue_000">#7A5E9EFF</color>
     <color name="blue_025">#E2F1FF</color>
     <color name="blue_050">#BEE0FF</color>

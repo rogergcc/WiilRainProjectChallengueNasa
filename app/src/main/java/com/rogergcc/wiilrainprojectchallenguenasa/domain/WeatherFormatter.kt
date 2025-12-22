@@ -1,5 +1,6 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.domain
 
+import android.util.Log
 import com.rogergcc.wiilrainprojectchallenguenasa.R
 import com.rogergcc.wiilrainprojectchallenguenasa.data.dummy.WeatherYearRecord
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.WeatherType
@@ -8,9 +9,10 @@ import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.Recommendati
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.TemperatureRecommendation
 import com.rogergcc.wiilrainprojectchallenguenasa.data.model.ranges.WindRecommendation
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatTwoDecimalLocale
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatTwoDecimals
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.DECIMAL_FORMAT_ONE
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TREND_THRESHOLD
-import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.formatTwoDecimals
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.providers.ResourceProvider
 import kotlin.math.roundToInt
 
@@ -19,10 +21,6 @@ import kotlin.math.roundToInt
  * Created on octubre.
  * year 2025 .
  */
-
-
-////////////////////////////
-
 class WeatherFormatter(private val resourceProvider: ResourceProvider) {
     private fun getTrendSummary(
         startYear: Int,
@@ -49,46 +47,76 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
             endYear
         )
     }
-     fun formatWeather(
+
+    fun formatWeather(
         weatherType: WeatherType,
         weatherYearRecords: List<WeatherYearRecord>,
     ): String {
-        if (weatherYearRecords.isEmpty()) {
-            return resourceProvider.getString(R.string.label_no_data, weatherType.name.lowercase())
-        }
+        try {
+            if (weatherYearRecords.isEmpty()) {
+                return resourceProvider.getString(
+                    R.string.label_no_data,
+                    weatherType.name.lowercase()
+                )
+            }
 
-        val sortedRecords = weatherYearRecords.sortedBy { it.year }
+            val sortedRecords = weatherYearRecords.sortedBy { it.year }
 
-        return when (weatherType) {
-            WeatherType.RAIN -> buildWeatherReportSection(
-                records = sortedRecords,
-                weatherType = weatherType,
-                titleResId = R.string.rain_historical,
-                valueSelector = { it.precip_mm },
-                recommendations = RainRecommendation.entries,
-                condition = { rec, value -> rec.matches(value.toFloat()) }
-            )
+            return when (weatherType) {
+                WeatherType.RAIN -> buildWeatherReportSection(
+                    records = sortedRecords,
+                    weatherType = weatherType,
+                    titleResId = R.string.rain_historical,
+                    valueSelector = { it.precip_mm },
+                    recommendations = RainRecommendation.entries,
+                    condition = { rec, value -> rec.matches(value.toFloat()) }
+                )
 
-            WeatherType.TEMP -> buildWeatherReportSection(
-                records = sortedRecords,
-                weatherType = weatherType,
-                titleResId = R.string.temperature_historical,
-                valueSelector = { it.temp_c },
-                recommendations = TemperatureRecommendation.entries,
-                condition = { rec, value -> rec.matches(value.toFloat()) }
-            )
+                WeatherType.TEMP -> buildWeatherReportSection(
+                    records = sortedRecords,
+                    weatherType = weatherType,
+                    titleResId = R.string.temperature_historical,
+                    valueSelector = { it.temp_c },
+                    recommendations = TemperatureRecommendation.entries,
+                    condition = { rec, value -> rec.matches(value.toFloat()) }
+                )
 
-            WeatherType.WIND -> buildWeatherReportSection(
-                records = sortedRecords,
-                weatherType = weatherType,
-                titleResId = R.string.wind_historical,
-                valueSelector = { it.wind_kmh },
-                recommendations = WindRecommendation.entries,
-                condition = { rec, value -> rec.matches(value.toFloat()) }
-            )
+                WeatherType.WIND -> buildWeatherReportSection(
+                    records = sortedRecords,
+                    weatherType = weatherType,
+                    titleResId = R.string.wind_historical,
+                    valueSelector = { it.wind_kmh },
+                    recommendations = WindRecommendation.entries,
+                    condition = { rec, value -> rec.matches(value.toFloat()) }
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(TEST_LOG_TAG, "[WeatherFormatter] Error in formatWeather: ${e.message}")
+            throw e
         }
     }
 
+    private fun buildRainClassification(
+        records: List<WeatherYearRecord>,
+        recommendations: Iterable<RainRecommendation>,
+    ): String {
+        val totalRecords = records.size
+        val rainyRecords = records.count { it.precip_mm > 0 } // Contar registros con lluvia
+        val rainProbability = if (totalRecords > 0) (rainyRecords * 100f) / totalRecords else 0f
+
+        // Obtener la recomendación basada en la probabilidad de lluvia
+        val recommendation = RainRecommendation.getRecommendation(rainProbability)
+
+        // Construir el resultado
+        return resourceProvider.getString(
+            R.string.classification_child,
+            recommendation.emoji,
+            resourceProvider.getString(recommendation.labelRes),
+            "(${recommendation.conditionRange.start} - ${recommendation.conditionRange.endInclusive})",
+            rainyRecords,
+            rainProbability.toInt()
+        )
+    }
 
     private fun <T> buildClassification(
         records: List<WeatherYearRecord>,
@@ -100,10 +128,17 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         return recommendations.joinToString("\n") { rec ->
             val count = records.count { condition(rec, valueSelector(it)) }
             val percentage = if (total > 0) (count * 100) / total else 0
+            val range =
+                when {
+                    rec.conditionRange.start == -999f -> "(<= ${rec.conditionRange.endInclusive})"
+                    rec.conditionRange.endInclusive == 999f -> "(>= ${rec.conditionRange.start})"
+                    else -> "(${rec.conditionRange.start} - ${rec.conditionRange.endInclusive})"
+                }
             resourceProvider.getString(
                 R.string.classification_child,
                 rec.emoji,
                 resourceProvider.getString(rec.labelRes),
+                range,
                 count,
                 percentage
             )
@@ -123,6 +158,13 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         val weatherValueSelected = records.map(valueSelector)
 
         val statistics = calculateStatistics(weatherValueSelected, weatherType)
+
+        if (weatherType == WeatherType.RAIN) {
+            val classificationRain = buildRainClassification(records, RainRecommendation.entries)
+            println("Rain classification:")
+            println(classificationRain)
+        }
+
         val trend = getTrendSummary(
             startYear = records.first().year,
             endYear = records.last().year,
@@ -132,7 +174,11 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
         )
         val chart = generateVisualBarChart(records, weatherType, valueSelector, statistics.max)
         val classification = buildClassification(records, recommendations, valueSelector, condition)
-        val recommendation = buildRecommendation(statistics.avg, recommendations)
+        println("Generic classification:")
+        println(classification)
+        // todo Build recommendation based on average value + Generic for all weather types
+        //WeatherType Temperature, Wind use avg and for Rain use probabability % already use in in Dashboard
+//        val recommendation = buildRecommendation(statistics.avg, recommendations)
 
         return buildString {
             appendLine(resourceProvider.getString(titleResId))
@@ -142,16 +188,17 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
             appendLine(trend)
             appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
             appendLine(resourceProvider.getString(R.string.label_classification))
+            appendLine(resourceProvider.getString(weatherType.clasificationTitle))
             appendLine(classification)
             appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-            appendLine(resourceProvider.getString(R.string.label_recommendation))
-            appendLine(recommendation)
+//            appendLine(resourceProvider.getString(R.string.label_recommendation))
+//            appendLine(recommendation)
         }.trimEnd()
     }
 
     private fun calculateStatistics(
         values: List<Double>,
-        weatherType: WeatherType
+        weatherType: WeatherType,
     ): Statistics {
 
         val max = values.maxOrNull() ?: 0.0
@@ -161,24 +208,50 @@ class WeatherFormatter(private val resourceProvider: ResourceProvider) {
 
         val summary = buildString {
             appendLine(resourceProvider.getString(R.string.label_statistics))
-            appendLine(resourceProvider.getString(R.string.label_threshold, weatherType.extremeValue.toString(), weatherType.unit))
-            appendLine(resourceProvider.getString(R.string.label_average, avg.formatTwoDecimals(), weatherType.unit))
-            appendLine(resourceProvider.getString(R.string.label_maximum, max.formatTwoDecimalLocale(), weatherType.unit))
-            appendLine(resourceProvider.getString(R.string.label_minimum, min.formatTwoDecimalLocale(), weatherType.unit))
+            appendLine(
+                resourceProvider.getString(
+                    R.string.label_threshold,
+                    weatherType.extremeValue.toString(),
+                    weatherType.unit
+                )
+            )
+            appendLine(
+                resourceProvider.getString(
+                    R.string.label_average,
+                    avg.formatTwoDecimals(),
+                    weatherType.unit
+                )
+            )
+            appendLine(
+                resourceProvider.getString(
+                    R.string.label_maximum,
+                    max.formatTwoDecimalLocale(),
+                    weatherType.unit
+                )
+            )
+            appendLine(
+                resourceProvider.getString(
+                    R.string.label_minimum,
+                    min.formatTwoDecimalLocale(),
+                    weatherType.unit
+                )
+            )
             appendLine(resourceProvider.getString(R.string.label_above_threshold, extremeCount))
         }
 
-        return Statistics(max =  max, min =  min, avg =  avg, summary =  summary)
+        return Statistics(max = max, min = min, avg = avg, summary = summary)
     }
+
     private fun <T> buildRecommendation(
         avg: Double,
         recommendations: Iterable<T>,
     ): String where T : Enum<T>, T : Recommendation {
         val avgFloat = avg.toFloat()
 
-        return recommendations.firstOrNull { it.matches(avgFloat) }?.let {
-            "${it.emoji} ${resourceProvider.getString(it.descRes)}"
-        } ?: resourceProvider.getString(R.string.label_no_recommendation)
+        return recommendations.firstOrNull { it.matches(avgFloat) }
+            ?.let {
+                "${it.emoji} ${resourceProvider.getString(it.descRes)}"
+            } ?: resourceProvider.getString(R.string.label_no_recommendation)
     }
 
 

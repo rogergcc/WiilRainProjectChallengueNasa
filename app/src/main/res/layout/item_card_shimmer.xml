@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/CardVariableProbabilityStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tvTitleShimmer"
+                app:cardUseCompatPadding="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_36dp"
+                app:cardBackgroundColor="@color/gray_100"
+                app:cardCornerRadius="@dimen/dim_8dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:id="@+id/rainEmoji"-->
+<!--                style="@style/CustomTitlePercentage"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:paddingVertical="@dimen/dim_20dp"-->
+<!--                android:text="☁️"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tvTitleShimmer" />-->
+
+
+            <com.google.android.material.card.MaterialCardView
+                app:cardUseCompatPadding="true"
+                android:id="@+id/emojiShimmer"
+                android:layout_width="60dp"
+                android:layout_height="90dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleShimmer"
+                app:cardBackgroundColor="@color/gray_100"
+                app:cardCornerRadius="@dimen/dim_8dp"
+                />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tvPercentageShimmer"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                style="@style/CardItemShimmerStyle"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/emojiShimmer"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleShimmer" >
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tvDescriptionShimmer"
+                style="@style/CardItemShimmerStyle"
+                app:cardUseCompatPadding="true"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:text="@string/label_recommendation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvPercentageShimmer"
+                app:layout_constraintTop_toBottomOf="@+id/tvPercentageShimmer" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>

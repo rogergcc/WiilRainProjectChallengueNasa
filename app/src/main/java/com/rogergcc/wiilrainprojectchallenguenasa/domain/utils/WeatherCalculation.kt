@@ -51,16 +51,3 @@ fun <T> buildRecommendation(
     }
     return matchedRecommendation
 }
-
-
-private fun buildInterpretation(
-    threshold: Double,
-    probability: Double,
-    minValue: Double,
-    maxValue: Double,
-    unit: String,
-): String = buildString {
-    append("Probabilidad (>${threshold}${unit}): ${probability.formatTwoDecimalLocale()}%\n")
-    append("Mínimo Histórico: ${minValue.formatTwoDecimalLocale()}${unit}\n")
-    append("Máximo Histórico: ${maxValue.formatTwoDecimalLocale()}${unit}")
-}

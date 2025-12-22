@@ -1,17 +1,13 @@
 package com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.view.View
 import android.widget.Toast
+import com.rogergcc.wiilrainprojectchallenguenasa.domain.utils.formatOneDecimalLocale
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
-import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.concurrent.atomic.AtomicBoolean
 
 
 /**
@@ -19,15 +15,18 @@ import java.util.concurrent.atomic.AtomicBoolean
  * year 2025 .
  */
 
-fun View.show() {
+fun View.showView() {
     this.visibility = View.VISIBLE
 }
-fun View.hide() {
+
+fun View.hideView() {
     this.visibility = View.GONE
 }
+
 fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
+
 fun Toast.makeTextShort(message: String, activity: Activity) {
     Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
 }
@@ -36,8 +35,12 @@ fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-fun Double.formatTwoDecimals():String{
-    return DECIMAL_FORMAT_TWO.format(this)
+fun Double.averageText(unit: String): String {
+    return "${this.formatOneDecimalLocale()} $unit"
+}
+
+fun Double.probabilityText(): String {
+    return "${this.formatOneDecimalLocale()}%"
 }
 
 fun Double.formatTwoDecimalsUsa(): String =

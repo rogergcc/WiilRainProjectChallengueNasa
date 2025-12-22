@@ -14,16 +14,31 @@ import com.rogergcc.wiilrainprojectchallenguenasa.databinding.FragmentDetailsBin
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.WeatherFormatter
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.mapper.WeatherRecordMapper
 import com.rogergcc.wiilrainprojectchallenguenasa.domain.usecase.WeatherHistoricalReportUseCase
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.BUNDLE_LOCATION_SEARCH
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.LoadingView
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.hideView
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.model.LocationSearch
 import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.providers.AndroidResourceProvider
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.showView
 import kotlinx.coroutines.launch
 
 class DetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
+    private val binding get() = _binding ?: error("Binding not initialized")
 
-    private val binding get() = _binding!!
+    private lateinit var loader: LoadingView
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+        }
+    }
 
     private val weatherFormatter by lazy {
         WeatherFormatter(
@@ -47,17 +62,7 @@ class DetailsFragment : Fragment() {
             weatherUseCase
         )
     }
-    private lateinit var loader: LoadingView
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,21 +72,37 @@ class DetailsFragment : Fragment() {
         return binding.root
 
     }
+
+    private fun hideLoadingState() {
+        binding.shimmerStadisticDetails.hideView()
+
+        binding.chartContainer.showView()
+        binding.shimmerStadisticDetails.stopShimmer()
+    }
+
+    private fun showLoadingState() {
+        binding.chartContainer.hideView()
+
+        binding.shimmerStadisticDetails.showView()
+        binding.shimmerStadisticDetails.startShimmer()
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loader = LoadingView(requireContext())
 //        val selectedType = arguments?.getString("selectedValue")
         val selectedLocation = arguments?.let {
-            BundleCompat.getParcelable(it, "selectedLocationSearch", LocationSearch::class.java)
+            BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
         }
         val weatherType = WeatherType.fromDescription(selectedLocation?.type ?: "-", requireContext())
 
-        binding.title.text = selectedLocation?.selectedDateString + " - " + selectedLocation?.city + ", " + selectedLocation?.country
+        binding.tvCityCountry.text = "📍 ${selectedLocation?.city}, ${selectedLocation?.country}"
+        binding.tvDate.text =  "📆 ${selectedLocation?.selectedDateString}"
+
         binding.dateHistoric.text = selectedLocation?.historicEvaluation
 //        binding.weatherTextView.text = viewModel.getWeatherText(weatherType)
         viewModel.loadWeatherReport(weatherType)
-
-//        binding.weatherTextView.text = viewModel.getDetailsHistoricalRaw(weatherType)
 
         viewLifecycleOwner.lifecycleScope.launch {
 
@@ -89,24 +110,30 @@ class DetailsFragment : Fragment() {
                 when (state) {
                     is WeatherDetailViewModel.UiState.Loading -> {
                         loader.show()
+                        showLoadingState()
                     }
                     is WeatherDetailViewModel.UiState.Success -> {
+                        hideLoadingState()
                         loader.hide()
                         binding.weatherTextView.text = state.data
                     }
                     is WeatherDetailViewModel.UiState.Error -> {
+                        hideLoadingState()
                         loader.hide()
+
                         binding.weatherTextView.text = "Error: ${state.message}"
                     }
                 }
             }
         }
 
-
-
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        loader.dismiss()
+    }
     companion object {
 
     }

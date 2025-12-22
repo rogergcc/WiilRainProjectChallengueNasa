@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.rogergcc.wiilrainprojectchallenguenasa.presentation.apputils.TEST_LOG_TAG
 import java.util.Calendar
 import java.util.Date
 
@@ -40,15 +41,15 @@ class MaterialDatePickerFragment(
             dismiss()
         }
         datePicker.addOnNegativeButtonClickListener() {
-            Log.d("DatePicker", "Negative button clicked")
+            Log.d(TEST_LOG_TAG, "[DatePicker] Negative button clicked")
             dismiss()
         }
         datePicker.addOnDismissListener() {
-            Log.d("DatePicker", "Dialog dismissed")
+            Log.d(TEST_LOG_TAG, "[DatePicker] Dialog dismissed")
             dismiss()
         }
         datePicker.addOnCancelListener() {
-            Log.d("DatePicker", "Dialog canceled")
+            Log.d(TEST_LOG_TAG, "[DatePicker] Dialog canceled")
             dismiss()
         }
 
