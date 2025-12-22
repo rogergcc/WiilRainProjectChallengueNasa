@@ -91,9 +91,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.calculateProbabilities()
 
-//        binding.swipeRefresh.setOnRefreshListener {
-//            viewModel.calculateProbabilities()
-//        }
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.calculateProbabilities()
+        }
+
         val selectedLocation = arguments?.let {
             BundleCompat.getParcelable(it, BUNDLE_LOCATION_SEARCH, LocationSearch::class.java)
         }

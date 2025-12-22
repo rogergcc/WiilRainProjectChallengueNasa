@@ -46,8 +46,8 @@ class DashboardResultViewModel(
     fun calculateProbabilities() {
 //        _uiWeatherResultState.value = UiState.Loading
         _uiWeatherResultState.update { UiState.Loading }
-
         viewModelScope.launch {
+            delay(2000) // Simula retardo para mostrar loading
             runCatching {
                 val dataset = withContext(Dispatchers.Default) {
                     weatherRepository.parseWeatherDataset()
