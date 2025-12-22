@@ -1,0 +1,76 @@
+name: AndroidBuild
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.7
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.2
+        with:
+          java-version: 17
+          distribution: "adopt"
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      #      - name: Upload a Build Artifact
+      #        uses: actions/upload-artifact@v3.2.1
+      #        with:
+      #          name: FilmsTMDB_debug.apk
+      #          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Build the app
+        run: ./gradlew assembleRelease
+
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          # override default build-tools version (33.0.0) -- optional
+#          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - uses: actions/upload-artifact@v3.2.1
+        with:
+          name: FilmsTMDB.apk
+          path: ${{steps.sign.outputs.signedReleaseFile}}
+
+      - name: Get App version code
+        id: version
+        run: |
+          echo "::set-output name=commits::$(git rev-list --count HEAD)"
+
+      - name: Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.commits }}  # Puedes cambiar la fuente de la versión si lo prefieres.
+          release_name: Release v.1.${{ steps.version.outputs.commits }}  # Puedes personalizar el nombre del release.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release APK
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.sign.outputs.signedReleaseFile }}  # La ruta del APK firmado.
+          asset_name: willrainproject-app.apk  # El nombre del APK que se mostrará en el release.
+          asset_content_type: application/zip  # Tipo de archivo, puedes cambiarlo a application/vnd.android.package-archive si prefieres.
+
