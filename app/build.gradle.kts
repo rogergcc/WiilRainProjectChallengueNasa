@@ -10,8 +10,25 @@ val localPropertiesFile = project.rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
     localPropertiesFile.inputStream().use { properties.load(it) }
 }
+fun calculateVersionCode(versionName: String): Int {
+    val clean = versionName.removePrefix("v")
+    val parts = clean.split(".")
+    if (parts.size != 3) return 1
+
+    val major = parts[0].toIntOrNull() ?: 0
+    val minor = parts[1].toIntOrNull() ?: 0
+    val patch = parts[2].toIntOrNull() ?: 0
+
+    return major * 10000 + minor * 100 + patch
+}
+
+val gitTag = System.getenv("GITHUB_REF_NAME") ?: "dev"
+val computedVersionName = gitTag.removePrefix("v")
+val computedVersionCode = calculateVersionCode(gitTag)
+
 
 android {
+
     namespace = "com.rogergcc.wiilrainprojectchallenguenasa"
     compileSdk = 36
 
@@ -19,8 +36,8 @@ android {
         applicationId = "com.rogergcc.wiilrainprojectchallenguenasa"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionName = computedVersionName
+        versionCode = if (gitTag == "dev") 1 else computedVersionCode
         val defaultTokenMapbox = properties.getProperty("MAPBOX_DEFAULT_TOKEN", properties["MAPBOX_DOWNLOADS_TOKEN"] as String? ?: "")
         buildConfigField("String", "MAPBOX_ACCESS_TOKEN", "\"${properties["MAPBOX_STYLE_ACCESS_TOKEN"] ?: ""}\"")
         buildConfigField( "String", "MAPBOX_DEFAULT_TOKEN", "\"$defaultTokenMapbox\"")
@@ -43,12 +60,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 

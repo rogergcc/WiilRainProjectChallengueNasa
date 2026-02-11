@@ -251,10 +251,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     }
 
     private fun navigateDetails(tag: String) {
-//        findNavController().navigate(R.id.gotoDetailsView, Bundle().also {
-//            it.putString("selectedValue", tag)
-//
-//        })
+
         sendLocation?.type = tag
 
         findNavController().navigate(R.id.gotoDetailsView, Bundle().also {
