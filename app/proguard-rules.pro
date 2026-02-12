@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Conservar clases de configuración de Mapbox
+-keep class com.mapbox.** { *; }
+-keep interface com.mapbox.** { *; }
+
+# Específicamente para el manejo de recursos de token
+-keep class com.mapbox.maps.ResourceOptions { *; }

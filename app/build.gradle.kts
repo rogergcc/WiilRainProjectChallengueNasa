@@ -46,19 +46,37 @@ android {
 
     signingConfigs {
         create("release") {
+            // Fallback a variables de entorno o local.properties
             val keystorePath = System.getenv("KEYSTORE_PATH")
-            if (keystorePath != null) {
+                ?: properties["KEYSTORE_PATH"]?.toString()
+            val storePassword = System.getenv("KEY_STORE_PASSWORD")
+                ?: properties["KEY_STORE_PASSWORD"]?.toString()
+            val keyAlias = System.getenv("ALIAS")
+                ?: properties["ALIAS"]?.toString()
+            val keyPassword = System.getenv("KEY_PASSWORD")
+                ?: properties["KEY_PASSWORD"]?.toString()
+
+            // Solo asigna signingConfig si tenemos todos los datos
+            if (keystorePath != null && storePassword != null && keyAlias != null && keyPassword != null) {
                 storeFile = file(keystorePath)
-                storePassword = System.getenv("KEY_STORE_PASSWORD")
-                keyAlias = System.getenv("ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
+                this.storePassword = storePassword
+                this.keyAlias = keyAlias
+                this.keyPassword = keyPassword
+            } else {
+                // Si no están definidos, se deja vacío:
+                // permite firmar manualmente desde Android Studio sin errores
+                println("⚠️ Signing config release no configurada (manual signing disponible)")
             }
         }
     }
     buildTypes {
-        release {
-            isMinifyEnabled = false
+        getByName("debug") {
+            isDebuggable = true
+        }
+
+        getByName("release") {
             signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
