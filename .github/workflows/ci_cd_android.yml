@@ -79,6 +79,8 @@ jobs:
       - name: Build Signed Release
         run: ./gradlew assembleRelease
         env:
+          # ESTO ES CRÍTICO: Pasa el token de Mapbox a BuildConfig
+          MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
           KEYSTORE_PATH: ${{ env.KEYSTORE_PATH }}
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
