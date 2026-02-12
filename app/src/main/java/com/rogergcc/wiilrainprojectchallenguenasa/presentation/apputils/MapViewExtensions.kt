@@ -89,7 +89,7 @@ fun MapView.initDefault(context: Context) {
     // set token and tile store usage mode for this particular map view, these settings will overwrite the default value.
 
     val resourceOptions = ResourceOptions.Builder()
-        .accessToken(BuildConfig.MAPBOX_DEFAULT_TOKEN)
+        .accessToken(BuildConfig.MAPBOX_ACCESS_TOKEN)
         .tileStoreUsageMode(TileStoreUsageMode.DISABLED)
         .applyDefaultParams(context)
         .build()
