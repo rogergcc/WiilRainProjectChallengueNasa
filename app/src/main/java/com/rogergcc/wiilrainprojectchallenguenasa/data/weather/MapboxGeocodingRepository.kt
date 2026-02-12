@@ -35,7 +35,7 @@ class MapboxGeocodingRepository(
         return suspendCancellableCoroutine { cont ->
             val geocoding = MapboxGeocoding.builder()
 //                .accessToken(context.getString(R.string.mapbox_access_token_styled))
-                .accessToken( BuildConfig.MAPBOX_DEFAULT_TOKEN)
+                .accessToken( BuildConfig.MAPBOX_ACCESS_TOKEN)
                 .query(Point.fromLngLat(lon, lat))
                 .geocodingTypes(GeocodingCriteria.TYPE_PLACE)
                 .build()
